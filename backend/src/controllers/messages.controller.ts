@@ -83,9 +83,38 @@ export const getMessages = async (req: Request, res: Response ) => {
             return;
         }
         res.status(200).json(conversation.messages);
-        
+
 
     }  catch(error: any) {
+        console.log('Error in signup controller ', error.message)
+        res.status(500).json({error: ' Internal server error...'})
+    }
+}
+
+export const getConversations = async (req: Request, res: Response ) => {
+    try {
+        const userId = req.user.id;
+
+        const users = await prisma.user.findMany({
+            where: {
+                NOT: {
+                    id: userId
+                },
+            },
+            select: {
+                id: true,
+                fullName: true,
+                profilePic: true
+            }
+        })
+
+        if ( !users ) {
+            res.status(200).json([])
+        }
+
+        res.status(200).json(users)
+
+    } catch(error: any) {
         console.log('Error in signup controller ', error.message)
         res.status(500).json({error: ' Internal server error...'})
     }
