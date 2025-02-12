@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom"
 import { useEffect, useState } from "react";
+import './App.css';
 import Home from "./pages/Home"
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
@@ -16,6 +17,7 @@ function App() {
       
     useEffect(() => {
       setColors(getThemaColors(isDarkTheme));
+      document.documentElement.className = isDarkTheme ? "dark" : "light";
     },[isDarkTheme])
 
   return (
@@ -24,7 +26,7 @@ function App() {
       <Routes>
           <Route path='/'  element={<Home  />} />
           <Route path='/login' element={<Login thema={isDarkTheme} colors={colors}/>} />
-          <Route path='/signup' element={<SignUp thema={isDarkTheme}/>} />
+          <Route path='/signup' element={<SignUp thema={isDarkTheme} colors={colors}/>} />
       </Routes>
     </div>
   )
