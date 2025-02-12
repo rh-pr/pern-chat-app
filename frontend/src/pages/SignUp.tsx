@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Colors } from "../types/main";
-import GenderCheckbox from "../components/GenderCheckbox";
 
 function SignUp({thema, colors}:{thema:boolean, colors: Colors}) {
 
@@ -80,13 +79,6 @@ function SignUp({thema, colors}:{thema:boolean, colors: Colors}) {
                 </div>
 
                 <div>
-                    {/* <label className={`label`}>
-                        <span 
-                            className={`font-bold text-xl`} 
-                            style={{color: colors.textColor}}>
-                                Gender
-                        </span>
-                    </label> */}
                    <div className="w-full flex gap-10 ">
                       <div className="flex items-center gap-4">
                         <label htmlFor="male"  className={`font-bold text-xl`}  style={{color: colors.textColor}} >Male</label>
@@ -108,7 +100,7 @@ function SignUp({thema, colors}:{thema:boolean, colors: Colors}) {
 
                 <div className="w-full flex justify-center">
                     <button className={`font-bold py-2 px-4 text-xl  rounded-[10px] `}
-                            style={{color: colors.headerColor, backgroundColor: colors.buttonColor}}>Login</button>
+                            style={{color: colors.headerColor, backgroundColor: colors.buttonColor}}>Sign Up</button>
                 </div>
             </form>
         </div>
