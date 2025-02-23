@@ -15,7 +15,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.5",
-    "react-starfield": "^1.0.3"
+    "react-starfield": "^1.0.3",
+    "react-textarea-autosize": "^8.5.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
