@@ -1,9 +1,10 @@
-import Login from "../../pages/Login"
+
+import Header from "./Header"
 
 function MessaageContainer() {
     return (
-      <div>
-        <Login />
+      <div className="w-9/12 flex flex-col">
+        <Header />
       </div>
     )
   }

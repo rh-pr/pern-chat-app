@@ -3,7 +3,8 @@ export type Colors = {
   bgColor: string,
   headerColor: string,
   buttonColor: string,
-  inputColor: string
+  inputColor: string,
+  msgHeader?: string
 }
 
 export type DesignContextType = {

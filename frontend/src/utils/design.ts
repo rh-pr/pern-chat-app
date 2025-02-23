@@ -8,6 +8,7 @@ export const getThemaColors = (thema: boolean):Colors => {
         headerColor: '#614318',
         buttonColor: '#0b2b09',
         inputColor: '#4e5c4f',
+        msgHeader: '#b0703a',
       }
     : {
         textColor: '#f1f1f1',
@@ -15,5 +16,6 @@ export const getThemaColors = (thema: boolean):Colors => {
         headerColor: '#EED3B1',
         buttonColor: '#47663B',
         inputColor: '#E8ECD7',
+        msgHeader: '#EED3B1'
       };
 }
