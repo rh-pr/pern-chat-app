@@ -6,7 +6,7 @@ import { getThemaColors } from "../utils/design";
 export const DesignContext = createContext<DesignContextType | null>(null);
 
 export const DesignContextProvider = ({ children }: {children: ReactNode}) => {
-    const [thema, setThema] = useState(true);
+    const [thema, setThema] = useState(false);
     const [colors, setColors] = useState<Colors>(getThemaColors(thema));
     
     useEffect(() => {
