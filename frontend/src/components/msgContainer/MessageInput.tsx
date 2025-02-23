@@ -30,11 +30,11 @@ const MessageInput = () => {
                             scrollbarWidth: 'none'}}
 					placeholder='Send a message'
 				/>
-				<button type='submit' className='absolute inset-y-0 end-0 flex items-end pb-2 pr-3'>
+				<div className='absolute inset-y-0 end-0 flex items-end pb-2 pr-3'>
 					{msgText.trim().length > 0 ? 
-                        <Send className='w-6 h-6 ' style={{color: design?.colors.buttonColor}}/> :  
+                        <button type="submit"><Send className='w-6 h-6 ' style={{color: design?.colors.buttonColor}}/> </button>:  
                         <Mic className='w-6 h-6 ' style={{color: design?.colors.buttonColor}}/>}
-				</button>
+				</div>
 			</div>
 		</form>
 	);
