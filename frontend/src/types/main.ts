@@ -13,3 +13,9 @@ export type DesignContextType = {
   colors: Colors
   setColors: (colors: Colors) => void
 }
+
+export interface TextareaProps {
+  msgText: string;
+  setMsgText: (text: string) => void;
+  textAreaRef: React.RefObject<HTMLTextAreaElement | null>;
+}
