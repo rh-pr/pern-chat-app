@@ -3,7 +3,7 @@ import { Search } from "lucide-react";
 import { ChangeEvent, useContext } from "react";
 import { DesignContext } from "../../context/DesignContext";
 
-function SearchInput({query, setQuery}: {query: string, setQuery: (query: string) => void}) {
+function SearchInput({setQuery}: {setQuery: (query: string) => void}) {
   const design = useContext(DesignContext);
 
   return (

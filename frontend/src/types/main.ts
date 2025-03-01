@@ -21,6 +21,14 @@ export type ConversationsType = {
 		emoji?: string,
 }
 
+//change later
+export type UserType = {
+  id: number,
+  fullName: string,
+  profilePic: string,
+  emoji?: string,
+}
+
 export type MessageType = {
     id: number,
 		fromMe: boolean,
@@ -33,17 +41,24 @@ export type ChatContextType = {
 }
 
 export type ConversationState = {
-  conversation: MessageType[];
-  updateConversation: (newMessage: MessageType) => void;
-  setConversation: (newConversation: MessageType[]) => void;
+  conversation: MessageType[],
+  updateConversation: (newMessage: MessageType) => void,
+  setConversation: (newConversation: MessageType[]) => void
 };
 
 export type ConversationsState = {
-  conversations: ConversationsType[];
-  updateConversations: (conversation: ConversationsType) => void;
-  setConversations: (newConversation: ConversationsType[]) => void;
+  conversations: ConversationsType[],
+  updateConversations: (conversation: ConversationsType) => void,
+  setConversations: (newConversation: ConversationsType[]) => void
 };
 
+export type UsersState = {
+  users: UserType[],
+  openUserList: boolean,
+  setUsers: (users: UserType[]) => void,
+  updateUsers: (newUser: UserType) => void,
+  toggleOpenList: () => void
+}
 
 export interface TextareaProps {
   msgText: string;

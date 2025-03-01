@@ -6,11 +6,8 @@ import { conversationa } from "../dummy/dummyData";
 
 const useConversations = () => {
     const conversations = useConversationsStore((state) => state.conversations);
-
     const setConversations = useConversationsStore((state) => state.setConversations);
-    const updateConversations = useConversationsStore((state) => state.updateConversations);
     
-   
 
     const getConversations = () => {
         setConversations(conversationa); 
