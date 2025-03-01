@@ -1,10 +1,11 @@
 import { KeyboardEvent, FormEvent } from "react";
+import { DesignContextType } from '../types/main';
 
-export const getButtonStyle = (design) => {
+export const getButtonStyle = (design: DesignContextType | null) => {
     return {color: design?.colors.buttonColor}
 }
 
-export const getTextAreaStyle = (design) => {
+export const getTextAreaStyle = (design: DesignContextType | null) => {
     return  {
         backgroundColor: design?.colors.inputColor || 'white', 
         borderColor: design?.colors.buttonColor || 'green', 

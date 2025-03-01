@@ -1,7 +1,7 @@
 import { Send, Mic, Paperclip, SmilePlus } from "lucide-react";
-import EmojePicker, { EmojiClickData } from 'emoji-picker-react';
+import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import TextareaAutosize from 'react-textarea-autosize';
-import { useContext, useState, useRef, FormEvent } from "react";
+import { useContext, useState, useRef, FormEvent, useCallback, useMemo } from "react";
 import { DesignContext } from "../../context/DesignContext";
 import { handleForm, handleKey, getTextAreaStyle } from '../../utils/msgHandlers';
 import useConversation from "../../hooks/useConversation";
@@ -16,13 +16,13 @@ const MessageInput = () => {
 
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
-    const buttonStyle = {color: design?.colors.buttonColor};
+    const buttonStyle = useMemo( () => ( {color: design?.colors.buttonColor}),[design]);
 
-    const handleMsgText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleMsgText = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setMsgText(e.target.value)
-    } 
+    }, []);
 
-    const handleEmoji = (e: EmojiClickData) => {
+    const handleEmoji = useCallback( (e: EmojiClickData) => {
         setMsgText(prevText => prevText + e.emoji);
 
         if( textAreaRef.current ) {
@@ -30,23 +30,25 @@ const MessageInput = () => {
         } 
 
         setOpenEmoji(false);
-    }
+    }, []);
 
 	return (
 		<form className='px-4 mb-3 absolute bottom-2 w-full' 
-              onSubmit={(e: FormEvent) => handleForm(e, msgText, setMsgText, sendMsg)}>
+              onSubmit={(e: FormEvent) => 
+                    handleForm(e, msgText, setMsgText, sendMsg)}>
 			<div className='w-full relative'>
                 <div  className='absolute inset-y-0 start-0 flex items-end pb-2 gap-2 pl-2 pr-3'> 
                     <Paperclip className='w-5 h-5 ' style={buttonStyle}/> 
                     <div className="relative">
-                        <EmojePicker 
+                        <EmojiPicker 
                             onEmojiClick={handleEmoji}
                             open={openEmoji}  
                             style={{backgroundColor: design?.colors.inputColor, 
                                     border: `2px solid green`, 
                                     maxWidth: '30vw', 
                                     minWidth:'10vh'}}/>
-                        <SmilePlus onClick={() => setOpenEmoji(!openEmoji)} className='w-5 h-5 ' style={buttonStyle}/>
+                        <SmilePlus onClick={() => 
+                            setOpenEmoji(!openEmoji)} className='w-5 h-5 ' style={buttonStyle}/>
                     </div>
 				</div>
 				<TextareaAutosize
