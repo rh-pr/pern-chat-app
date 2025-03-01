@@ -32,6 +32,13 @@ export type ChatContextType = {
     setConversation: (conversation: MessageType[]) => void
 }
 
+export type ConversationState = {
+  conversation: MessageType[];
+  updateConversation: (newMessage: MessageType) => void;
+  setConversation: (newConversation: MessageType[]) => void;
+};
+
+
 export interface TextareaProps {
   msgText: string;
   setMsgText: (text: string) => void;

@@ -13,17 +13,28 @@ export const getTextAreaStyle = (design) => {
     };
 }
 
-export  const submitForm = (e: FormEvent<HTMLFormElement> | KeyboardEvent<HTMLTextAreaElement>, setMsgText: (text:string) => void) => {
+export   const handleForm = (
+    e: FormEvent, 
+    msgText:string,
+    setMsgText: (msgText:string) => void,
+    sendMsg: (msgText: string) => void) => {
+
     e.preventDefault();
+    sendMsg(msgText);
     setMsgText('');
 }
 
+export const handleKey = (
+    e: KeyboardEvent<HTMLTextAreaElement>, 
+    msgText: string, 
+    setMsgText: (text:string) => void,
+    sendMsg: (msgText: string) => void) => {
 
-export const handleKey = (e: KeyboardEvent<HTMLTextAreaElement>, msgText: string, setMsgText: (text:string) => void) => {
     if (e.key === 'Enter') {
         e.preventDefault();
         if (msgText.trim()) {
-            submitForm(e, setMsgText);
+            sendMsg(msgText);
+            setMsgText('');
         }
     }
 }

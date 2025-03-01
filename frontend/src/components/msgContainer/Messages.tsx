@@ -4,13 +4,8 @@ import { MessageType } from "../../types/main";
 import useConversation from "../../hooks/useConversation";
 import { useEffect, useRef } from "react";
 const Messages = () => {
-	const { conversation, getConversation } = useConversation();
+	const { conversation } = useConversation();
 	const endConversation = useRef<HTMLParagraphElement | null>(null);
-
-
-	useEffect(() => {
-		getConversation();
-	},[]);
 
 	useEffect(() => {
 		if(endConversation.current) {

@@ -1,13 +1,16 @@
 import { Send, Mic, Paperclip, SmilePlus } from "lucide-react";
 import EmojePicker, { EmojiClickData } from 'emoji-picker-react';
 import TextareaAutosize from 'react-textarea-autosize';
-import { useContext, useState, useRef } from "react";
+import { useContext, useState, useRef, FormEvent } from "react";
 import { DesignContext } from "../../context/DesignContext";
-import { submitForm, handleKey, getTextAreaStyle } from '../../utils/msgHandlers';
+import { handleForm, handleKey, getTextAreaStyle } from '../../utils/msgHandlers';
+import useConversation from "../../hooks/useConversation";
 
 
 const MessageInput = () => {
     const design = useContext(DesignContext);
+    const { sendMsg } = useConversation();
+
     const [msgText, setMsgText] = useState<string>('');
     const [openEmoji, setOpenEmoji] = useState<boolean>(false)
 
@@ -30,7 +33,8 @@ const MessageInput = () => {
     }
 
 	return (
-		<form className='px-4 mb-3 absolute bottom-2 w-full' onSubmit={(e) => submitForm(e, setMsgText)}>
+		<form className='px-4 mb-3 absolute bottom-2 w-full' 
+              onSubmit={(e: FormEvent) => handleForm(e, msgText, setMsgText, sendMsg)}>
 			<div className='w-full relative'>
                 <div  className='absolute inset-y-0 start-0 flex items-end pb-2 gap-2 pl-2 pr-3'> 
                     <Paperclip className='w-5 h-5 ' style={buttonStyle}/> 
@@ -50,7 +54,7 @@ const MessageInput = () => {
                     maxRows={3}
 					className=' text-md rounded-lg block w-full p-2.5 px-10 pl-16  font-medium'
                     onChange={handleMsgText}
-                    onKeyDown={(e) => handleKey(e, msgText, setMsgText)}
+                    onKeyDown={(e) => handleKey(e, msgText, setMsgText, sendMsg)}
                     style={getTextAreaStyle(design)}
 					placeholder='Send a message'
                     value={msgText}
