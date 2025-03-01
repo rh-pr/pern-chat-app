@@ -1,10 +1,11 @@
 import { useContext } from "react";
 import { DesignContext } from "../../context/DesignContext";
-import { Backpack } from "lucide-react";
+import { MessageType } from "../../types/main";
 
-const Message = ({ message }: { message?: any }) => {
+const Message = ({ message }: { message?: MessageType }) => {
   const design = useContext(DesignContext);
-  const msgDirection = message.fromMe;
+
+  const msgDirection = message?.fromMe;
 
   const img = msgDirection
 		? "https://avatar.iran.liara.run/public/boy?username=johndoe"
@@ -18,7 +19,7 @@ const Message = ({ message }: { message?: any }) => {
             <div  className={`p-2 flex ${msgDirection ? 'rounded-t-[12px] rounded-l-[12px]' : ' rounded-b-[12px] rounded-r-[12px]'} `} 
                   style={{backgroundColor: msgDirection ? design?.colors.buttonColor : design?.colors.inputColor, 
                           color: msgDirection ? design?.colors.msgHeader : design?.colors.bgColor}}>
-              <p>Message to me</p>
+              <p>{message?.body}</p>
             </div>
       </div>
     </div>

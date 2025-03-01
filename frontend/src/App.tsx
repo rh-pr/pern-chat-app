@@ -13,14 +13,8 @@ import Thema from "./components/Thema";
 
 function App() {
 
-  const design = useContext(DesignContext);;
-    console.log(design?.thema)
+  const design = useContext(DesignContext);
       
-    // useEffect(() => {
-    //   setColors(getThemaColors(isDarkTheme));
-    //   document.documentElement.className = isDarkTheme ? "dark" : "light";
-    // },[isDarkTheme])
-
   return (
     <div className="h-screen w-screen flex justify-center items-center "
          style={{backgroundImage: `url(${design?.thema ? bgDark : bg})`}}>

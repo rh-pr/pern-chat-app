@@ -67,4 +67,39 @@ export const DUMMY_MESSAGES = [
 		fromMe: false,
 		body: "That's great! Which movie did you watch?",
 	},
+	{
+		id: 11,
+		fromMe: false,
+		body: "Hello John!",
+	},
+	{
+		id: 21,
+		fromMe: true,
+		body: "Hi! How's it going?",
+	},
+	{
+		id: 31,
+		fromMe: false,
+		body: "I'm doing well, thanks for asking. How about you?",
+	},
+	{
+		id: 41,
+		fromMe: true,
+		body: "I'm good too. Been busy with work.",
+	},
+	{
+		id: 51,
+		fromMe: false,
+		body: "I can imagine. Have you had any time to relax?",
+	},
+	{
+		id: 61,
+		fromMe: true,
+		body: "A little bit. I watched a movie last night.",
+	},
+	{
+		id: 71,
+		fromMe: false,
+		body: "ENd?",
+	},
 ];

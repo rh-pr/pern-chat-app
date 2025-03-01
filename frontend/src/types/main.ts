@@ -14,6 +14,24 @@ export type DesignContextType = {
   setColors: (colors: Colors) => void
 }
 
+export type ConversationsType = {
+    id: number,
+		fullName: string,
+		profilePic: string,
+		emoji?: string,
+}
+
+export type MessageType = {
+    id: number,
+		fromMe: boolean,
+		body: string,
+}
+
+export type ChatContextType = {
+    conversation: MessageType[] | null,
+    setConversation: (conversation: MessageType[]) => void
+}
+
 export interface TextareaProps {
   msgText: string;
   setMsgText: (text: string) => void;
