@@ -19,3 +19,8 @@ export const getThemaColors = (thema: boolean):Colors => {
         msgHeader: '#EED3B1'
       };
 }
+
+export const hexToRgb = (hex: string) => {
+  const bigint = parseInt(hex.replace("#", ""), 16);
+  return `${(bigint >> 16) & 255}, ${(bigint >> 8) & 255}, ${bigint & 255}`;
+};

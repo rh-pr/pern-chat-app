@@ -14,6 +14,15 @@ const useUsers = () => {
         setUsers(conversationa.sort());
     }
 
+    const filteredUser = (query: string) => {
+        if ( openUserList ) {
+            return  users.filter((user) =>
+                user.fullName.toLowerCase().includes(query.toLowerCase())
+              );
+        }
+        return [];
+    }
+
     useEffect(() => {
         getUsers();
     },[]);
@@ -22,6 +31,7 @@ const useUsers = () => {
         users,
         openUserList,
         toggleOpenList,
+        filteredUser
     }
 }
 

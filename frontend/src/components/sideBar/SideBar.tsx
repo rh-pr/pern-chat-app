@@ -19,7 +19,7 @@ function SideBar() {
       <NewChatBtn />
       <SearchInput  setQuery={setSearchQuery}/>
       {/* <Conversations query={searchQuery} /> */}
-      {openUserList ? <SearchList /> : <Conversations  query={searchQuery}/>}
+      {openUserList ? <SearchList  query={searchQuery} /> : <Conversations  query={searchQuery}/>}
       <LogOutBtn />
       {/* {openUserList && <SearchList />} */}
     </div>

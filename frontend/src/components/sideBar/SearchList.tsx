@@ -4,19 +4,13 @@ import { UserType } from "../../types/main";
 import User from "./User";
 import { DesignContext } from "../../context/DesignContext";
 
-function SearchList() {
-  const { users } = useUsers();
-  const design = useContext(DesignContext);
-
-  const hexToRgb = (hex: string) => {
-    const bigint = parseInt(hex.replace("#", ""), 16);
-    return `${(bigint >> 16) & 255}, ${(bigint >> 8) & 255}, ${bigint & 255}`;
-  };
-
+function SearchList({query}: {query: string}) {
+  const { filteredUser } = useUsers();
+  const desing = useContext(DesignContext);
   return (
-    <div className="w-full h-full overflow-auto flex flex-col gap-2 rounded-[15px]" 
-         >
-        {users.map(( user: UserType) => <User data={user} />)}
+    <div className="p-2 w-full max-h-full overflow-auto flex flex-col gap-2 rounded-[15px] transition-2"  
+         style={{boxShadow: `0px 4px 10px 4px ${desing?.thema ? ' rgb(65, 89, 20)' : 'rgb(94, 123, 39)'}`}}>
+        {filteredUser(query).map(( user: UserType) => <User data={user} />)}
     </div>
   )
 }
