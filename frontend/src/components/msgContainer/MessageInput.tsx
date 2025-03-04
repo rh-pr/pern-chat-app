@@ -1,7 +1,7 @@
-import { Send, Mic, Paperclip, SmilePlus } from "lucide-react";
+import { Send, Mic, Paperclip, SmilePlus, HandMetal } from "lucide-react";
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import TextareaAutosize from 'react-textarea-autosize';
-import { useContext, useState, useRef, FormEvent, useCallback, useMemo } from "react";
+import { useContext, useState, useRef, FormEvent, useCallback, useMemo, useEffect } from "react";
 import { DesignContext } from "../../context/DesignContext";
 import { handleForm, handleKey, getTextAreaStyle } from '../../utils/msgHandlers';
 import useConversation from "../../hooks/useConversation";
@@ -10,6 +10,7 @@ import useConversation from "../../hooks/useConversation";
 const MessageInput = () => {
     const design = useContext(DesignContext);
     const { sendMsg } = useConversation();
+    const smileRef = useRef<HTMLDivElement | null>(null);
 
     const [msgText, setMsgText] = useState<string>('');
     const [openEmoji, setOpenEmoji] = useState<boolean>(false)
@@ -32,6 +33,27 @@ const MessageInput = () => {
         setOpenEmoji(false);
     }, []);
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as HTMLElement;
+
+            if (target.classList.contains('epr-emoji-img')) {
+                console.log("Clicked on an emoji");
+                return; // Prevent closing the picker if clicking an emoji
+            }
+        
+            if (smileRef.current && !smileRef.current.contains(target)) {
+                setOpenEmoji(false);
+            }
+        } 
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+    },[])
+
 	return (
 		<form className='px-4 mb-3  absolute bottom-2 w-full' 
               onSubmit={(e: FormEvent) => 
@@ -47,8 +69,14 @@ const MessageInput = () => {
                                     border: `2px solid green`, 
                                     maxWidth: '30vw', 
                                     minWidth:'10vh'}}/>
-                        <SmilePlus onClick={() => 
-                            setOpenEmoji(!openEmoji)} className='w-5 h-5 ' style={buttonStyle}/>
+
+                        <div  ref = {smileRef}>
+                            <SmilePlus 
+                                onClick={() =>  setOpenEmoji(!openEmoji)} 
+                                className='emoji w-5 h-5 ' style={buttonStyle} />
+                        </div>
+                       
+                           
                     </div>
 				</div>
 				<TextareaAutosize
