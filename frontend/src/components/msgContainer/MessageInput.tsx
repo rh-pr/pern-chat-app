@@ -1,21 +1,25 @@
-import { Send, Mic, Paperclip, SmilePlus, HandMetal } from "lucide-react";
+import { Send, Mic, Paperclip, SmilePlus } from "lucide-react";
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { useContext, useState, useRef, FormEvent, useCallback, useMemo, useEffect } from "react";
 import { DesignContext } from "../../context/DesignContext";
 import { handleForm, handleKey, getTextAreaStyle } from '../../utils/msgHandlers';
 import useConversation from "../../hooks/useConversation";
+import UploadMenu from "./UploadMenu";
 
 
 const MessageInput = () => {
     const design = useContext(DesignContext);
     const { sendMsg } = useConversation();
+
     const smileRef = useRef<HTMLDivElement | null>(null);
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
 
     const [msgText, setMsgText] = useState<string>('');
     const [openEmoji, setOpenEmoji] = useState<boolean>(false)
+    const [uploadFile, setUploadFile] = useState<boolean>(false);
 
-    const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
     const buttonStyle = useMemo( () => ( {color: design?.colors.buttonColor}),[design]);
 
@@ -33,18 +37,20 @@ const MessageInput = () => {
         setOpenEmoji(false);
     }, []);
 
+  
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const target = event.target as HTMLElement;
 
             if (target.classList.contains('epr-emoji-img')) {
                 console.log("Clicked on an emoji");
-                return; // Prevent closing the picker if clicking an emoji
+                return;
             }
         
             if (smileRef.current && !smileRef.current.contains(target)) {
                 setOpenEmoji(false);
             }
+
         } 
 
         document.addEventListener('mousedown', handleClickOutside);
@@ -58,9 +64,16 @@ const MessageInput = () => {
 		<form className='px-4 mb-3  absolute bottom-2 w-full' 
               onSubmit={(e: FormEvent) => 
                     handleForm(e, msgText, setMsgText, sendMsg)}>
-			<div className='w-full relative'>
+            {uploadFile &&  <UploadMenu setUploadFile={setUploadFile}/>}
+
+			<div className='w-full relative box-border '>
+
                 <div  className='absolute inset-y-0 start-0 flex items-end pb-2 gap-2 pl-2 pr-3'> 
-                    <Paperclip className='w-5 h-5 ' style={buttonStyle}/> 
+                    <Paperclip 
+                        onClick={() => setUploadFile(true)}
+                        className='w-5 h-5 ' 
+                        style={buttonStyle}/> 
+
                     <div className="relative">
                         <EmojiPicker 
                             onEmojiClick={handleEmoji}

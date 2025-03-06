@@ -18,7 +18,6 @@ const Messages = () => {
 			{ conversation?.map((message: MessageType) => (
 				<Message key={message.id} message={message} />
 			))}
-			{/* check what happend */}
 			<div className="h-0"  ref={endConversation}></div>
 		</div>
 	);
