@@ -65,3 +65,11 @@ export interface TextareaProps {
   setMsgText: (text: string) => void;
   textAreaRef: React.RefObject<HTMLTextAreaElement | null>;
 }
+
+
+/*Components props types */
+export type UploadMenuType = {
+  setOpenFileMenu: (uploadFile: boolean) => void,
+  setFiles: React.Dispatch<React.SetStateAction<File[] | null>>,
+  setImages: React.Dispatch<React.SetStateAction<File[] | null>>
+}

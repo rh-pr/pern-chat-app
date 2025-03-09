@@ -6,6 +6,7 @@ import { DesignContext } from "../../context/DesignContext";
 import { handleForm, handleKey, getTextAreaStyle } from '../../utils/msgHandlers';
 import useConversation from "../../hooks/useConversation";
 import UploadMenu from "./UploadMenu";
+import FilesContainer from "./FilesContainer";
 
 
 const MessageInput = () => {
@@ -43,8 +44,7 @@ const MessageInput = () => {
 
     useEffect(() => {
         if (files) {
-            console.log('files', files);
-            
+           console.log(files)
         }
     },[files])
   
@@ -74,6 +74,11 @@ const MessageInput = () => {
 		<form className='px-4 mb-3  absolute bottom-2 w-full' 
               onSubmit={(e: FormEvent) => 
                     handleForm(e, msgText, setMsgText, sendMsg)}>
+
+            {files && <FilesContainer type="files" files={files}/>}
+            {images && <FilesContainer type="images" files={images}/>}
+                
+
             {openFileMenu &&  
                 <UploadMenu setOpenFileMenu={setOpenFileMenu} 
                             setFiles={setFiles} 
@@ -105,6 +110,7 @@ const MessageInput = () => {
                            
                     </div>
 				</div>
+              
 				<TextareaAutosize
                     minRows={1}
                     maxRows={3}

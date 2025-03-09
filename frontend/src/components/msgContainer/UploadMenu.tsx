@@ -1,11 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react"
 import { DesignContext } from "../../context/DesignContext"
 
-type UploadMenuType = {
-  setOpenFileMenu: (uploadFile: boolean) => void,
-  setFiles: React.Dispatch<React.SetStateAction<File[] | null>>,
-  setImages: React.Dispatch<React.SetStateAction<File[] | null>>
-}
+import { UploadMenuType } from "../../types/main";
 
 function UploadMenu ({setOpenFileMenu, setFiles, setImages}: UploadMenuType) {
 
