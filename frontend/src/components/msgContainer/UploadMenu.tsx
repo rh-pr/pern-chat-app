@@ -1,23 +1,62 @@
-import { useContext, useEffect, useRef } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { DesignContext } from "../../context/DesignContext"
 
+type UploadMenuType = {
+  setOpenFileMenu: (uploadFile: boolean) => void,
+  setFiles: React.Dispatch<React.SetStateAction<File[] | null>>,
+  setImages: React.Dispatch<React.SetStateAction<File[] | null>>
+}
 
-function UploadMenu ({setUploadFile}: {setUploadFile: (uploadFile: boolean) => void}) {
+function UploadMenu ({setOpenFileMenu, setFiles, setImages}: UploadMenuType) {
 
     const design = useContext(DesignContext);
     const uploadedRef = useRef<HTMLDivElement | null>(null);
+
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    const handleImage = (e:  React.ChangeEvent<HTMLInputElement>) => {
+      const selectedImage = e.target.files?.[0];
+      if(!selectedImage) return;
+      if (selectedImage.type === "image/png" ||
+          selectedImage.type === "image/jpg"  || 
+          selectedImage.type === "image/jpeg" ||
+          selectedImage.type === "image/webp") {
+            setImages(prev => prev ? [...prev, selectedImage] : [selectedImage]);
+            setOpenFileMenu(false);
+            return;
+          }
+      setErrorMessage('png, jpg, jpeg, webp');
+      setOpenFileMenu(true);
+      return;
+
+    }
+
+    const handleFile = (e:  React.ChangeEvent<HTMLInputElement>) => {
+      const selectedFile = e.target.files?.[0];
+      if(!selectedFile) return;
+      if (selectedFile.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+          selectedFile.type === "application/pdf" ) {
+            setFiles(prev => prev ? [...prev, selectedFile] : [selectedFile]);
+            setOpenFileMenu(false);
+            return;
+          }
+      setErrorMessage('doc, pdf');
+      setOpenFileMenu(true);
+    }
+
+    
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const target = event.target as HTMLElement;
 
             if (target.classList.contains('label')) {
-              setUploadFile(true);
+              setOpenFileMenu(true);
               return;
             }
         
             if (uploadedRef.current && !uploadedRef.current.contains(target)) {
-                setUploadFile(false);
+              setOpenFileMenu(false);
             }  
         } 
 
@@ -37,16 +76,17 @@ function UploadMenu ({setUploadFile}: {setUploadFile: (uploadFile: boolean) => v
             backgroundColor: design?.colors.inputColor,
             color: design?.colors.bgColor,
             boxShadow: `0px 0px 20px 6px  ${design?.colors.buttonColor}`}}
-            >
-  
+            >        
         <label className="label w-[200px] cursor-pointer p-2 mb-1 " htmlFor="file">
            Upload File
-          <input type="file" name="file" id="file" className="hidden" />
+          <input type="file" name="file" id="file" className="hidden"  onChange={(e) => handleFile(e)}/>
         </label>
         <label className="label w-[200px] cursor-pointer p-2 " htmlFor="foto">
            Upload Foto
-          <input type="file" name="foto" id="foto" className="hidden" />
+          <input type="file" name="foto" id="foto" className="hidden" onChange={(e) => handleImage(e)}/>
         </label>
+
+        {errorMessage && <p className="font-[8px] text-red-600 font-medium px-2 ">Supported types: <br />{errorMessage}</p>}
 
     </div>
   )

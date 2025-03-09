@@ -18,7 +18,11 @@ const MessageInput = () => {
 
     const [msgText, setMsgText] = useState<string>('');
     const [openEmoji, setOpenEmoji] = useState<boolean>(false)
-    const [uploadFile, setUploadFile] = useState<boolean>(false);
+    const [openFileMenu, setOpenFileMenu] = useState<boolean>(false);
+
+    const [files, setFiles] = useState<File[] | null>(null);
+    const [images, setImages] = useState<File[] | null>(null);
+
 
 
     const buttonStyle = useMemo( () => ( {color: design?.colors.buttonColor}),[design]);
@@ -37,6 +41,12 @@ const MessageInput = () => {
         setOpenEmoji(false);
     }, []);
 
+    useEffect(() => {
+        if (files) {
+            console.log('files', files);
+            
+        }
+    },[files])
   
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -64,13 +74,16 @@ const MessageInput = () => {
 		<form className='px-4 mb-3  absolute bottom-2 w-full' 
               onSubmit={(e: FormEvent) => 
                     handleForm(e, msgText, setMsgText, sendMsg)}>
-            {uploadFile &&  <UploadMenu setUploadFile={setUploadFile}/>}
+            {openFileMenu &&  
+                <UploadMenu setOpenFileMenu={setOpenFileMenu} 
+                            setFiles={setFiles} 
+                            setImages={setImages}/>}
 
 			<div className='w-full relative box-border '>
 
                 <div  className='absolute inset-y-0 start-0 flex items-end pb-2 gap-2 pl-2 pr-3'> 
                     <Paperclip 
-                        onClick={() => setUploadFile(true)}
+                        onClick={() => setOpenFileMenu(true)}
                         className='w-5 h-5 ' 
                         style={buttonStyle}/> 
 
