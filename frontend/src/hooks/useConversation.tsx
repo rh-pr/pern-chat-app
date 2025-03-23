@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import useConversationStore from '../stores/useConversationStore';
 
 import { DUMMY_MESSAGES } from "../dummy/dummyData";
@@ -25,6 +25,14 @@ const useConversation = () => {
         setConversation(DUMMY_MESSAGES); 
     };
 
+    const removeFile = useCallback((fileName: string, type: string) => {
+      if (type === 'files') {
+        filteredFiles(fileName);
+       } else {
+          filteredImages(fileName);
+       }
+    },[filteredFiles, filteredImages])
+
     const sendMsg = (msg: string) => {
         const newMsg = {
             id: 111,
@@ -49,7 +57,8 @@ const useConversation = () => {
         deletedFiles,
         updateImages,
         filteredImages,
-        deletedImages
+        deletedImages,
+        removeFile
     };
 };
 
