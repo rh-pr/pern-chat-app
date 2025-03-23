@@ -11,7 +11,7 @@ import FilesContainer from "./FilesContainer";
 
 const MessageInput = () => {
     const design = useContext(DesignContext);
-    const { sendMsg } = useConversation();
+    const { sendMsg, files, images } = useConversation();
 
     const smileRef = useRef<HTMLDivElement | null>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -21,8 +21,8 @@ const MessageInput = () => {
     const [openEmoji, setOpenEmoji] = useState<boolean>(false)
     const [openFileMenu, setOpenFileMenu] = useState<boolean>(false);
 
-    const [files, setFiles] = useState<File[] | null>(null);
-    const [images, setImages] = useState<File[] | null>(null);
+    // const [files, setFiles] = useState<File[] | null>(null);
+    // const [images, setImages] = useState<File[] | null>(null);
 
 
 
@@ -75,14 +75,12 @@ const MessageInput = () => {
               onSubmit={(e: FormEvent) => 
                     handleForm(e, msgText, setMsgText, sendMsg)}>
 
-            {files && <FilesContainer type="files" files={files}/>}
+            {files && <FilesContainer type="files" files={files} />}
             {images && <FilesContainer type="images" files={images}/>}
                 
 
             {openFileMenu &&  
-                <UploadMenu setOpenFileMenu={setOpenFileMenu} 
-                            setFiles={setFiles} 
-                            setImages={setImages}/>}
+                <UploadMenu setOpenFileMenu={setOpenFileMenu}/>}
 
 			<div className='w-full relative box-border '>
 
@@ -123,7 +121,7 @@ const MessageInput = () => {
                     ref={textAreaRef}
 				/>
 				<div className='absolute inset-y-0 end-0 flex items-end pb-2 pr-3'>
-					{msgText.trim().length > 0 ? 
+					{msgText.trim().length > 0 || (files && files?.length > 0) || (images && images?.length > 0)? 
                         <button type="submit"><Send className='w-6 h-6 ' style={buttonStyle}/> </button>:  
                         <Mic className='w-6 h-6 ' style={{color: design?.colors.buttonColor}}/>}
 				</div>

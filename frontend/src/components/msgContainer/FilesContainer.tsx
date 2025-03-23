@@ -6,8 +6,8 @@ function FilesContainer({ files, type }: { files: File[]; type: string }) {
     const design = useContext(DesignContext);
 
   return (
-    <div className="flex flex-wrap gap-2 pb-2 bg-white/30" >
-      {files.map((file) => (
+    <div className="flex flex-wrap gap-2 pb-2 bg-white/30"  >
+      {files.map((file: File, index: number) => (
         <div key={file.name} className="flex items-center gap-2 p-2 underline" >
           {type === "files" ? (
             <p className="text-sm font-medium p-2 rounded-lg"
@@ -21,7 +21,7 @@ function FilesContainer({ files, type }: { files: File[]; type: string }) {
               className="w-16 h-16 object-cover rounded-md"
             />
           )}
-          <X className="cursor-pointer text-red-500 hover:text-red-700 self-start" />
+          <X className="cursor-pointer text-red-500 hover:text-red-700 self-start"  onClick={() =>  console.log(index, type)}/>
         </div>
       ))}
     </div>

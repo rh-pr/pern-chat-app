@@ -2,13 +2,16 @@ import { useContext, useEffect, useRef, useState } from "react"
 import { DesignContext } from "../../context/DesignContext"
 
 import { UploadMenuType } from "../../types/main";
+import useConversation from "../../hooks/useConversation";
 
-function UploadMenu ({setOpenFileMenu, setFiles, setImages}: UploadMenuType) {
+function UploadMenu ({setOpenFileMenu}: UploadMenuType) {
 
     const design = useContext(DesignContext);
     const uploadedRef = useRef<HTMLDivElement | null>(null);
 
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    const { updateFiles, updateImages } = useConversation();
 
     const handleImage = (e:  React.ChangeEvent<HTMLInputElement>) => {
       const selectedImage = e.target.files?.[0];
@@ -17,7 +20,8 @@ function UploadMenu ({setOpenFileMenu, setFiles, setImages}: UploadMenuType) {
           selectedImage.type === "image/jpg"  || 
           selectedImage.type === "image/jpeg" ||
           selectedImage.type === "image/webp") {
-            setImages(prev => prev ? [...prev, selectedImage] : [selectedImage]);
+            updateImages(selectedImage);
+            // setImages(prev => prev ? [...prev, selectedImage] : [selectedImage]);
             setOpenFileMenu(false);
             return;
           }
@@ -32,7 +36,8 @@ function UploadMenu ({setOpenFileMenu, setFiles, setImages}: UploadMenuType) {
       if(!selectedFile) return;
       if (selectedFile.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
           selectedFile.type === "application/pdf" ) {
-            setFiles(prev => prev ? [...prev, selectedFile] : [selectedFile]);
+            updateFiles(selectedFile);
+            // setFiles(prev => prev ? [...prev, selectedFile] : [selectedFile]);
             setOpenFileMenu(false);
             return;
           }
