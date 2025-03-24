@@ -2,7 +2,6 @@ import { useContext, useEffect, useRef, useState } from "react"
 import { DesignContext } from "../../context/DesignContext"
 
 import { UploadMenuType } from "../../types/main";
-import useConversation from "../../hooks/useConversation";
 
 function UploadMenu ({setOpenFileMenu, setFiles, setImages }: UploadMenuType) {
 

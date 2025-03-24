@@ -1,8 +1,8 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { DesignContext } from "../../context/DesignContext";
 import { MessageType } from "../../types/main";
 import  FilesList  from "./FilesList";
-import ImagesContainer from "./ImagesContainer";
+import ImageList from "./ImageList";
 
 const Message = ({ message }: { message?: MessageType }) => {
   const design = useContext(DesignContext);
@@ -13,6 +13,10 @@ const Message = ({ message }: { message?: MessageType }) => {
 		? "https://avatar.iran.liara.run/public/boy?username=johndoe"
 		: "https://avatar.iran.liara.run/public/boy?username=janedoe";
 
+useEffect(() => {
+  console.log(message?.images, message?.files);
+  
+},[message?.images, message?.files])
 
   return (
     <div className={`flex ${msgDirection ? 'justify-end' : 'justify-start'}`}>
@@ -25,7 +29,7 @@ const Message = ({ message }: { message?: MessageType }) => {
             
              
                 {message?.files && message.files.length > 0 && <FilesList files={message.files} />}
-                {message?.images &&  <div className="max-w-96"> <ImagesContainer images={message.images} /> </div>}
+                {message?.images &&  <div className="max-w-96"> <ImageList images={message.images} /> </div>}
               
             </div>
       </div>
