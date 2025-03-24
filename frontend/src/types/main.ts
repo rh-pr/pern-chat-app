@@ -33,6 +33,8 @@ export type MessageType = {
     id: number,
 		fromMe: boolean,
 		body: string,
+    files?: File[] | null,
+    images?: File[] | null
 }
 
 export type ChatContextType = {
@@ -48,12 +50,10 @@ export type ConversationState = {
   updateConversation: (newMessage: MessageType) => void,
   setConversation: (newConversation: MessageType[]) => void,
 
-  // setFiles: (newFiles: File[]) => void,
   updateFiles: (newFile: File ) => void,
   filteredFile: (fileName: string) => void,
   deleteFiles: () => void,
 
-  // setImages: (newImages: File[]) => void,
   updateImages: (newImages: File) => void,
   filteredImages: (imageName: string) => void,
   deleteImages: () => void
@@ -80,9 +80,8 @@ export interface TextareaProps {
 }
 
 
-/*Components props types */
 export type UploadMenuType = {
   setOpenFileMenu: (uploadFile: boolean) => void,
-  // setFiles: React.Dispatch<React.SetStateAction<File[] | null>>,
-  // setImages: React.Dispatch<React.SetStateAction<File[] | null>>
+  setFiles: React.Dispatch<React.SetStateAction<File[] | null>>;
+  setImages: React.Dispatch<React.SetStateAction<File[] | null>>;
 }

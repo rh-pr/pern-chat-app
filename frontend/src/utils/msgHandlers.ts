@@ -36,6 +36,7 @@ export const handleKey = (
         if (msgText.trim()) {
             sendMsg(msgText);
             setMsgText('');
+            
         }
     }
 }

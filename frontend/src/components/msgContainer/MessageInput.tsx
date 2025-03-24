@@ -3,7 +3,7 @@ import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { useContext, useState, useRef, FormEvent, useCallback, useMemo, useEffect } from "react";
 import { DesignContext } from "../../context/DesignContext";
-import { handleForm, handleKey, getTextAreaStyle } from '../../utils/msgHandlers';
+import { handleKey, getTextAreaStyle } from '../../utils/msgHandlers';
 import useConversation from "../../hooks/useConversation";
 import UploadMenu from "./UploadMenu";
 import FilesContainer from "./FilesContainer";
@@ -11,7 +11,7 @@ import FilesContainer from "./FilesContainer";
 
 const MessageInput = () => {
     const design = useContext(DesignContext);
-    const { sendMsg, files, images } = useConversation();
+    const { sendMsg} = useConversation();
 
     const smileRef = useRef<HTMLDivElement | null>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -21,8 +21,8 @@ const MessageInput = () => {
     const [openEmoji, setOpenEmoji] = useState<boolean>(false)
     const [openFileMenu, setOpenFileMenu] = useState<boolean>(false);
 
-    // const [files, setFiles] = useState<File[] | null>(null);
-    // const [images, setImages] = useState<File[] | null>(null);
+    const [files, setFiles] = useState<File[] | null>(null);
+    const [images, setImages] = useState<File[] | null>(null);
 
 
 
@@ -41,6 +41,14 @@ const MessageInput = () => {
 
         setOpenEmoji(false);
     }, []);
+
+    const handleForm = (e:FormEvent) => {
+        e.preventDefault();
+        sendMsg(msgText, files, images);
+        setMsgText('');
+        setFiles(null);
+        setImages(null);
+    }
 
     useEffect(() => {
         if (files) {
@@ -72,15 +80,16 @@ const MessageInput = () => {
 
 	return (
 		<form className='px-4 mb-3  absolute bottom-2 w-full' 
-              onSubmit={(e: FormEvent) => 
-                    handleForm(e, msgText, setMsgText, sendMsg)}>
+              onSubmit={(e: FormEvent) =>  handleForm(e)}>
 
             {files && <FilesContainer type="files" files={files} />}
             {images && <FilesContainer type="images" files={images}/>}
                 
 
             {openFileMenu &&  
-                <UploadMenu setOpenFileMenu={setOpenFileMenu}/>}
+                <UploadMenu setOpenFileMenu={setOpenFileMenu}
+                            setFiles={setFiles}
+                            setImages={setImages}/>}
 
 			<div className='w-full relative box-border '>
 

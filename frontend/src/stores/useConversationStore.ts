@@ -12,8 +12,6 @@ const useConversationStore = create<ConversationState>((set) => ({
     setConversation: (newConversation: MessageType[]) =>
         set(() => ({ conversation: newConversation })),
 
-    // setFiles: (newFiles: File[]) =>
-    //     set(()=> ({files: newFiles})),
 
     updateFiles: (newFile: File) => 
         set((state) => {
@@ -28,16 +26,14 @@ const useConversationStore = create<ConversationState>((set) => ({
     deleteFiles: () =>
         set(() => ({files: []})),
 
-    // setImages: (newImages: File[]) =>
-    //     set(() => ({images: newImages})),
-
     updateImages: (newImage: File) => 
         set((state) => {
             const imageExists = state.images.some(img => img.name === newImage.name);
            return {
-              files: imageExists ? state.images : [...state.images, newImage],
+              images: imageExists ? state.images : [...state.images, newImage],
             };
         }),
+        
     filteredImages: (imageName: string) => 
         set((state) => ({ images: state.images.filter(image => image.name !== imageName) })),
     
