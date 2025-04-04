@@ -1,14 +1,22 @@
 import { useContext, useEffect, useRef, useState } from "react"
 import { DesignContext } from "../../context/DesignContext"
 
-import { UploadMenuType } from "../../types/main";
+import React from "react";
 
-function UploadMenu ({setOpenFileMenu, setFiles, setImages }: UploadMenuType) {
+import { UploadMenuType } from "../../types/main";
+// import useConversation from "../../hooks/useConversation";
+import { useFilesSrore } from "../../stores/useConversationStore";
+
+// function UploadMenu ({setOpenFileMenu, setFiles, setImages }: UploadMenuType) {
+  function UploadMenu ({setOpenFileMenu }:  UploadMenuType ) {
+
 
     const design = useContext(DesignContext);
     const uploadedRef = useRef<HTMLDivElement | null>(null);
 
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    const { updateFiles, updateImages } = useFilesSrore();
 
 
     const handleImage = (e:  React.ChangeEvent<HTMLInputElement>) => {
@@ -18,8 +26,8 @@ function UploadMenu ({setOpenFileMenu, setFiles, setImages }: UploadMenuType) {
           selectedImage.type === "image/jpg"  || 
           selectedImage.type === "image/jpeg" ||
           selectedImage.type === "image/webp") {
-            // updateImages(selectedImage);
-            setImages((prev: File[] | null) => prev ? [...prev, selectedImage] : [selectedImage]);
+            updateImages(selectedImage);
+            // setImages((prev: File[] | null) => prev ? [...prev, selectedImage] : [selectedImage]);
             setOpenFileMenu(false);
             return;
           }
@@ -34,8 +42,8 @@ function UploadMenu ({setOpenFileMenu, setFiles, setImages }: UploadMenuType) {
       if(!selectedFile) return;
       if (selectedFile.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
           selectedFile.type === "application/pdf" ) {
-            // updateFiles(selectedFile);
-            setFiles((prev: File[] | null) => prev ? [...prev, selectedFile] : [selectedFile]);
+            updateFiles(selectedFile);
+            // setFiles((prev: File[] | null) => prev ? [...prev, selectedFile] : [selectedFile]);
             setOpenFileMenu(false);
             return;
           }
@@ -62,7 +70,7 @@ function UploadMenu ({setOpenFileMenu, setFiles, setImages }: UploadMenuType) {
         document.addEventListener('mousedown', handleClickOutside);
 
         return () => {
-            document.addEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutside);
         }
     }, [])
 
@@ -85,10 +93,10 @@ function UploadMenu ({setOpenFileMenu, setFiles, setImages }: UploadMenuType) {
           <input type="file" name="foto" id="foto" className="hidden" onChange={(e) => handleImage(e)}/>
         </label>
 
-        {errorMessage && <p className="font-[8px] text-red-600 font-medium px-2 ">Supported types: <br />{errorMessage}</p>}
+        {errorMessage && <p className="font-[8px] text-red-600 font-medium px-2 ">Supported types: <br />{errorMessage}</p>} 
 
     </div>
   )
 };
 
-export default UploadMenu
+export default React.memo(UploadMenu);

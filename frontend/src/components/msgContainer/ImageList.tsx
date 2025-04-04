@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 function ImageList({images}: {images: File[]}) {
   const [imagesList, setImagesList] = useState<string[]>([]);
 
+  /*change this */
   useEffect(() => {
     const imgUrls = images.map(image => URL.createObjectURL(image));
     setImagesList(imgUrls);

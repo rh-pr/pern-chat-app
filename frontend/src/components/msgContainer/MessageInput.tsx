@@ -3,7 +3,7 @@ import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { useContext, useState, useRef, FormEvent, useCallback, useMemo, useEffect } from "react";
 import { DesignContext } from "../../context/DesignContext";
-import { handleKey, getTextAreaStyle } from '../../utils/msgHandlers';
+import {  getTextAreaStyle } from '../../utils/msgHandlers';
 import useConversation from "../../hooks/useConversation";
 import UploadMenu from "./UploadMenu";
 import FilesContainer from "./FilesContainer";
@@ -21,10 +21,12 @@ const MessageInput = () => {
     const [openEmoji, setOpenEmoji] = useState<boolean>(false)
     const [openFileMenu, setOpenFileMenu] = useState<boolean>(false);
 
-    const [files, setFiles] = useState<File[] | null>(null);
-    const [images, setImages] = useState<File[] | null>(null);
+    // const [files, setFiles] = useState<File[] | null>(null);
+    // const [images, setImages] = useState<File[] | null>(null);
 
+    const {files, images, updateConversation, conversation} = useConversation();
 
+    // const {files, updateConversation, conversation} = useConversation();
 
     const buttonStyle = useMemo( () => ( {color: design?.colors.buttonColor}),[design]);
 
@@ -42,19 +44,45 @@ const MessageInput = () => {
         setOpenEmoji(false);
     }, []);
 
+
     const handleForm = (e:FormEvent) => {
         e.preventDefault();
-        sendMsg(msgText, files, images);
+
+        sendMsg(msgText, files, images, updateConversation);
+        console.log('form send: ', conversation)
+
+        
         setMsgText('');
-        setFiles(null);
-        setImages(null);
+
+        // setFiles(null);
+        // setImages(null);
+    
     }
 
-    useEffect(() => {
-        if (files) {
-           console.log(files)
+    
+
+
+    const handleKey = (
+        e: React.KeyboardEvent<HTMLTextAreaElement> ) => {
+    
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (msgText.trim()) {
+                 sendMsg(msgText, files, images, updateConversation);
+                setMsgText('');
+                
+            }
         }
-    },[files])
+    }
+
+ 
+
+    const handleOpenFileMenu = useCallback(() => {
+        console.log('from input before', conversation)
+
+        setOpenFileMenu(true);
+        console.log('from input', conversation)
+      }, [conversation]);
   
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -85,17 +113,21 @@ const MessageInput = () => {
             {files && <FilesContainer type="files" files={files} />}
             {images && <FilesContainer type="images" files={images}/>}
                 
-
+{/* 
             {openFileMenu &&  
                 <UploadMenu setOpenFileMenu={setOpenFileMenu}
                             setFiles={setFiles}
-                            setImages={setImages}/>}
+                            setImages={setImages}/>} */}
+            
+ 
+            {openFileMenu &&  
+                <UploadMenu setOpenFileMenu={setOpenFileMenu} />} 
 
 			<div className='w-full relative box-border '>
 
                 <div  className='absolute inset-y-0 start-0 flex items-end pb-2 gap-2 pl-2 pr-3'> 
                     <Paperclip 
-                        onClick={() => setOpenFileMenu(true)}
+                        onClick={handleOpenFileMenu}
                         className='w-5 h-5 ' 
                         style={buttonStyle}/> 
 
@@ -123,7 +155,7 @@ const MessageInput = () => {
                     maxRows={3}
 					className=' text-md rounded-lg block w-full p-2.5 px-10 pl-16  font-medium'
                     onChange={handleMsgText}
-                    onKeyDown={(e) => handleKey(e, msgText, setMsgText, sendMsg)}
+                    onKeyDown={(e) => handleKey(e)}
                     style={getTextAreaStyle(design)}
 					placeholder='Send a message'
                     value={msgText}

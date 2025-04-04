@@ -15,8 +15,8 @@ const Messages = () => {
 
 	return (
 		<div className='px-4 y-2 mb-20  flex flex-col gap-2 w-full overflow-y-auto' style={{scrollbarWidth:"none"}}>
-			{ conversation?.map((message: MessageType) => (
-				<Message key={message.id} message={message} />
+			{ conversation?.map((message: MessageType, inx: number) => (
+				<Message key={inx} message={message} />
 			))}
 			<div className="h-0"  ref={endConversation}></div>
 		</div>

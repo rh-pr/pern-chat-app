@@ -1,13 +1,15 @@
-import { FileImage, X } from "lucide-react";
 import { useContext } from "react";
+import React from "react";
 import { DesignContext } from "../../context/DesignContext";
 import useConversation from "../../hooks/useConversation";
+import { X } from "lucide-react";
+
 
 function FilesContainer({ files, type }: { files: File[]; type: string }) {
+
     const { removeFile } = useConversation();
 
     const design = useContext(DesignContext);
-
 
   return (
     <div className={`${files.length > 0 ? 'flex' : 'hidden'} flex-wrap gap-2 pb-2 bg-white/30`}  >
@@ -32,4 +34,4 @@ function FilesContainer({ files, type }: { files: File[]; type: string }) {
   );
 }
 
-export default FilesContainer;
+export default React.memo(FilesContainer);

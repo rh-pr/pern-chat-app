@@ -59,6 +59,19 @@ export type ConversationState = {
   deleteImages: () => void
 };
 
+export type FilesState = {
+  files:  File[],
+  images: File[],
+
+  updateFiles: (newFile: File ) => void,
+  filteredFile: (fileName: string) => void,
+  deleteFiles: () => void,
+
+  updateImages: (newImages: File) => void,
+  filteredImages: (imageName: string) => void,
+  deleteImages: () => void
+};
+
 export type ConversationsState = {
   conversations: ConversationsType[],
   updateConversations: (conversation: ConversationsType) => void,
@@ -82,6 +95,6 @@ export interface TextareaProps {
 
 export type UploadMenuType = {
   setOpenFileMenu: (uploadFile: boolean) => void,
-  setFiles: React.Dispatch<React.SetStateAction<File[] | null>>;
-  setImages: React.Dispatch<React.SetStateAction<File[] | null>>;
+  // setFiles: React.Dispatch<React.SetStateAction<File[] | null>>;
+  // setImages: React.Dispatch<React.SetStateAction<File[] | null>>;
 }
