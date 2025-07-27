@@ -3,9 +3,16 @@ import Message from "./Message";
 import { MessageType } from "../../types/main";
 import useConversation from "../../hooks/useConversation";
 import { useEffect, useRef } from "react";
+
+//chage type of id letter
 const Messages = () => {
-	const { conversation } = useConversation();
+	const {conversation, getConversation } = useConversation();
+	// const [conversation, setConversation] = useState<MessageType[] | null>(null)
 	const endConversation = useRef<HTMLParagraphElement | null>(null);
+
+	useEffect(() => {
+		getConversation();
+	},[])
 
 	useEffect(() => {
 		if(endConversation.current) {

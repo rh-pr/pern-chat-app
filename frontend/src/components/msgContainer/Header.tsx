@@ -1,11 +1,18 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Video, Phone } from 'lucide-react';
 import { conversationa } from '../../dummy/dummyData';
 import { DesignContext } from '../../context/DesignContext';
+
 function Header() {
   const design = useContext(DesignContext);
   const activeConv = conversationa[0];
   const [onlineStatus, setOnlineStatus] = useState(true)
+
+  //change later for real status
+  useEffect(() => {
+    setOnlineStatus(true);
+  },[])
+
   return (
     <div className="w-full h-16 flex items-center justify-between p-2 " style={{backgroundColor: design?.colors.buttonColor}}>
       <div className='flex gap-4'>

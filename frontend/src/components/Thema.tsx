@@ -5,7 +5,7 @@ import { DesignContext } from "../context/DesignContext"
 function Thema() {
     const design = useContext(DesignContext);
 
-    const changeThema = (e) => {
+    const changeThema = (e:React.ChangeEvent<HTMLInputElement>) => {
         design?.setThema(e.target.checked);
     }
   return (

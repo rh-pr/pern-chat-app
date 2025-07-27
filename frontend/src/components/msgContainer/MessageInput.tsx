@@ -21,12 +21,7 @@ const MessageInput = () => {
     const [openEmoji, setOpenEmoji] = useState<boolean>(false)
     const [openFileMenu, setOpenFileMenu] = useState<boolean>(false);
 
-    // const [files, setFiles] = useState<File[] | null>(null);
-    // const [images, setImages] = useState<File[] | null>(null);
-
     const {files, images, updateConversation, conversation} = useConversation();
-
-    // const {files, updateConversation, conversation} = useConversation();
 
     const buttonStyle = useMemo( () => ( {color: design?.colors.buttonColor}),[design]);
 
@@ -49,19 +44,10 @@ const MessageInput = () => {
         e.preventDefault();
 
         sendMsg(msgText, files, images, updateConversation);
-        console.log('form send: ', conversation)
-
-        
         setMsgText('');
-
-        // setFiles(null);
-        // setImages(null);
-    
     }
 
     
-
-
     const handleKey = (
         e: React.KeyboardEvent<HTMLTextAreaElement> ) => {
     
@@ -75,7 +61,6 @@ const MessageInput = () => {
         }
     }
 
- 
 
     const handleOpenFileMenu = useCallback(() => {
         console.log('from input before', conversation)

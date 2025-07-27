@@ -51,9 +51,29 @@ model Message {
   senderId String
   sender   User   @relation(fields: [senderId], references: [id])
 
-  body      String
+  body String
+
+  files  Files[]
+  images Images[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Files {
+  id      String  @id @default(cuid())
+  name    String
+  url     String
+  msgId   String
+  message Message @relation(fields: [msgId], references: [id])
+}
+
+model Images {
+  id      String  @id @default(cuid())
+  name    String
+  url     String
+  msgId   String
+  message Message @relation(fields: [msgId], references: [id])
 }
 
 enum Gender {

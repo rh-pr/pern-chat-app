@@ -9,22 +9,6 @@ const useConversation = () => {
     const setConversation = useConversationStore((state) => state.setConversation);
     const updateConversation = useConversationStore((state) => state.updateConversation);
 
-   
-    
-
-    // const files = useConversationStore((state) => state.files);
-    // const images = useConversationStore((state) => state.images);
-
-    // const updateFiles = useConversationStore((state) => state.updateFiles);
-    // const filteredFiles = useConversationStore((state) => state.filteredFile);
-    // const deletedFiles = useConversationStore((state) => state.deleteFiles);
-
-    // const updateImages = useConversationStore((state) => state.updateImages);
-    // const filteredImages = useConversationStore((state) => state.filteredImages);
-    // const deletedImages = useConversationStore((state) => state.deleteImages);
-
-
-
     
     const files = useFilesSrore((state) => state.files);
     const images = useFilesSrore((state) => state.images);
@@ -39,7 +23,9 @@ const useConversation = () => {
 
 
     const getConversation = () => {
+        // const dum = DUMMY_MESSAGES.filter((msg => msg.fromMe === false))
         setConversation(DUMMY_MESSAGES); 
+        // setConversation(dum); 
     };
 
     const removeFile = useCallback((fileName: string, type: string) => {

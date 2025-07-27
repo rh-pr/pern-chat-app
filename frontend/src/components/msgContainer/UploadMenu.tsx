@@ -4,10 +4,8 @@ import { DesignContext } from "../../context/DesignContext"
 import React from "react";
 
 import { UploadMenuType } from "../../types/main";
-// import useConversation from "../../hooks/useConversation";
 import { useFilesSrore } from "../../stores/useConversationStore";
 
-// function UploadMenu ({setOpenFileMenu, setFiles, setImages }: UploadMenuType) {
   function UploadMenu ({setOpenFileMenu }:  UploadMenuType ) {
 
 
@@ -27,7 +25,6 @@ import { useFilesSrore } from "../../stores/useConversationStore";
           selectedImage.type === "image/jpeg" ||
           selectedImage.type === "image/webp") {
             updateImages(selectedImage);
-            // setImages((prev: File[] | null) => prev ? [...prev, selectedImage] : [selectedImage]);
             setOpenFileMenu(false);
             return;
           }
@@ -43,7 +40,6 @@ import { useFilesSrore } from "../../stores/useConversationStore";
       if (selectedFile.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
           selectedFile.type === "application/pdf" ) {
             updateFiles(selectedFile);
-            // setFiles((prev: File[] | null) => prev ? [...prev, selectedFile] : [selectedFile]);
             setOpenFileMenu(false);
             return;
           }

@@ -12,7 +12,7 @@ function FilesContainer({ files, type }: { files: File[]; type: string }) {
     const design = useContext(DesignContext);
 
   return (
-    <div className={`${files.length > 0 ? 'flex' : 'hidden'} flex-wrap gap-2 pb-2 bg-white/30`}  >
+    <div className={`${files.length > 0 ? 'flex' : 'hidden'} flex-wrap gap-2 pb-2 bg-white/30 w-fit`}  >
       {files.map((file: File) => (
         <div key={file.name} className="flex items-center gap-2 p-2 underline" >
           {type === "files" ? (
