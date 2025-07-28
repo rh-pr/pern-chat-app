@@ -1,18 +1,30 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
     import { Link } from "react-router-dom";
     import { DesignContext } from "../context/DesignContext";
+    import { X } from 'lucide-react';
+
     
     function SignUp() {
         const design = useContext(DesignContext);
         const colors = design?.colors;
+
+        const [isFile, setIsFile] = useState(false);
+
+        const handleFiel = () => {
+            setIsFile(true);
+        }
+
+        const deleteFile = () => {
+            setIsFile(false);
+        }
     
       return (
-        <div className={`flex flex-col items-center justify-center w-full  h-full`}>
-            <div className={` w-5/12 p-6 rounded-[30px] shadow-md  bg-clip-padding`}
-                style={{backgroundColor: colors?.bgColor}}>
-                <h1 className={`text-3xl font-black text-center`}
+        <div className={`flex flex-col items-center justify-center w-full   h-full`}>
+            <div className={`w-11/12 md:w-5/12 p-6 rounded-[30px] shadow-md h-[80vh] md:h-[90vh] overflow-auto sscrollbar-hide bg-clip-padding`}
+                style={{backgroundColor: colors?.bgColor, scrollbarWidth: 'none'}}>
+                <h1 className={`text-xl md:text-3xl font-black text-center`}
                     style={{color: colors?.headerColor}}>
-                    Login
+                    SignUp
                     <span className={``}> ChatApp</span>
                 </h1>
     
@@ -20,7 +32,7 @@ import { useContext } from "react";
                     <div >
                         <label className={`label`}>
                             <span 
-                                className={` font-bold text-xl`} 
+                                className={` font-bold text-lg md:text-xl`} 
                                 style={{color: colors?.textColor}}>
                                     Username
                             </span>
@@ -28,14 +40,14 @@ import { useContext } from "react";
                         <input 
                             type='text' 
                             placeholder='Enter username' 
-                            className={`w-full input input-bordered h-10  pl-2 mt-2`}  
+                            className={`w-full input input-bordered h-8 md:h-10  pl-2 mt-2`}  
                             style={{backgroundColor: colors?.inputColor}}/>
                     </div>
     
                     <div >
                         <label className={`label`}>
                             <span 
-                                className={` font-bold text-xl`} 
+                                className={` font-bold text-lg md:text-xl`} 
                                 style={{color: colors?.textColor}}>
                                     Full Name
                             </span>
@@ -43,14 +55,14 @@ import { useContext } from "react";
                         <input 
                             type='text' 
                             placeholder='Enter username' 
-                            className={`w-full input input-bordered h-10  pl-2 mt-2`}  
+                            className={`w-full input input-bordered h-8 md:h-10  pl-2 mt-2`}  
                             style={{backgroundColor: colors?.inputColor}}/>
                     </div>
     
                     <div>
                         <label className={`label`}>
                             <span 
-                                className={`font-bold text-xl`} 
+                                className={`font-bold text-lg md:text-xl`} 
                                 style={{color: colors?.textColor}}>
                                     Password
                             </span>
@@ -58,14 +70,14 @@ import { useContext } from "react";
                         <input
                             type='password'
                             placeholder='Enter Password'
-                            className={`w-full input input-bordered h-10 bg-[${colors?.inputColor}] pl-2 mt-2 `}
+                            className={`w-full input input-bordered h-8 md:h-10 bg-[${colors?.inputColor}] pl-2 mt-2 `}
                             style={{backgroundColor: colors?.inputColor}} />
                     </div>
     
                     <div>
                         <label className={`label`}>
                             <span 
-                                className={`font-bold text-xl`} 
+                                className={`font-bold text-lg md:text-xl`} 
                                 style={{color: colors?.textColor}}>
                                     Confirm Password
                             </span>
@@ -73,19 +85,40 @@ import { useContext } from "react";
                         <input
                             type='password'
                             placeholder='Enter Password'
-                            className={`w-full input input-bordered h-10 pl-2 mt-2 `}
+                            className={`w-full input input-bordered h-8 md:h-10 pl-2 mt-2 `}
                             style={{backgroundColor: colors?.inputColor}} />
+                    </div>
+
+                    <div className={`flex  flex-row justify-between`}>
+                        <label className={`label flex flex-column`} >
+                            <span 
+                                className={`font-bold text-lg md:text-xl`} 
+                                style={{color: colors?.textColor}}>
+                                    Photo
+                            </span>
+                            <input
+                                type='file'
+                                onChange={handleFiel}
+                                placeholder='photo'
+                                className={`hidden pl-2 input input-bordered `}
+                                style={{backgroundColor: colors?.inputColor}} />
+                        </label>
+
+                        {isFile && <figure className={`w-30 h-30 md:w-40 md:h-40 br-10 rounded-[10px]`} style={{backgroundColor: colors?.inputColor}}>
+                            <p className="font-bold" onClick={deleteFile}><X/></p>
+                            <img src="" alt=""/>
+                        </figure>}
                     </div>
     
                     <div>
                        <div className="w-full flex gap-10 ">
                           <div className="flex items-center gap-4">
-                            <label htmlFor="male"  className={`font-bold text-xl`}  style={{color: colors?.textColor}} >Male</label>
-                            <input type="radio" id="male" name="gender" value="Male"  className={`radio w-full input input-bordered h-6 pl-2 mt-2 `}/>
+                            <label htmlFor="male"  className={`font-bold text-lg md:text-xl`}  style={{color: colors?.textColor}} >Male</label>
+                            <input type="radio" id="male" name="gender" value="Male"  className={`radio w-full input input-bordered h-4 md:h-6 pl-2 mt-2 `}/>
                           </div>
                            <div className="flex items-center gap-4">
-                           <label htmlFor="female"  className={`font-bold text-xl`}  style={{color: colors?.textColor}} >Female</label>
-                           <input type="radio" id="female" name="gender" value="Female"  className={`radio w-full input input-bordered h-6 pl-2 mt-2 `}/>
+                           <label htmlFor="female"  className={`font-bold text-lg md:text-xl`}  style={{color: colors?.textColor}} >Female</label>
+                           <input type="radio" id="female" name="gender" value="Female"  className={`radio w-full input input-bordered h-4 md:h-6 pl-2 mt-2 `}/>
                            </div>
                        </div>
                     </div>
@@ -98,7 +131,7 @@ import { useContext } from "react";
                     </Link>
     
                     <div className="w-full flex justify-center">
-                        <button className={`font-bold py-2 px-4 text-xl  rounded-[10px] `}
+                        <button className={`font-bold py-2 px-4 text-lg md:text-xl  rounded-[10px] `}
                                 style={{color: colors?.headerColor, backgroundColor: colors?.buttonColor}}>Sign Up</button>
                     </div>
                 </form>
