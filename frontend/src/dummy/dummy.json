@@ -1,0 +1,142 @@
+{
+  "users": [
+  {
+    "id": "user1",
+    "username": "alice",
+    "fullName": "Alice Anderson",
+    "password": "hashed_pw_1",
+    "gender": "female",
+    "profilePic": "https://randomuser.me/api/portraits/women/10.jpg",
+    "converationsIds": ["conv1", "conv2", "conv3"]
+  },
+  {
+    "id": "user2",
+    "username": "bob",
+    "fullName": "Bob Brown",
+    "password": "hashed_pw_2",
+    "gender": "male",
+    "profilePic": "https://randomuser.me/api/portraits/men/11.jpg",
+    "converationsIds": ["conv1"]
+  },
+  {
+    "id": "user3",
+    "username": "carla",
+    "fullName": "Carla Carter",
+    "password": "hashed_pw_3",
+    "gender": "female",
+    "profilePic": "https://randomuser.me/api/portraits/women/12.jpg",
+    "converationsIds": []
+  },
+  {
+    "id": "user4",
+    "username": "dan",
+    "fullName": "Dan Davis",
+    "password": "hashed_pw_4",
+    "gender": "male",
+    "profilePic": "https://randomuser.me/api/portraits/men/13.jpg",
+    "converationsIds": ["conv2"]
+  },
+  {
+    "id": "user5",
+    "username": "emma",
+    "fullName": "Emma Edwards",
+    "password": "hashed_pw_5",
+    "gender": "female",
+    "profilePic": "https://randomuser.me/api/portraits/women/14.jpg",
+    "converationsIds": []
+  },
+  {
+    "id": "user6",
+    "username": "frank",
+    "fullName": "Frank Foster",
+    "password": "hashed_pw_6",
+    "gender": "male",
+    "profilePic": "https://randomuser.me/api/portraits/men/15.jpg",
+    "converationsIds": ["conv3"]
+  },
+  {
+    "id": "user7",
+    "username": "grace",
+    "fullName": "Grace Green",
+    "password": "hashed_pw_7",
+    "gender": "female",
+    "profilePic": "https://randomuser.me/api/portraits/women/16.jpg",
+    "converationsIds": ["conv4"]
+  },
+  {
+    "id": "user8",
+    "username": "henry",
+    "fullName": "Henry Hall",
+    "password": "hashed_pw_8",
+    "gender": "male",
+    "profilePic": "https://randomuser.me/api/portraits/men/17.jpg",
+    "converationsIds": ["conv4"]
+  },
+  {
+    "id": "user9",
+    "username": "ivy",
+    "fullName": "Ivy Irwin",
+    "password": "hashed_pw_9",
+    "gender": "female",
+    "profilePic": "https://randomuser.me/api/portraits/women/18.jpg",
+    "converationsIds": ["conv5"]
+  },
+  {
+    "id": "user10",
+    "username": "jack",
+    "fullName": "Jack Johnson",
+    "password": "hashed_pw_10",
+    "gender": "male",
+    "profilePic": "https://randomuser.me/api/portraits/men/19.jpg",
+    "converationsIds": ["conv5"]
+  }
+  ],
+
+  "currentUser": {
+    "id": "user1",
+    "username": "alice",
+    "fullName": "Alice Anderson",
+    "password": "hashed_pw_1",
+    "gender": "female",
+    "profilePic": "https://randomuser.me/api/portraits/women/10.jpg",
+    "converationsIds": ["conv1"]
+  },
+
+  "conversations": [
+    {
+      "id": "conv1",
+      "participantIds": ["user1", "user2"],
+      "messageIds": [],
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "updatedAt": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "conv2",
+      "participantIds": ["user1", "user4"],
+      "messageIds": [],
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "updatedAt": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "conv3",
+      "participantIds": ["user1", "user6"],
+      "messageIds": [],
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "updatedAt": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "conv4",
+      "participantIds": ["user7", "user8"],
+      "messageIds": [],
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "updatedAt": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "conv5",
+      "participantIds": ["user9", "user10"],
+      "messageIds": [],
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "updatedAt": "2025-01-01T00:00:00.000Z"
+    }
+  ]
+}

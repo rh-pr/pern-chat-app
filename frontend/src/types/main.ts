@@ -15,10 +15,30 @@ export type DesignContextType = {
 }
 
 export type ConversationsType = {
-    id: number,
-		fullName: string,
-		profilePic: string,
-		emoji?: string,
+    id:        string,
+    createdAt: Date,
+    updatedAt: Date,
+
+    participantIds: string[],
+    messageIds: string[],
+}
+
+export type ConversationsDatail = {
+  id: string, 
+  fullName: string,
+  profilePic: string,
+  lastMsg: string,
+}
+
+export type User = {
+      id:         string,   
+      username:   string,  
+      fullName:   string,
+      password:   string,
+      gender:     string,
+      profilePic: string,
+      createdAt:  Date,
+      updatedAt: Date,
 }
 
 //change later
@@ -69,11 +89,14 @@ export type ConversationsState = {
 };
 
 export type UsersState = {
+  currentUser: UserType | null,
   users: UserType[],
   openUserList: boolean,
   setUsers: (users: UserType[]) => void,
   updateUsers: (newUser: UserType) => void,
-  toggleOpenList: () => void
+  toggleOpenList: () => void,
+  getCurrentUser: () => UserType | null,
+  setCurrentUser: (currentUser: UserType | null) => void
 }
 
 export interface TextareaProps {

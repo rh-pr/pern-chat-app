@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import useConversationsStore from '../stores/useConversationsStore';
 
-import { conversationa } from "../dummy/dummyData";
+import data from '../dummy/dummy.json';
 
 
 const useConversations = () => {
@@ -10,13 +10,22 @@ const useConversations = () => {
     
 
     const getConversations = () => {
-        setConversations(conversationa); 
+        const formatted = data.conversations.map(conv => ({
+            ...conv,
+            createdAt: new Date(conv.createdAt),
+            updatedAt: new Date(conv.updatedAt),
+        }));
+
+        setConversations(formatted);
+
+        console.log('conversation ', formatted)
     };
 
     const filteredConversations = (query: string) => {
-        return conversations.filter((conv) =>
-            conv.fullName.toLowerCase().includes(query.toLowerCase())
-          );
+        // return conversations.filter((conv) =>
+        //     conv.fullName.toLowerCase().includes(query.toLowerCase())
+        //   );
+        return conversations;
     }
   
 

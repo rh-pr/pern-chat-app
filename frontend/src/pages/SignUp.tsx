@@ -9,9 +9,13 @@ import { useContext, useState } from "react";
         const colors = design?.colors;
 
         const [isFile, setIsFile] = useState(false);
+        const [ imgFile, setImgFile ] = useState<File | null>(null);
 
-        const handleFiel = () => {
+        const handleFiel = (e: React.ChangeEvent<HTMLInputElement>) => {
             setIsFile(true);
+            if (e.target.files && e.target.files[0]) {
+               setImgFile(e.target.files[0]);
+            }
         }
 
         const deleteFile = () => {
@@ -104,10 +108,25 @@ import { useContext, useState } from "react";
                                 style={{backgroundColor: colors?.inputColor}} />
                         </label>
 
-                        {isFile && <figure className={`w-30 h-30 md:w-40 md:h-40 br-10 rounded-[10px]`} style={{backgroundColor: colors?.inputColor}}>
-                            <p className="font-bold" onClick={deleteFile}><X/></p>
-                            <img src="" alt=""/>
-                        </figure>}
+
+
+                        {isFile && imgFile && ( <figure
+                            className="relative w-30 h-30 md:w-40 md:h-40 rounded-[10px] overflow-hidden"
+                            style={{ backgroundColor: colors?.inputColor }}>
+                            <button
+                                className={`absolute top-1 z-10 font-black p-1 text-${colors?.bgColor}`}
+                                onClick={deleteFile}
+                                >
+                                <X />
+                            </button>
+
+                            <img
+                                src={URL.createObjectURL(imgFile)}
+                                alt={imgFile.name}
+                                className="w-full h-full bg-cover rounded-md"
+                            />
+                        </figure>
+                        )}
                     </div>
     
                     <div>
