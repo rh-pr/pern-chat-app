@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useAuthStore from "../stores/useAuthStore";
+import { getCurrentUser } from "../servieces/authService";
 // import axios from 'axios';
-import { currentUser as user } from '../dummy/dummy.json';
 
 const useAuth = () => {
     const [loading, setLoading] = useState<boolean>(true);
@@ -12,12 +12,8 @@ const useAuth = () => {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                //change later
-                // const res = await axios.get('/auth/profile');
-                // setCurrentUser(res.data.username);
-
-                // setCurrentUser(user);
-                setCurrentUser(null)
+                const user = await getCurrentUser();
+                setCurrentUser(user);
             } catch {
                 setCurrentUser(null);
             } finally {
