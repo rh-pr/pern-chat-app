@@ -37,8 +37,8 @@ export type User = {
       password:   string,
       gender:     string,
       profilePic: string,
-      createdAt:  Date,
-      updatedAt: Date,
+      createdAt?:  Date,
+      updatedAt?: Date,
 }
 
 //change later
@@ -89,14 +89,17 @@ export type ConversationsState = {
 };
 
 export type UsersState = {
-  currentUser: UserType | null,
-  users: UserType[],
+  users: User[],
   openUserList: boolean,
-  setUsers: (users: UserType[]) => void,
-  updateUsers: (newUser: UserType) => void,
+  setUsers: (users: User[]) => void,
+  updateUsers: (newUser: User) => void,
   toggleOpenList: () => void,
-  getCurrentUser: () => UserType | null,
-  setCurrentUser: (currentUser: UserType | null) => void
+ 
+}
+
+export type AuthState = {
+  currentUser: User | null,
+  setCurrentUser: (currentUser: User | null) => void
 }
 
 export interface TextareaProps {

@@ -4,7 +4,6 @@ import { UsersState, UserType } from '../types/main';
 const useUsersStore = create<UsersState>((set,get) => ({
     users: [],
     openUserList: false,
-    currentUser: null,
 
     setUsers: (newUsers: UserType[]) => 
         set(() => ({ users: newUsers})),
@@ -14,8 +13,6 @@ const useUsersStore = create<UsersState>((set,get) => ({
 
     toggleOpenList: () => 
         set(() => ({openUserList: !get().openUserList})),
-    getCurrentUser: () => get().currentUser,
-    // setCurrentUser: (user) => set({ currentUser: user }),
 
 }))
 
