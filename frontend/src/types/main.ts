@@ -118,3 +118,8 @@ export type UploadMenuType = {
 export type MessagesComponentType = {
   conversation: MessageType[] | null
 }
+
+export type LoginFormType = {
+  username:string,
+  password: string
+}

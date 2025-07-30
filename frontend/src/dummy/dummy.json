@@ -4,7 +4,7 @@
     "id": "user1",
     "username": "alice",
     "fullName": "Alice Anderson",
-    "password": "hashed_pw_1",
+    "password": "111111",
     "gender": "female",
     "profilePic": "https://randomuser.me/api/portraits/women/10.jpg",
     "converationsIds": ["conv1", "conv2", "conv3"]
@@ -96,7 +96,7 @@
     "id": "user1",
     "username": "alice",
     "fullName": "Alice Anderson",
-    "password": "hashed_pw_1",
+    "password": "111111",
     "gender": "female",
     "profilePic": "https://randomuser.me/api/portraits/women/10.jpg",
     "converationsIds": ["conv1"]
