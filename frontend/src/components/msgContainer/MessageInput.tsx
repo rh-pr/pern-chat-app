@@ -4,7 +4,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { useContext, useState, useRef, FormEvent, useCallback, useMemo, useEffect } from "react";
 import { DesignContext } from "../../context/DesignContext";
 import {  getTextAreaStyle } from '../../utils/msgHandlers';
-import useConversation from "../../hooks/useConversation";
+import useConversation from "../../hooks/chat/useConversation";
 import UploadMenu from "./UploadMenu";
 import FilesContainer from "./FilesContainer";
 

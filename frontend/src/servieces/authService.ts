@@ -1,7 +1,9 @@
 import api from '../api/axios';
 
 import { currentUser as user } from '../dummy/dummy.json';
+
 import { LoginFormType } from '../types/main';
+import { authValidation } from '../utils/authValidation';
 
 
 //todo: add serverRequest
@@ -10,6 +12,7 @@ export const getCurrentUser = async () => {
         // const res = await api.get('/profile');
         // return res.data;
         // return user;
+        console.log(user);
         return null;
 
     } catch (err) {
@@ -34,3 +37,24 @@ export const login = async (formData: LoginFormType) => {
         return null;
     }
 }
+
+//todo: delete console
+export const signup = async (formData: FormData) => {
+    try {
+        
+        if (!authValidation(formData)) {
+            throw new Error('Invalid data...');
+        }
+        
+        const res = await api.post('/signup', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        return res.data;
+    } catch (err) {
+         console.error('Error by signup: ', err);
+        return null;
+    }
+}
+

@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { DesignContext } from "../../context/DesignContext"
-import useUsers from "../../hooks/useUsers";
+import useUsers from "../../hooks/chat/useUsers";
 
 
 function NewChatBtn() {

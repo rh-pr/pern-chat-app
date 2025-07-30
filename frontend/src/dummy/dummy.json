@@ -5,8 +5,9 @@
     "username": "alice",
     "fullName": "Alice Anderson",
     "password": "111111",
+    "email": "email1@gmail.com",
     "gender": "female",
-    "profilePic": "https://randomuser.me/api/portraits/women/10.jpg",
+    "profilePic": "https://avatar.iran.liara.run/public/boy?username=johndoe",
     "converationsIds": ["conv1", "conv2", "conv3"]
   },
   {
@@ -14,6 +15,7 @@
     "username": "bob",
     "fullName": "Bob Brown",
     "password": "hashed_pw_2",
+    "email": "email2@gmail.com",
     "gender": "male",
     "profilePic": "https://randomuser.me/api/portraits/men/11.jpg",
     "converationsIds": ["conv1"]
@@ -23,6 +25,7 @@
     "username": "carla",
     "fullName": "Carla Carter",
     "password": "hashed_pw_3",
+    "email": "email3@gmail.com",
     "gender": "female",
     "profilePic": "https://randomuser.me/api/portraits/women/12.jpg",
     "converationsIds": []
@@ -32,6 +35,7 @@
     "username": "dan",
     "fullName": "Dan Davis",
     "password": "hashed_pw_4",
+    "email": "email4@gmail.com",
     "gender": "male",
     "profilePic": "https://randomuser.me/api/portraits/men/13.jpg",
     "converationsIds": ["conv2"]
@@ -41,6 +45,7 @@
     "username": "emma",
     "fullName": "Emma Edwards",
     "password": "hashed_pw_5",
+    "email": "email5@gmail.com",
     "gender": "female",
     "profilePic": "https://randomuser.me/api/portraits/women/14.jpg",
     "converationsIds": []
@@ -50,6 +55,7 @@
     "username": "frank",
     "fullName": "Frank Foster",
     "password": "hashed_pw_6",
+    "email": "email6@gmail.com",
     "gender": "male",
     "profilePic": "https://randomuser.me/api/portraits/men/15.jpg",
     "converationsIds": ["conv3"]
@@ -59,6 +65,7 @@
     "username": "grace",
     "fullName": "Grace Green",
     "password": "hashed_pw_7",
+    "email": "email7@gmail.com",
     "gender": "female",
     "profilePic": "https://randomuser.me/api/portraits/women/16.jpg",
     "converationsIds": ["conv4"]
@@ -68,6 +75,7 @@
     "username": "henry",
     "fullName": "Henry Hall",
     "password": "hashed_pw_8",
+    "email": "email8@gmail.com",
     "gender": "male",
     "profilePic": "https://randomuser.me/api/portraits/men/17.jpg",
     "converationsIds": ["conv4"]
@@ -77,6 +85,7 @@
     "username": "ivy",
     "fullName": "Ivy Irwin",
     "password": "hashed_pw_9",
+    "email": "email9@gmail.com",
     "gender": "female",
     "profilePic": "https://randomuser.me/api/portraits/women/18.jpg",
     "converationsIds": ["conv5"]
@@ -86,6 +95,7 @@
     "username": "jack",
     "fullName": "Jack Johnson",
     "password": "hashed_pw_10",
+    "email": "email10@gmail.com",
     "gender": "male",
     "profilePic": "https://randomuser.me/api/portraits/men/19.jpg",
     "converationsIds": ["conv5"]
@@ -97,6 +107,7 @@
     "username": "alice",
     "fullName": "Alice Anderson",
     "password": "111111",
+    "email": "email1@gmail.com",
     "gender": "female",
     "profilePic": "https://randomuser.me/api/portraits/women/10.jpg",
     "converationsIds": ["conv1"]

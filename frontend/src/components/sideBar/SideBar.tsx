@@ -5,7 +5,7 @@ import Conversations from "./Conversations";
 import LogOutBtn from "./LogOutBtn";
 import NewChatBtn from "./NewChatBtn";
 import SearchList from "./SearchList";
-import useUsers from "../../hooks/useUsers";
+import useUsers from "../../hooks/chat/useUsers";
 
 
 function SideBar() {

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import useConversationsStore from '../stores/useConversationsStore';
+import useConversationsStore from '../../stores/useConversationsStore';
 
-import data from '../dummy/dummy.json';
+import data from '../../dummy/dummy.json';
 
 
 const useConversations = () => {
@@ -21,7 +21,7 @@ const useConversations = () => {
         console.log('conversation ', formatted)
     };
 
-    const filteredConversations = (query: string) => {
+    const filteredConversations = () => {
         // return conversations.filter((conv) =>
         //     conv.fullName.toLowerCase().includes(query.toLowerCase())
         //   );

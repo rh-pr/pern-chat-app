@@ -1,26 +1,22 @@
-import { useContext, useState } from "react";
+    import { useContext } from "react";
     import { Link } from "react-router-dom";
     import { DesignContext } from "../context/DesignContext";
     import { X } from 'lucide-react';
+    import { useSignupForm } from "../hooks/auth/useSignup";
 
-    
     function SignUp() {
         const design = useContext(DesignContext);
         const colors = design?.colors;
 
-        const [isFile, setIsFile] = useState(false);
-        const [ imgFile, setImgFile ] = useState<File | null>(null);
-
-        const handleFiel = (e: React.ChangeEvent<HTMLInputElement>) => {
-            setIsFile(true);
-            if (e.target.files && e.target.files[0]) {
-               setImgFile(e.target.files[0]);
-            }
-        }
-
-        const deleteFile = () => {
-            setIsFile(false);
-        }
+        const {
+            isFile,
+            imgFile,
+            formData,
+            msgError,
+            handleSignupForm, 
+            handleChanges, 
+            deleteFile} = useSignupForm();
+       
     
       return (
         <div className={`flex flex-col items-center justify-center w-full   h-full`}>
@@ -32,7 +28,7 @@ import { useContext, useState } from "react";
                     <span className={``}> ChatApp</span>
                 </h1>
     
-                <form className="flex flex-col gap-4 pt-10">
+                <form className="flex flex-col gap-4 pt-10" onSubmit={handleSignupForm}>
                     <div >
                         <label className={`label`}>
                             <span 
@@ -43,6 +39,10 @@ import { useContext, useState } from "react";
                         </label>
                         <input 
                             type='text' 
+                            name="username"
+                            required
+                            value={formData.username}
+                            onChange={handleChanges}
                             placeholder='Enter username' 
                             className={`w-full input input-bordered h-8 md:h-10  pl-2 mt-2`}  
                             style={{backgroundColor: colors?.inputColor}}/>
@@ -58,10 +58,34 @@ import { useContext, useState } from "react";
                         </label>
                         <input 
                             type='text' 
+                            name="fullname"
+                            required
+                            value={formData.fullname}
+                            onChange={handleChanges}
                             placeholder='Enter username' 
                             className={`w-full input input-bordered h-8 md:h-10  pl-2 mt-2`}  
                             style={{backgroundColor: colors?.inputColor}}/>
                     </div>
+
+                    <div >
+                        <label className={`label`}>
+                            <span 
+                                className={` font-bold text-lg md:text-xl`} 
+                                style={{color: colors?.textColor}}>
+                                    Email
+                            </span>
+                        </label>
+                        <input 
+                            type='email' 
+                            name="email"
+                            required
+                            value={formData.email}
+                            onChange={handleChanges}
+                            placeholder='Enter username' 
+                            className={`w-full input input-bordered h-8 md:h-10  pl-2 mt-2`}  
+                            style={{backgroundColor: colors?.inputColor}}/>
+                    </div>
+    
     
                     <div>
                         <label className={`label`}>
@@ -73,6 +97,11 @@ import { useContext, useState } from "react";
                         </label>
                         <input
                             type='password'
+                            name="password"
+                            required
+                            value={formData.password}
+                            onChange={handleChanges}
+                            minLength={6}
                             placeholder='Enter Password'
                             className={`w-full input input-bordered h-8 md:h-10 bg-[${colors?.inputColor}] pl-2 mt-2 `}
                             style={{backgroundColor: colors?.inputColor}} />
@@ -88,6 +117,11 @@ import { useContext, useState } from "react";
                         </label>
                         <input
                             type='password'
+                            name="confirm"
+                            required
+                            value={formData.confirm}
+                            onChange={handleChanges}
+                            minLength={6}
                             placeholder='Enter Password'
                             className={`w-full input input-bordered h-8 md:h-10 pl-2 mt-2 `}
                             style={{backgroundColor: colors?.inputColor}} />
@@ -102,7 +136,8 @@ import { useContext, useState } from "react";
                             </span>
                             <input
                                 type='file'
-                                onChange={handleFiel}
+                                name="photo"
+                                onChange={handleChanges}
                                 placeholder='photo'
                                 className={`hidden pl-2 input input-bordered `}
                                 style={{backgroundColor: colors?.inputColor}} />
@@ -133,14 +168,28 @@ import { useContext, useState } from "react";
                        <div className="w-full flex gap-10 ">
                           <div className="flex items-center gap-4">
                             <label htmlFor="male"  className={`font-bold text-lg md:text-xl`}  style={{color: colors?.textColor}} >Male</label>
-                            <input type="radio" id="male" name="gender" value="Male"  className={`radio w-full input input-bordered h-4 md:h-6 pl-2 mt-2 `}/>
+                            <input type="radio" 
+                                   id="male" 
+                                   name="gender" 
+                                   value="male"  
+                                   required
+                                   onChange={handleChanges}
+                                   className={`radio w-full input input-bordered h-4 md:h-6 pl-2 mt-2 `}/>
                           </div>
                            <div className="flex items-center gap-4">
                            <label htmlFor="female"  className={`font-bold text-lg md:text-xl`}  style={{color: colors?.textColor}} >Female</label>
-                           <input type="radio" id="female" name="gender" value="Female"  className={`radio w-full input input-bordered h-4 md:h-6 pl-2 mt-2 `}/>
+                           <input type="radio" 
+                                  id="female" 
+                                  name="gender" 
+                                  value="female"  
+                                  required
+                                  onChange={handleChanges}
+                                  className={`radio w-full input input-bordered h-4 md:h-6 pl-2 mt-2 `}/>
                            </div>
                        </div>
                     </div>
+
+                    {msgError.trim().length > 0 && <p className="text-red-600 font-bold">{msgError}</p>}
     
                     <Link
                         to='/login'
@@ -150,7 +199,7 @@ import { useContext, useState } from "react";
                     </Link>
     
                     <div className="w-full flex justify-center">
-                        <button className={`font-bold py-2 px-4 text-lg md:text-xl  rounded-[10px] `}
+                        <button type="submit" className={`font-bold py-2 px-4 text-lg md:text-xl  rounded-[10px] `}
                                 style={{color: colors?.headerColor, backgroundColor: colors?.buttonColor}}>Sign Up</button>
                     </div>
                 </form>

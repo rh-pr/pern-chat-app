@@ -1,7 +1,7 @@
 
 import Message from "./Message";
 import { MessageType } from "../../types/main";
-import useConversation from "../../hooks/useConversation";
+import useConversation from "../../hooks/chat/useConversation";
 import { useEffect, useRef } from "react";
 
 //chage type of id letter

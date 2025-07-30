@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import useAuthStore from "../stores/useAuthStore";
-import { getCurrentUser } from "../servieces/authService";
+import useAuthStore from "../../stores/useAuthStore";
+import { getCurrentUser } from "../../servieces/authService";
 
 const useAuth = () => {
     const [loading, setLoading] = useState<boolean>(true);

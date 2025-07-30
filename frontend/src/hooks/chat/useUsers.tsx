@@ -1,5 +1,5 @@
-import useUsersStore from "../stores/useUssersStore";
-import { conversationa } from '../dummy/dummyData';
+import useUsersStore from "../../stores/useUssersStore";
+import {users as usersList} from '../../dummy/dummy.json';
 import { useEffect } from "react";
 
 const useUsers = () => {
@@ -11,7 +11,7 @@ const useUsers = () => {
 
 
     const getUsers = () => {
-        setUsers(conversationa.sort());
+        setUsers(usersList);
     }
 
     const filteredUser = (query: string) => {

@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
-import {useConversationStore, useFilesSrore} from '../stores/useConversationStore';
+import {useConversationStore, useFilesSrore} from '../../stores/useConversationStore';
 
-import { DUMMY_MESSAGES } from "../dummy/dummyData";
+import { DUMMY_MESSAGES } from "../../dummy/dummyData";
 
 
 const useConversation = () => {

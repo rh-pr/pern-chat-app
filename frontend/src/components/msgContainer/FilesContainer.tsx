@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import React from "react";
 import { DesignContext } from "../../context/DesignContext";
-import useConversation from "../../hooks/useConversation";
+import useConversation from "../../hooks/chat/useConversation";
 import { X } from "lucide-react";
 
 

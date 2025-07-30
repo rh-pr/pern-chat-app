@@ -1,14 +1,14 @@
 import { create } from 'zustand';
-import { UsersState, UserType } from '../types/main';
+import { UsersState, User } from '../types/main';
 
 const useUsersStore = create<UsersState>((set,get) => ({
     users: [],
     openUserList: false,
 
-    setUsers: (newUsers: UserType[]) => 
+    setUsers: (newUsers: User[]) => 
         set(() => ({ users: newUsers})),
 
-    updateUsers: (newUser: UserType) => 
+    updateUsers: (newUser: User) => 
         set((state) => ({ users: [...state.users, newUser]})),
 
     toggleOpenList: () => 

@@ -13,7 +13,7 @@ import bgDark from './assets/images/bg-dark.jpg';
 
 import { DesignContext } from "./context/DesignContext";
 import Thema from "./components/Thema";
-import useAuth from "./hooks/useAuth";
+import useAuth from "./hooks/auth/useAuth";
 import useAuthStore from "./stores/useAuthStore";
 
 

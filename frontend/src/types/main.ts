@@ -35,6 +35,7 @@ export type User = {
       username:   string,  
       fullName:   string,
       password:   string,
+      email:      string,
       gender:     string,
       profilePic: string,
       createdAt?:  Date,
@@ -122,4 +123,14 @@ export type MessagesComponentType = {
 export type LoginFormType = {
   username:string,
   password: string
+}
+
+export type SignupFormType = {
+  username: string,
+  fullname: string,
+  password: string,
+  confirm: string,
+  email: string,
+  photo: File | string,
+  gender: string
 }
