@@ -11,9 +11,9 @@ export const getCurrentUser = async () => {
     try {
         // const res = await api.get('/profile');
         // return res.data;
-        // return user;
-        console.log(user);
-        return null;
+        return user;
+        // console.log(user);
+        // return null;
 
     } catch (err) {
         console.error('Error by retrieving user: ', err);

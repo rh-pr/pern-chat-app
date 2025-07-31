@@ -3,11 +3,11 @@ import { create } from "zustand";
 
 const useConversationStore = create<ConversationState>((set) => ({
     conversation: [],
-    
+    // todo: add delete conversation
     updateConversation: (newMessage: MessageType) =>
-        set((state) => ({ conversation: [...state.conversation, newMessage] })),
+       set((state) => ({ conversation: [...(state.conversation ?? []), newMessage] })),
 
-    setConversation: (newConversation: MessageType[]) =>
+    setConversation: (newConversation: MessageType[] | null) =>
         set(() => ({ conversation: newConversation }))
     
 }));

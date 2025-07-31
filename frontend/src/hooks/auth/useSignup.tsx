@@ -35,12 +35,13 @@ export const useSignupForm = () => {
             setMsgError('');
 
             const user = await signup(data);
+            
             if (user) {
                 setFormData(defaultsignUp);
                 setCurrentUser(user);
                 navigate('/');
             } else {
-                setMsgError('Something went wrong... Trye again!');
+                setMsgError(user.message);
             }
         }
 

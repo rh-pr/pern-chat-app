@@ -65,9 +65,9 @@ export type ChatContextType = {
 
 
 export type ConversationState = {
-  conversation: MessageType[],
+  conversation: MessageType[] | null,
   updateConversation: (newMessage: MessageType) => void,
-  setConversation: (newConversation: MessageType[]) => void,
+  setConversation: (newConversation: MessageType[] | null) => void;
 };
 
 export type FilesState = {

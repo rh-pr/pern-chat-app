@@ -2,6 +2,7 @@ import { useCallback, useEffect } from "react";
 import {useConversationStore, useFilesSrore} from '../../stores/useConversationStore';
 
 import { DUMMY_MESSAGES } from "../../dummy/dummyData";
+import { conversations } from '../../dummy/dummy.json';
 
 
 const useConversation = () => {
@@ -23,9 +24,8 @@ const useConversation = () => {
 
 
     const getConversation = () => {
-        // const dum = DUMMY_MESSAGES.filter((msg => msg.fromMe === false))
         setConversation(DUMMY_MESSAGES); 
-        // setConversation(dum); 
+        // setConversation(null); 
     };
 
     const removeFile = useCallback((fileName: string, type: string) => {
@@ -49,12 +49,14 @@ const useConversation = () => {
         deletedImages();
     },[updateConversation]);
 
+
     useEffect(() => {
         getConversation();
     }, []);
 
     return {
         conversation, 
+        setConversation,
         getConversation,
         updateConversation,
         sendMsg,
