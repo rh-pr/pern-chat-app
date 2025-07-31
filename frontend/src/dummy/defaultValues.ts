@@ -4,6 +4,6 @@ export const defaultsignUp = {
     password: '',
     confirm: '',
     email: '',
-    photo: '',
+    profilePic: '',
     gender: ''
 }

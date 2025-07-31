@@ -1,42 +1,35 @@
 import { useEffect } from "react";
 import useConversationsStore from '../../stores/useConversationsStore';
 
-import data from '../../dummy/dummy.json';
+import { getConversations } from "../../servieces/conversationsServiese";
+import useAuthStore from "../../stores/useAuthStore";
 
 
 const useConversations = () => {
     const conversations = useConversationsStore((state) => state.conversations);
     const setConversations = useConversationsStore((state) => state.setConversations);
-    
+    const currentUser = useAuthStore(state => state.currentUser);
 
-    const getConversations = () => {
-        const formatted = data.conversations.map(conv => ({
-            ...conv,
-            createdAt: new Date(conv.createdAt),
-            updatedAt: new Date(conv.updatedAt),
-        }));
 
-        setConversations(formatted);
-
-        console.log('conversation ', formatted)
-    };
-
-    const filteredConversations = () => {
-        // return conversations.filter((conv) =>
-        //     conv.fullName.toLowerCase().includes(query.toLowerCase())
-        //   );
-        return conversations;
+    const filteredConversations = (query: string) => {
+        return conversations.filter((conv) =>
+            conv.participants.some(user => user.fullName.toLowerCase().includes(query.toLowerCase()))
+          );
     }
-  
 
     useEffect(() => {
-        getConversations();
-    }, []);
+       const fetchConverations = async() => {
+            const data = await getConversations(currentUser.id);
+            if(data) {
+                setConversations(data);
+            }
+            }
+            fetchConverations();
+        }, [currentUser]);
 
     return {
         conversations,
         filteredConversations, 
-        getConversations,
     };
 };
 

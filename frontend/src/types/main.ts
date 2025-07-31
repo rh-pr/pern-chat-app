@@ -14,14 +14,15 @@ export type DesignContextType = {
   setColors: (colors: Colors) => void
 }
 
-export type ConversationsType = {
-    id:        string,
-    createdAt: Date,
-    updatedAt: Date,
 
-    participantIds: string[],
-    messageIds: string[],
+//data types
+
+export type ConversationsType = {
+  id: string,
+  participants: UserType[],
+  lastMessage: MessageType | null
 }
+
 
 export type ConversationsDatail = {
   id: string, 
@@ -30,7 +31,18 @@ export type ConversationsDatail = {
   lastMsg: string,
 }
 
-export type User = {
+export type MessageType = {
+  id: string,
+  body: string,
+  senderId: string,
+
+  files?: string[],
+  images?: string[],
+
+  createdAt: string,
+}
+
+export type UserType = {
       id:         string,   
       username:   string,  
       fullName:   string,
@@ -38,32 +50,25 @@ export type User = {
       email:      string,
       gender:     string,
       profilePic: string,
-      createdAt?:  Date,
-      updatedAt?: Date,
+      createdAt?:  string,
+      updatedAt?: string,
 }
 
-//change later
-export type UserType = {
-  id: number,
-  fullName: string,
-  profilePic: string,
-  emoji?: string,
-}
+// export type MessageType = {
+//     id: number,
+// 		fromMe: boolean,
+// 		body: string,
+//     files?: File[] | null,
+//     images?: File[] | null
+// }
 
-export type MessageType = {
-    id: number,
-		fromMe: boolean,
-		body: string,
-    files?: File[] | null,
-    images?: File[] | null
-}
-
+//context
 export type ChatContextType = {
     conversation: MessageType[] | null,
     setConversation: (conversation: MessageType[]) => void
 }
 
-
+//states
 export type ConversationState = {
   conversation: MessageType[] | null,
   updateConversation: (newMessage: MessageType) => void,
@@ -103,6 +108,7 @@ export type AuthState = {
   setCurrentUser: (currentUser: User | null) => void
 }
 
+//props
 export interface TextareaProps {
   msgText: string;
   setMsgText: (text: string) => void;
@@ -120,6 +126,7 @@ export type MessagesComponentType = {
   conversation: MessageType[] | null
 }
 
+//auth
 export type LoginFormType = {
   username:string,
   password: string
@@ -131,6 +138,6 @@ export type SignupFormType = {
   password: string,
   confirm: string,
   email: string,
-  photo: File | string,
+  profilePic: File | string,
   gender: string
 }

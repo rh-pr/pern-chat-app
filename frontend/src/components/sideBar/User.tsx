@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { DesignContext } from "../../context/DesignContext"
 import { CircleFadingPlus } from 'lucide-react';
-import { User as UserType } from "../../types/main";
+import { UserType } from "../../types/main";
 
 
 function User({data}: {data: UserType}) {

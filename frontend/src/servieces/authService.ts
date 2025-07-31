@@ -12,7 +12,6 @@ export const getCurrentUser = async () => {
         // const res = await api.get('/profile');
         // return res.data;
         return user;
-        // console.log(user);
         // return null;
 
     } catch (err) {
@@ -51,6 +50,7 @@ export const signup = async (formData: FormData) => {
                 'Content-Type': 'multipart/form-data'
             }
         });
+        
         return res.data;
     } catch (err) {
          console.error('Error by signup: ', err);

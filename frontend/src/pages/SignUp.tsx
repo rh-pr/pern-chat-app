@@ -10,7 +10,6 @@
 
         const {
             isFile,
-            imgFile,
             formData,
             msgError,
             handleSignupForm, 
@@ -136,16 +135,16 @@
                             </span>
                             <input
                                 type='file'
-                                name="photo"
+                                name="profilePic"
                                 onChange={handleChanges}
-                                placeholder='photo'
+                                placeholder='profilePic'
                                 className={`hidden pl-2 input input-bordered `}
                                 style={{backgroundColor: colors?.inputColor}} />
                         </label>
 
 
 
-                        {isFile && imgFile && ( <figure
+                        {isFile && formData.profilePic && ( <figure
                             className="relative w-30 h-30 md:w-40 md:h-40 rounded-[10px] overflow-hidden"
                             style={{ backgroundColor: colors?.inputColor }}>
                             <button
@@ -156,8 +155,8 @@
                             </button>
 
                             <img
-                                src={URL.createObjectURL(imgFile)}
-                                alt={imgFile.name}
+                                src={URL.createObjectURL(formData.profilePic)}
+                                alt={formData.profilePic.name}
                                 className="w-full h-full bg-cover rounded-md"
                             />
                         </figure>

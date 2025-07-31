@@ -7,7 +7,6 @@ import useAuthStore from "../../stores/useAuthStore";
 
 export const useSignupForm = () => {
         const [isFile, setIsFile] = useState(false);
-        const [ imgFile, setImgFile ] = useState<File | null>(null);
 
         const [formData, setFormData] = useState<SignupFormType>(defaultsignUp);
         const [msgError, setMsgError] = useState<string>('');
@@ -54,7 +53,7 @@ export const useSignupForm = () => {
                     [name]: files[0], 
                 }));
                 setIsFile(true);
-                setImgFile(files[0]);
+                // setImgFile(files[0]);
             } else {
                 setFormData(prev => ({
                     ...prev,
@@ -66,11 +65,10 @@ export const useSignupForm = () => {
 
         const deleteFile = () => {
             setIsFile(false);
-            setFormData(prev => ({...prev, photo: ''}));
+            setFormData(prev => ({...prev, profilePic: ''}));
         }
 
         return {
-            imgFile,
             isFile,
             formData,
             msgError,

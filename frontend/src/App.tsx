@@ -25,6 +25,7 @@ function App() {
   
   const { loading } = useAuth();
   const currentUser = useAuthStore(state => state.currentUser);
+  
   const { conversation, setConversation } = useConversation();
 
   if ( loading ) return <LoadingScreen bg={design?.thema ? bgDark : bg}/>
@@ -33,9 +34,9 @@ function App() {
     <div className="h-screen w-screen flex justify-center items-center "
          style={{backgroundImage: `url(${design?.thema ? bgDark : bg})`}}>
       <Thema />
-      {conversation && <div className='fixed top-2 left-3 font-black '  
-      style={{color: `${design?.colors.buttonColor}`}}
-      onClick={() => setConversation(null)}> <ArrowLeftToLine /></div>}
+      {conversation && <div className='md:hidden fixed top-2 left-3 font-black '  
+          style={{color: `${design?.colors.buttonColor}`}}
+          onClick={() => setConversation(null)}> <ArrowLeftToLine /></div>}
 
       <Routes>
         <Route 

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import useUsers from "../../hooks/chat/useUsers"
-import { User as UserType} from "../../types/main";
+import {UserType} from "../../types/main";
 import User from "./User";
 import { DesignContext } from "../../context/DesignContext";
 
