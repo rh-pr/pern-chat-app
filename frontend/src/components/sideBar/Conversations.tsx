@@ -4,7 +4,7 @@ import Conversation from './Conversation';
 
 function Conversations({query}: {query: string}) {
   //todo: delete console; finished impl.
-  console.log(query);
+  
   const { filteredConversations } = useConversations();
   
   return (

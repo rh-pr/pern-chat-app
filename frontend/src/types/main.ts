@@ -50,6 +50,7 @@ export type UserType = {
       email:      string,
       gender:     string,
       profilePic: string,
+      converationsIds?: string[],
       createdAt?:  string,
       updatedAt?: string,
 }
@@ -72,7 +73,7 @@ export type ChatContextType = {
 export type ConversationState = {
   conversation: MessageType[] | null,
   updateConversation: (newMessage: MessageType) => void,
-  setConversation: (newConversation: MessageType[] | null) => void;
+  setConversation: (newConversation: MessageType[] | null) => void,
 };
 
 export type FilesState = {
@@ -90,8 +91,12 @@ export type FilesState = {
 
 export type ConversationsState = {
   conversations: ConversationsType[],
+  activeConversation: string,
+  currentUserConvList: string[],
   updateConversations: (conversation: ConversationsType) => void,
-  setConversations: (newConversation: ConversationsType[]) => void
+  setConversations: (newConversation: ConversationsType[]) => void,
+  setActiveConversation: (newActiveConversation: string) => void,
+  setCurrentUserConvList: (convList: string[]) => void
 };
 
 export type UsersState = {
