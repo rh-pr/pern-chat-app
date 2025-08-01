@@ -1,10 +1,9 @@
+import React from "react";
 import { useContext, useEffect, useRef, useState } from "react"
 import { DesignContext } from "../../context/DesignContext"
 
-import React from "react";
-
+import useMessages from '../../hooks/chat/useMessages';
 import { UploadMenuType } from "../../types/main";
-import { useFilesSrore } from "../../stores/useConversationStore";
 
   function UploadMenu ({setOpenFileMenu }:  UploadMenuType ) {
 
@@ -14,7 +13,7 @@ import { useFilesSrore } from "../../stores/useConversationStore";
 
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const { updateFiles, updateImages } = useFilesSrore();
+    const { updateFiles, updateImages } = useMessages();
 
 
     const handleImage = (e:  React.ChangeEvent<HTMLInputElement>) => {

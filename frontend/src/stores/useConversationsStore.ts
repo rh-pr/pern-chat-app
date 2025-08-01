@@ -1,7 +1,7 @@
 import { ConversationsState, ConversationsType } from "../types/main";
 import { create } from "zustand";
 
-const useConversationStore = create<ConversationsState>((set) => ({
+const useConversationsStore = create<ConversationsState>((set) => ({
     conversations: [],
     activeConversationId: '',
     currentUserConvList: [],
@@ -22,4 +22,4 @@ const useConversationStore = create<ConversationsState>((set) => ({
         set((state) => ({currentUserConvList: [...state.currentUserConvList, newConversation]}))
 }));
 
-export default useConversationStore;
+export default useConversationsStore;

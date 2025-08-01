@@ -4,14 +4,15 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { useContext, useState, useRef, FormEvent, useCallback, useMemo, useEffect } from "react";
 import { DesignContext } from "../../context/DesignContext";
 import {  getTextAreaStyle } from '../../utils/msgHandlers';
-import useConversation from "../../hooks/chat/useConversation";
+import useMessages from '../../hooks/chat/useMessages';
 import UploadMenu from "./UploadMenu";
 import FilesContainer from "./FilesContainer";
+import useMessagesStore from "../../stores/useMessagesStore";
 
 
 const MessageInput = () => {
     const design = useContext(DesignContext);
-    const { sendMsg} = useConversation();
+    const { sendMsg} = useMessages();
 
     const smileRef = useRef<HTMLDivElement | null>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -21,7 +22,11 @@ const MessageInput = () => {
     const [openEmoji, setOpenEmoji] = useState<boolean>(false)
     const [openFileMenu, setOpenFileMenu] = useState<boolean>(false);
 
-    const {files, images, updateConversation, conversation} = useConversation();
+    // const {files, images, updateConversation, conversation} = useConversation();
+    const files = useMessagesStore((state) => state.files);
+    const images = useMessagesStore((state) => state.images);
+    const messages = useMessagesStore((state) => state.messages);
+    const updateMessages = useMessagesStore((state) => state.updateMessages);
 
     const buttonStyle = useMemo( () => ( {color: design?.colors.buttonColor}),[design]);
 
@@ -43,7 +48,7 @@ const MessageInput = () => {
     const handleForm = (e:FormEvent) => {
         e.preventDefault();
 
-        sendMsg(msgText, files, images, updateConversation);
+        sendMsg(msgText, files, images, updateMessages);
         setMsgText('');
     }
 
@@ -54,7 +59,7 @@ const MessageInput = () => {
         if (e.key === 'Enter') {
             e.preventDefault();
             if (msgText.trim()) {
-                 sendMsg(msgText, files, images, updateConversation);
+                sendMsg(msgText, files, images, updateMessages);
                 setMsgText('');
                 
             }
@@ -63,11 +68,9 @@ const MessageInput = () => {
 
 
     const handleOpenFileMenu = useCallback(() => {
-        console.log('from input before', conversation)
 
         setOpenFileMenu(true);
-        console.log('from input', conversation)
-      }, [conversation]);
+      }, [messages]);
   
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {

@@ -30,6 +30,7 @@ const useUsers = () => {
     const chooseUser  = async (userId: string) => {
         
         const res = await addConversation(userId);
+       
         if (res) {
             const filteredUsers = users.filter(user => user.id !== userId);
             setUsers(filteredUsers);

@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import React from "react";
 import { DesignContext } from "../../context/DesignContext";
-import useConversation from "../../hooks/chat/useConversation";
+import useMessages from "../../hooks/chat/useMessages";
 import { X } from "lucide-react";
 
 
 function FilesContainer({ files, type }: { files: File[]; type: string }) {
 
-    const { removeFile } = useConversation();
+    const { removeFile } = useMessages();
 
     const design = useContext(DesignContext);
 

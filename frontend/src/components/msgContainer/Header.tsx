@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Video, Phone } from 'lucide-react';
-import { conversationa } from '../../dummy/dummyData';
 import { DesignContext } from '../../context/DesignContext';
 import useConversations from '../../hooks/chat/useConversations';
 function Header() {

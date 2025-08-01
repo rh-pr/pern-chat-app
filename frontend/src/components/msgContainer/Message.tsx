@@ -3,12 +3,17 @@ import { DesignContext } from "../../context/DesignContext";
 import { MessageType } from "../../types/main";
 import  FilesList  from "./FilesList";
 import ImageList from "./ImageList";
+import useAuthStore from "../../stores/useAuthStore";
 
 const Message = ({ message }: { message?: MessageType }) => {
+
   const design = useContext(DesignContext);
+  const currentUser = useAuthStore((state) => state.currentUser)
 
-  const msgDirection = message?.fromMe;
 
+  const msgDirection = message?.senderId === currentUser?.id;
+
+  //todo: delte this and save in server
   const img = msgDirection
 		? "https://avatar.iran.liara.run/public/boy?username=johndoe"
 		: "https://avatar.iran.liara.run/public/boy?username=janedoe";

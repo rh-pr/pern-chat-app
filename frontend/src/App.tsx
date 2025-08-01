@@ -1,5 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom"
 import { useContext } from "react";
+import { ArrowLeftToLine } from 'lucide-react';
+
 import './App.css';
 
 import Home from "./pages/Home"
@@ -15,8 +17,8 @@ import { DesignContext } from "./context/DesignContext";
 import Thema from "./components/Thema";
 import useAuth from "./hooks/auth/useAuth";
 import useAuthStore from "./stores/useAuthStore";
-import useConversation from "./hooks/chat/useConversation";
-import { ArrowLeftToLine } from 'lucide-react';
+import useConversationsStore from "./stores/useConversationsStore";
+import useConversations from "./hooks/chat/useConversations";
 
 
 function App() {
@@ -26,7 +28,8 @@ function App() {
   const { loading } = useAuth();
   const currentUser = useAuthStore(state => state.currentUser);
   
-  const { conversation, setConversation } = useConversation();
+  const activeConversationId = useConversationsStore((state) => state.activeConversationId)
+  const { setActiveConversation } = useConversations();
 
   if ( loading ) return <LoadingScreen bg={design?.thema ? bgDark : bg}/>
 
@@ -34,9 +37,9 @@ function App() {
     <div className="h-screen w-screen flex justify-center items-center "
          style={{backgroundImage: `url(${design?.thema ? bgDark : bg})`}}>
       <Thema />
-      {conversation && <div className='md:hidden fixed top-2 left-3 font-black '  
+      {activeConversationId && <div className='md:hidden fixed top-2 left-3 font-black '  
           style={{color: `${design?.colors.buttonColor}`}}
-          onClick={() => setConversation(null)}> <ArrowLeftToLine /></div>}
+          onClick={() => setActiveConversation('')}> <ArrowLeftToLine /></div>}
 
       <Routes>
         <Route 

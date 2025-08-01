@@ -4,7 +4,6 @@ import { getUserConversations, createConversation } from "../../servieces/conver
 
 import useConversationsStore from '../../stores/useConversationsStore';
 import useAuthStore from "../../stores/useAuthStore";
-import { ConversationsType } from "../../types/main";
 
 const useConversations = () => {
     const conversations = useConversationsStore((state) => state.conversations);
@@ -87,7 +86,8 @@ const useConversations = () => {
         selectConversation,
         setCurrentConversation,
         addConversation,
-        getRecipent
+        getRecipent,
+        setActiveConversation
     };
 };
 

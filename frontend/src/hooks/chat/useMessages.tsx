@@ -1,8 +1,7 @@
-import { useCallback, useEffect } from "react";
-import { useFilesSrore} from '../../stores/useConversationStore';
+import { useCallback, useEffect, useRef } from "react";
 
 import useMessagesStore from "../../stores/useMessagesStore";
-import useConversationStore from "../../stores/useConversationsStore";
+import useConversationsStore from "../../stores/useConversationsStore";
 import { getMessages } from '../../servieces/messagesService';
 
 const useConversation = () => {
@@ -11,16 +10,19 @@ const useConversation = () => {
     const updateMessages = useMessagesStore((state) => state.updateMessages);
     
     const files = useMessagesStore((state) => state.files);
-    const updateFiles = useFilesSrore((state) => state.updateFiles);
-    const filteredFiles = useFilesSrore((state) => state.filteredFile);
-    const deletedFiles = useFilesSrore((state) => state.deleteFiles);
+    const updateFiles = useMessagesStore((state) => state.updateFiles);
+    const filteredFiles = useMessagesStore((state) => state.filteredFile);
+    const deletedFiles = useMessagesStore((state) => state.deleteFiles);
 
     const images = useMessagesStore((state) => state.images);
-    const updateImages = useFilesSrore((state) => state.updateImages);
-    const filteredImages = useFilesSrore((state) => state.filteredImages);
-    const deletedImages = useFilesSrore((state) => state.deleteImages);
+    const updateImages = useMessagesStore((state) => state.updateImages);
+    const filteredImages = useMessagesStore((state) => state.filteredImages);
+    const deletedImages = useMessagesStore((state) => state.deleteImages);
 
-    const activeConversationId = useConversationStore((state) => state.activeConversationId);
+    const activeConversationId = useConversationsStore((state) => state.activeConversationId);
+
+	const endConversation = useRef<HTMLParagraphElement | null>(null);
+
 
     const removeFile = useCallback((fileName: string, type: string) => {
       if (type === 'files') {
@@ -41,7 +43,20 @@ const useConversation = () => {
         updateConversation(newMsg);
         deletedFiles();
         deletedImages();
-    },[updateConversation]);
+    },[]);
+
+    // const handleKey = (
+    //     e: React.KeyboardEvent<HTMLTextAreaElement> ) => {
+    
+    //     if (e.key === 'Enter') {
+    //         e.preventDefault();
+    //         if (msgText.trim()) {
+    //             sendMsg(msgText, files, images, updateConversation);
+    //             setMsgText('');
+                
+    //         }
+    //     }
+    // }
 
 
     useEffect(() => {
@@ -50,15 +65,22 @@ const useConversation = () => {
 
             const data = await getMessages(activeConversationId);
 
-            if(data && messages?.length === 0) {
+            // if(data && messages?.length === 0) {
                 setMessages(data);
-            }
+            // }
         }
         fetchMessages ();
 
     }, [activeConversationId]);
 
+    useEffect(() => {
+        if(endConversation.current) {
+            endConversation.current.scrollIntoView({ behavior: "smooth", block: "end" });
+        }
+	}, [messages])
+
     return {
+        endConversation,
         messages,
         updateMessages,
         sendMsg,

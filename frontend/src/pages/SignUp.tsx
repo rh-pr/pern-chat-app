@@ -154,11 +154,11 @@
                                 <X />
                             </button>
 
-                            <img
+                            {typeof formData.profilePic !== 'string' && <img
                                 src={URL.createObjectURL(formData.profilePic)}
                                 alt={formData.profilePic.name}
                                 className="w-full h-full bg-cover rounded-md"
-                            />
+                            />}
                         </figure>
                         )}
                     </div>
