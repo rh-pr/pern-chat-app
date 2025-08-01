@@ -23,6 +23,10 @@ const useConversations = () => {
           );
     }
 
+    const getRecipent = () => {
+        return conversations.find(conv => conv.id === activeConversationId)?.participants[0]
+    }
+
     const addConversation = async (newParticipantId : string) => {
 
         if (!currentUser) return;
@@ -41,7 +45,7 @@ const useConversations = () => {
     }
 
     const selectConversation = (conversationId: string) => {
-        setActiveConversation(conversationId)
+        setActiveConversation(conversationId);
     }
 
     const conversationIdsList = (): string[] => {
@@ -82,7 +86,8 @@ const useConversations = () => {
         filteredConversations, 
         selectConversation,
         setCurrentConversation,
-        addConversation
+        addConversation,
+        getRecipent
     };
 };
 

@@ -9,13 +9,12 @@ import animationData from "../../assets/lottie/Message.json";
 function MessaageContainer() {
 
   const { conversation } = useConversation();
-    if (conversation) {
+    if (!conversation) {
       return <div className="flex flex-col justify-center items-center w-[90vw] md:w-[70vw] md:pb-3 h-full">
         <p className="f font-black text-center text-gray-500">Select a conversation to start chatting....</p>
         <div className="w-64 h-64">
           <Lottie animationData={animationData} loop={true} />
-        <div></div>
-    </div>
+        </div>
       </div>
     }
     return (
