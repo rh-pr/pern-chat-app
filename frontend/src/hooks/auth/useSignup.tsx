@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { defaultsignUp } from "../../dummy/defaultValues";
+import { defaultsignUp } from "../../constants/defaultValues";
 import { SignupFormType } from "../../types/main";
 import { signup } from "../../servieces/authService";
 import useAuthStore from "../../stores/useAuthStore";

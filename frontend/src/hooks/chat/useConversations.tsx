@@ -1,21 +1,42 @@
 import { useEffect } from "react";
+
+import { getUserConversations, createConversation } from "../../servieces/conversationsServiese";
+
 import useConversationsStore from '../../stores/useConversationsStore';
-
-import { getUserConversations } from "../../servieces/conversationsServiese";
 import useAuthStore from "../../stores/useAuthStore";
-
 
 const useConversations = () => {
     const conversations = useConversationsStore((state) => state.conversations);
     const setConversations = useConversationsStore((state) => state.setConversations);
-    const currentUser = useAuthStore(state => state.currentUser);
     const setActiveConversation = useConversationsStore((state) => state.setActiveConversation)
     const setCurrentUserConvList = useConversationsStore((state) => state.setCurrentUserConvList);
+    const updateConversations = useConversationsStore((state) => state.updateConversations);
+    const updateCurrentUserConvList = useConversationsStore((state) => state.updateCurrentUserConvList);
+
+    const currentUser = useAuthStore(state => state.currentUser);
+    const currentUserConvList = useConversationsStore((state) => state.currentUserConvList);
+   
 
     const filteredConversations = (query: string) => {
         return conversations.filter((conv) =>
             conv.participants.some(user => user.fullName.toLowerCase().includes(query.toLowerCase()))
           );
+    }
+
+    const addConversation = async (newParticipantId : string) => {
+
+        if (!currentUser) return;
+         try {
+            const newConversation = await createConversation(currentUser.id, newParticipantId);
+            if (newConversation) {
+                updateConversations(newConversation);
+                updateCurrentUserConvList(newConversation.id);
+                return true;
+            }
+        } catch (error) {
+            console.error("Failed to create conversation:", error);
+            return false;
+        }
     }
 
     const selectConversation = (conversationId: string) => {
@@ -26,19 +47,26 @@ const useConversations = () => {
         return conversations.map(conv => conv.participants[0].id);               
     }
 
+    const setCurrentConversation = (conversationId: string) => {
+        setActiveConversation(conversationId);
+    }
+
     useEffect(() => {
-       const fetchConverations = async() => {
+       const fetchConversations  = async() => {
+            if (!currentUser) return;
+            
             const data = await getUserConversations(currentUser.id);
             if(data) {
                 setConversations(data);
             }
         }
-        fetchConverations();
+        fetchConversations ();
             
     }, [currentUser]);
+    
 
     useEffect(() => {
-        const list = conversationIdsList(currentUser.id);
+        const list = conversationIdsList();
         setCurrentUserConvList(list);
     },[currentUser, conversations])
 
@@ -48,6 +76,8 @@ const useConversations = () => {
         conversations,
         filteredConversations, 
         selectConversation,
+        setCurrentConversation,
+        addConversation
     };
 };
 

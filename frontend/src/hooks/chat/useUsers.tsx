@@ -1,8 +1,10 @@
-import useUsersStore from "../../stores/useUssersStore";
+import useUsersStore from "../../stores/useUsersStore";
 import { useEffect } from "react";
 import useAuthStore from "../../stores/useAuthStore";
 import { getUsers } from "../../servieces/usersService";
 import useConversationsStore from "../../stores/useConversationsStore";
+import useConversations from "./useConversations";
+
 
 const useUsers = () => {
     const users = useUsersStore((state) => state.users);
@@ -13,8 +15,8 @@ const useUsers = () => {
 
     const currentUser = useAuthStore(state => state.currentUser);
     const currentUserConvList = useConversationsStore((state) => state.currentUserConvList);
-    const conversation = useConversationsStore((state) => state.conversations);
 
+    const { addConversation } = useConversations();
    
     const filteredUser = (query: string) => {
         if ( openUserList ) {
@@ -25,25 +27,41 @@ const useUsers = () => {
         return [];
     }
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            // const data = await getUsers(currentUserId, conversations);
-            // setUsers(data);
-            if (!currentUser || !currentUser.id) return;
+    const chooseUser  = async (userId: string) => {
+        
+        const res = await addConversation(userId);
+        if (res) {
+            const filteredUsers = users.filter(user => user.id !== userId);
+            setUsers(filteredUsers);
+            toggleOpenList();
+        }
+    }
+
+   useEffect(() => {
+    const fetchUser = async () => {
+        if (!currentUser || !currentUser.id || currentUserConvList.length === 0) return;
+        try {
             const data = await getUsers(currentUser.id, currentUserConvList || []);
-            
-            if (data) {
+            if (data && users.length === 0) {
                 setUsers(data);
             }
+        } catch (error) {
+            console.error("Failed to fetch users:", error);
         }
-        fetchUser();
-    },[currentUser, conversation]);
+    };
+
+    fetchUser();
+}, []);
+
+
+
 
     return {
         users,
         openUserList,
         toggleOpenList,
-        filteredUser
+        filteredUser,
+        chooseUser 
     }
 }
 

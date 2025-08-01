@@ -12,8 +12,8 @@ import useConversation from "../../hooks/chat/useConversation";
 function SideBar() {
   const design = useContext(DesignContext);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  
   const { openUserList } = useUsers();
-
   const { conversation } = useConversation();
 
   return (
@@ -21,10 +21,11 @@ function SideBar() {
       <h1 className={`font-bold text-3xl text-[#614318] `} style={{textShadow: `#614318 1px 0 2px`}}>Chats</h1>
       <NewChatBtn />
       <SearchInput  setQuery={setSearchQuery}/>
-      {/* <Conversations query={searchQuery} /> */}
-      {openUserList ? <SearchList  query={searchQuery} /> : <Conversations  query={searchQuery}/>}
+      { openUserList ? 
+        <SearchList  query={searchQuery} /> : 
+        <Conversations  query={searchQuery}/>
+      }
       <LogOutBtn />
-      {/* {openUserList && <SearchList />} */}
     </div>
   )
 }

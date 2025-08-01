@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 const useConversationStore = create<ConversationsState>((set) => ({
     conversations: [],
-    activeConversation: '',
+    activeConversationId: '',
     currentUserConvList: [],
 
     updateConversations: (newConversation: ConversationsType) =>
@@ -13,10 +13,13 @@ const useConversationStore = create<ConversationsState>((set) => ({
         set(() => ({ conversations: newConversations })),
 
     setActiveConversation: (conversationId: string) => 
-        set(() => ({activeConversation: conversationId})),
+        set(() => ({activeConversationId: conversationId})),
 
     setCurrentUserConvList: (convList: string[]) => 
         set(() => ({currentUserConvList: convList})),
+
+    updateCurrentUserConvList: (newConversation: string) =>
+        set((state) => ({currentUserConvList: [...state.currentUserConvList, newConversation]}))
 }));
 
 export default useConversationStore;

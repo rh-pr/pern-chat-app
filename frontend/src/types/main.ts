@@ -35,7 +35,7 @@ export type MessageType = {
   id: string,
   body: string,
   senderId: string,
-
+  conversationId: string,
   files?: string[],
   images?: string[],
 
@@ -76,6 +76,20 @@ export type ConversationState = {
   setConversation: (newConversation: MessageType[] | null) => void,
 };
 
+export type MessagesTypeStore = {
+  messages: MessageType[] | null,
+  files: File[],
+  images: File[],
+  updateMessages: (newMessage: MessageType) => void,
+  setMessages: (newConversation: MessageType[] | null) => void,
+  updateFiles: (newFile: File) => void,
+  filteredFile: (fileName: string) => void,
+  deleteFiles: () => void,
+  updateImages: (newImage: File) => void,
+  filteredImages: (imageName: string) => void,
+  deleteImages: () => void,
+};
+
 export type FilesState = {
   files:  File[],
   images: File[],
@@ -91,26 +105,27 @@ export type FilesState = {
 
 export type ConversationsState = {
   conversations: ConversationsType[],
-  activeConversation: string,
+  activeConversationId: string,
   currentUserConvList: string[],
   updateConversations: (conversation: ConversationsType) => void,
   setConversations: (newConversation: ConversationsType[]) => void,
   setActiveConversation: (newActiveConversation: string) => void,
-  setCurrentUserConvList: (convList: string[]) => void
+  setCurrentUserConvList: (convList: string[]) => void,
+  updateCurrentUserConvList: (newConversation: string) => void
 };
 
 export type UsersState = {
-  users: User[],
+  users: UserType[],
   openUserList: boolean,
-  setUsers: (users: User[]) => void,
-  updateUsers: (newUser: User) => void,
+  setUsers: (users: UserType[]) => void,
+  updateUsers: (newUser: UserType) => void,
   toggleOpenList: () => void,
  
 }
 
 export type AuthState = {
-  currentUser: User | null,
-  setCurrentUser: (currentUser: User | null) => void
+  currentUser: UserType | null,
+  setCurrentUser: (currentUser: UserType | null) => void
 }
 
 //props
