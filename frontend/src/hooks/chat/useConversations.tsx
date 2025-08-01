@@ -73,7 +73,7 @@ const useConversations = () => {
 
     useEffect(() => {
         
-    },[activeConversationId])
+    },[])
 
 
 

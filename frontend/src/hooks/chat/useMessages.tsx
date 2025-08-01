@@ -49,7 +49,8 @@ const useConversation = () => {
             if (!activeConversationId) return;
 
             const data = await getMessages(activeConversationId);
-            if(data) {
+
+            if(data && messages?.length === 0) {
                 setMessages(data);
             }
         }
