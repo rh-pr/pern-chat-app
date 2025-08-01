@@ -2,20 +2,23 @@ import { useContext } from "react"
 import { DesignContext } from "../../context/DesignContext"
 import { ConversationsType } from "../../types/main";
 import useConversations from "../../hooks/chat/useConversations";
+import  useConversationsStore  from "../../stores/useConversationsStore";
 
 
 function Conversation({data}: {data: ConversationsType}) {
     const design = useContext(DesignContext);
     const { setCurrentConversation } = useConversations();
+    const activeConversationId = useConversationsStore((state) => state.activeConversationId);
 
     if (!data || !data.participants || data.participants.length === 0) {
         return null; 
     }
   return (
-    <div className="w-full h-18 overflow-x-hidden flex items-center gap-4 px-2 rounded-[15px] cursor-pointer hover:hue-rotate-20 hover:shadow-lg  duration-[0.1s] " 
+    <div className="w-full min-h-18 overflow-x-hidden flex items-center gap-4 px-2 rounded-[15px] cursor-pointer hover:hue-rotate-20 hover:shadow-lg  duration-[0.1s] " 
          style={{
             backgroundColor: design?.thema ? design?.colors.buttonColor : design?.colors.buttonColor,
-            boxShadow: `0px 2px 4px ${design?.thema ?  'rgb(114, 156, 23)' : 'rgb(136, 178, 44)'}`
+            boxShadow: `${activeConversationId === data.id ? `inset 1px 1px 16px 1px ${design?.colors?.textColor}` : `0px 2px 4px ${design?.thema ?  'rgb(114, 156, 23)' : 'rgb(136, 178, 44)'}`}`,
+            
          }}
          onClick={() => {setCurrentConversation(data.id)}}>
         <img src={data.participants[0].profilePic} 

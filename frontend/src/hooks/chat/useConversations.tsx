@@ -4,9 +4,11 @@ import { getUserConversations, createConversation } from "../../servieces/conver
 
 import useConversationsStore from '../../stores/useConversationsStore';
 import useAuthStore from "../../stores/useAuthStore";
+import { ConversationsType } from "../../types/main";
 
 const useConversations = () => {
     const conversations = useConversationsStore((state) => state.conversations);
+    const activeConversationId = useConversationsStore((state) => state.activeConversationId);
     const setConversations = useConversationsStore((state) => state.setConversations);
     const setActiveConversation = useConversationsStore((state) => state.setActiveConversation)
     const setCurrentUserConvList = useConversationsStore((state) => state.setCurrentUserConvList);
@@ -14,8 +16,6 @@ const useConversations = () => {
     const updateCurrentUserConvList = useConversationsStore((state) => state.updateCurrentUserConvList);
 
     const currentUser = useAuthStore(state => state.currentUser);
-    const currentUserConvList = useConversationsStore((state) => state.currentUserConvList);
-   
 
     const filteredConversations = (query: string) => {
         return conversations.filter((conv) =>
@@ -31,6 +31,7 @@ const useConversations = () => {
             if (newConversation) {
                 updateConversations(newConversation);
                 updateCurrentUserConvList(newConversation.id);
+                setActiveConversation(newConversation.id);
                 return true;
             }
         } catch (error) {
@@ -56,19 +57,23 @@ const useConversations = () => {
             if (!currentUser) return;
             
             const data = await getUserConversations(currentUser.id);
-            if(data) {
+            if(data && conversations.length === 0) {
                 setConversations(data);
             }
         }
         fetchConversations ();
             
-    }, [currentUser]);
+    }, []);
     
 
     useEffect(() => {
         const list = conversationIdsList();
         setCurrentUserConvList(list);
-    },[currentUser, conversations])
+    },[currentUser, conversations]);
+
+    useEffect(() => {
+        
+    },[activeConversationId])
 
 
 

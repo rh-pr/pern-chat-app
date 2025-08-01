@@ -5,9 +5,9 @@ import { UserType } from "../../types/main";
 import useUsers from "../../hooks/chat/useUsers";
 
 function User({data}: {data: UserType}) {
+
   const design = useContext(DesignContext);
   const { chooseUser } = useUsers();
-
 
   return (
     <div  className="relative w-full h-14 flex items-center gap-4 px-2   cursor-pointer  hover:shadow-lg  duration-[0.1s] " 

@@ -7,7 +7,7 @@ const useConversationStore = create<ConversationsState>((set) => ({
     currentUserConvList: [],
 
     updateConversations: (newConversation: ConversationsType) =>
-        set((state) => ({ conversations: [...state.conversations, newConversation] })),
+        set((state) => ({ conversations: [newConversation, ...state.conversations] })),
 
     setConversations: (newConversations: ConversationsType[]) =>
         set(() => ({ conversations: newConversations })),

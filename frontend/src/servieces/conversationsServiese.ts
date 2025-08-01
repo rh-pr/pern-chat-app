@@ -12,6 +12,9 @@ export const getUserConversations = async (currentUserId: string): Promise<Conve
         // const res = await api.get(`/getConversation?userId=${currentUserId}`);
         // return res.data;
         const data = getDummyConversations(currentUserId);
+        data.sort((a, b) => 
+            new Date(b.lastMessage?.createdAt || 0).getTime() - new Date(a.lastMessage?.createdAt || 0).getTime()
+        );
         return data;
         
     } catch (err) {
