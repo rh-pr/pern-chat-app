@@ -36,8 +36,8 @@ export type MessageType = {
   body: string,
   senderId: string,
   conversationId: string,
-  files?: string[],
-  images?: string[],
+  files?: string[] | File[],
+  images?: string[] | File[],
 
   createdAt: string,
 }

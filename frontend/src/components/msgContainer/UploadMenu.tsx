@@ -4,6 +4,7 @@ import { DesignContext } from "../../context/DesignContext"
 
 import useMessages from '../../hooks/chat/useMessages';
 import { UploadMenuType } from "../../types/main";
+import useMessagesStore from "../../stores/useMessagesStore";
 
   function UploadMenu ({setOpenFileMenu }:  UploadMenuType ) {
 
@@ -13,7 +14,9 @@ import { UploadMenuType } from "../../types/main";
 
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const { updateFiles, updateImages } = useMessages();
+    // const { updateFiles, updateImages } = useMessages();
+    const updateFiles = useMessagesStore(state => state.updateFiles);
+    const updateImages = useMessagesStore(state => state.updateImages);
 
 
     const handleImage = (e:  React.ChangeEvent<HTMLInputElement>) => {

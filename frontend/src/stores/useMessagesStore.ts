@@ -12,6 +12,8 @@ const useMessagesStore = create<MessagesTypeStore>((set) => ({
     setMessages: (newConversation: MessageType[] | null) => 
         set(() => ({ messages: newConversation })),
 
+
+
     updateFiles: (newFile: File) => 
         set((state) => {
             const fileExists = state.files.some(file => file.name === newFile.name);

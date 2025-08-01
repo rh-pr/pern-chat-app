@@ -9,8 +9,6 @@ const Messages = () => {
 	const messages = useMessagesStore((state) => state.messages);
 	const { endConversation } =  useMessages();
 
-	console.log('message from store = ', messages)
-	
 	return (
 		<div className='px-4 y-2 mb-20  flex flex-col gap-2 w-full overflow-y-auto' style={{scrollbarWidth:"none"}}>
 			{ messages?.map((message: MessageType, ind: number) => (

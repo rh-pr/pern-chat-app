@@ -9,7 +9,6 @@ export const getMessages = async (convertId: string): Promise<MessageType[]> => 
         // const res = await api.get(`/getMessages?conversationId=${convertId}`);
         // return res.data;
         const data = getDummyMessages(convertId);
-        console.log(data);
         return data;
     } catch (err) {
         console.error('Error by retrieving messages: ', err);
@@ -21,6 +20,9 @@ export const sendMessage = async (message: MessageType): Promise<MessageType | n
     try {
         // const res = await api.post('/sendMessage', message);
         // return res.data;
+        
+        //todo: delete
+        message.createdAt =  (new Date()).toString();
         return message; 
     } catch (err) {
         console.error('Error sending message: ', err);

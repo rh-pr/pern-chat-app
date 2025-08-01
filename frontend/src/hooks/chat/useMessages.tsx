@@ -2,7 +2,8 @@ import { useCallback, useEffect, useRef } from "react";
 
 import useMessagesStore from "../../stores/useMessagesStore";
 import useConversationsStore from "../../stores/useConversationsStore";
-import { getMessages } from '../../servieces/messagesService';
+import { getMessages, sendMessage } from '../../servieces/messagesService';
+import useAuthStore from "../../stores/useAuthStore";
 
 const useConversation = () => {
     const messages = useMessagesStore((state) => state.messages);
@@ -20,8 +21,11 @@ const useConversation = () => {
     const deletedImages = useMessagesStore((state) => state.deleteImages);
 
     const activeConversationId = useConversationsStore((state) => state.activeConversationId);
+    const currentUser = useAuthStore((state) => state.currentUser);
+
 
 	const endConversation = useRef<HTMLParagraphElement | null>(null);
+
 
 
     const removeFile = useCallback((fileName: string, type: string) => {
@@ -32,18 +36,33 @@ const useConversation = () => {
        }
     },[filteredFiles, filteredImages])
 
-    const sendMsg = useCallback( (msg: string, files: File[] | null, images: File[] | null, updateConversation?: any) => {
+    const send = useCallback( async (msg: string, files: File[] | null, images: File[] | null) => {
+    //    if (!currentUser || !files || !images || files?.length <= 0 || images?.length <= 0) return;
+        if (!currentUser ) return;
+
         const newMsg = {
-            id: 111,
-            fromMe: true,
+            id: '',
             body: msg,
-            files: files,
-            images: images
+            senderId: currentUser.id,
+            conversationId: activeConversationId,
+            files: files || [],
+            images: images || [],
+
+            createdAt: '',
         }
-        updateConversation(newMsg);
-        deletedFiles();
-        deletedImages();
+
+        const res = await sendMessage(newMsg);
+        console.log('res', res)
+
+        if (res) {
+            updateMessages(newMsg);
+            deletedFiles();
+            deletedImages();
+        }
+       
     },[]);
+
+    
 
     // const handleKey = (
     //     e: React.KeyboardEvent<HTMLTextAreaElement> ) => {
@@ -83,7 +102,7 @@ const useConversation = () => {
         endConversation,
         messages,
         updateMessages,
-        sendMsg,
+        send,
         files,
         images,
         updateFiles,

@@ -12,7 +12,7 @@ import useMessagesStore from "../../stores/useMessagesStore";
 
 const MessageInput = () => {
     const design = useContext(DesignContext);
-    const { sendMsg} = useMessages();
+    const { send } = useMessages();
 
     const smileRef = useRef<HTMLDivElement | null>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -26,7 +26,8 @@ const MessageInput = () => {
     const files = useMessagesStore((state) => state.files);
     const images = useMessagesStore((state) => state.images);
     const messages = useMessagesStore((state) => state.messages);
-    const updateMessages = useMessagesStore((state) => state.updateMessages);
+
+    // const setFiles = useMessagesStore((state) => state.setFiles)
 
     const buttonStyle = useMemo( () => ( {color: design?.colors.buttonColor}),[design]);
 
@@ -44,11 +45,10 @@ const MessageInput = () => {
         setOpenEmoji(false);
     }, []);
 
-
+    
     const handleForm = (e:FormEvent) => {
         e.preventDefault();
-
-        sendMsg(msgText, files, images, updateMessages);
+        send(msgText, files, images);
         setMsgText('');
     }
 
@@ -59,7 +59,7 @@ const MessageInput = () => {
         if (e.key === 'Enter') {
             e.preventDefault();
             if (msgText.trim()) {
-                sendMsg(msgText, files, images, updateMessages);
+                send(msgText, files, images);
                 setMsgText('');
                 
             }
@@ -68,10 +68,10 @@ const MessageInput = () => {
 
 
     const handleOpenFileMenu = useCallback(() => {
-
         setOpenFileMenu(true);
-      }, [messages]);
+      }, []);
   
+      
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const target = event.target as HTMLElement;
@@ -100,13 +100,6 @@ const MessageInput = () => {
 
             {files && <FilesContainer type="files" files={files} />}
             {images && <FilesContainer type="images" files={images}/>}
-                
-{/* 
-            {openFileMenu &&  
-                <UploadMenu setOpenFileMenu={setOpenFileMenu}
-                            setFiles={setFiles}
-                            setImages={setImages}/>} */}
-            
  
             {openFileMenu &&  
                 <UploadMenu setOpenFileMenu={setOpenFileMenu} />} 
