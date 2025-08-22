@@ -4,7 +4,7 @@ import { getUserConversations, createConversation } from "../../servieces/conver
 
 import useConversationsStore from '../../stores/useConversationsStore';
 import useAuthStore from "../../stores/useAuthStore";
-import { getLocalConversation } from "../../utils/localStorage";
+import { getLocalConversation, updateLocalConversations } from "../../utils/localStorage";
 
 const useConversations = () => {
     const conversations = useConversationsStore((state) => state.conversations);
@@ -36,6 +36,7 @@ const useConversations = () => {
                 updateConversations(newConversation);
                 updateCurrentUserConvList(newConversation.id);
                 setActiveConversation(newConversation.id);
+                updateLocalConversations(newConversation);
                 return true;
             }
         } catch (error) {
