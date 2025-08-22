@@ -2,7 +2,6 @@ import React from "react";
 import { useContext, useEffect, useRef, useState } from "react"
 import { DesignContext } from "../../context/DesignContext"
 
-import useMessages from '../../hooks/chat/useMessages';
 import { UploadMenuType } from "../../types/main";
 import useMessagesStore from "../../stores/useMessagesStore";
 
@@ -14,7 +13,6 @@ import useMessagesStore from "../../stores/useMessagesStore";
 
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    // const { updateFiles, updateImages } = useMessages();
     const updateFiles = useMessagesStore(state => state.updateFiles);
     const updateImages = useMessagesStore(state => state.updateImages);
 

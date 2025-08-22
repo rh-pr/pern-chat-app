@@ -1,13 +1,13 @@
-import { useCallback, useEffect, useRef } from "react";
-
+import { useCallback, useRef, useState } from "react";
 import useMessagesStore from "../../stores/useMessagesStore";
 import useConversationsStore from "../../stores/useConversationsStore";
-import { getMessages, sendMessage } from '../../servieces/messagesService';
+import {  sendMessage } from '../../servieces/messagesService';
 import useAuthStore from "../../stores/useAuthStore";
+import { EmojiClickData } from 'emoji-picker-react'
+import { updateLocalConversation } from "../../utils/localStorage";
 
 const useConversation = () => {
     const messages = useMessagesStore((state) => state.messages);
-    const setMessages = useMessagesStore((state) => state.setMessages);
     const updateMessages = useMessagesStore((state) => state.updateMessages);
     
     const files = useMessagesStore((state) => state.files);
@@ -23,9 +23,13 @@ const useConversation = () => {
     const activeConversationId = useConversationsStore((state) => state.activeConversationId);
     const currentUser = useAuthStore((state) => state.currentUser);
 
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
-	const endConversation = useRef<HTMLParagraphElement | null>(null);
-
+    
+    const [msgText, setMsgText] = useState<string>('');
+    const [openEmoji, setOpenEmoji] = useState<boolean>(false)
+    const [openFileMenu, setOpenFileMenu] = useState<boolean>(false);
+    
 
 
     const removeFile = useCallback((fileName: string, type: string) => {
@@ -52,54 +56,70 @@ const useConversation = () => {
         }
 
         const res = await sendMessage(newMsg);
-        console.log('res', res)
 
         if (res) {
             updateMessages(newMsg);
             deletedFiles();
             deletedImages();
+            updateLocalConversation(activeConversationId, newMsg);
         }
        
     },[]);
 
-    
 
-    // const handleKey = (
-    //     e: React.KeyboardEvent<HTMLTextAreaElement> ) => {
+    const handleMsgText = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setMsgText(e.target.value)
+    }, []);
+
+    const handleEmoji = useCallback( (e: EmojiClickData) => {
+        setMsgText(prevText => prevText + e.emoji);
+
+        if( textAreaRef.current ) {
+            textAreaRef.current.focus();
+        } 
+
+        setOpenEmoji(false);
+    }, []);
+
     
-    //     if (e.key === 'Enter') {
-    //         e.preventDefault();
-    //         if (msgText.trim()) {
-    //             sendMsg(msgText, files, images, updateConversation);
-    //             setMsgText('');
+    const handleForm = (e:React.FormEvent) => {
+        e.preventDefault();
+        send(msgText, files, images);
+        setMsgText('');
+    }
+
+    
+    const handleKey = (
+        e: React.KeyboardEvent<HTMLTextAreaElement> ) => {
+    
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (msgText.trim()) {
+                send(msgText, files, images);
+                setMsgText('');
                 
-    //         }
-    //     }
-    // }
-
-
-    useEffect(() => {
-        const fetchMessages  = async () => { 
-            if (!activeConversationId) return;
-
-            const data = await getMessages(activeConversationId);
-
-            // if(data && messages?.length === 0) {
-                setMessages(data);
-            // }
+            }
         }
-        fetchMessages ();
+    }
 
-    }, [activeConversationId]);
 
-    useEffect(() => {
-        if(endConversation.current) {
-            endConversation.current.scrollIntoView({ behavior: "smooth", block: "end" });
-        }
-	}, [messages])
+    const handleOpenFileMenu = useCallback(() => {
+        setOpenFileMenu(true);
+      }, []);
+  
 
     return {
-        endConversation,
+        msgText,
+        setOpenEmoji,
+        textAreaRef,
+        setOpenFileMenu,
+        handleForm,
+        handleKey,
+        handleOpenFileMenu,
+        handleEmoji,
+        handleMsgText,
+        openFileMenu,
+        openEmoji,
         messages,
         updateMessages,
         send,

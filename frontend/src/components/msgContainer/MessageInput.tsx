@@ -1,98 +1,40 @@
 import { Send, Mic, Paperclip, SmilePlus } from "lucide-react";
-import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
+import EmojiPicker from 'emoji-picker-react';
 import TextareaAutosize from 'react-textarea-autosize';
-import { useContext, useState, useRef, FormEvent, useCallback, useMemo, useEffect } from "react";
+import { useContext, FormEvent,  useMemo,  } from "react";
 import { DesignContext } from "../../context/DesignContext";
 import {  getTextAreaStyle } from '../../utils/msgHandlers';
 import useMessages from '../../hooks/chat/useMessages';
 import UploadMenu from "./UploadMenu";
 import FilesContainer from "./FilesContainer";
 import useMessagesStore from "../../stores/useMessagesStore";
+import useEmojiPicker from "../../hooks/chat/useEmojiPicker";
 
 
 const MessageInput = () => {
     const design = useContext(DesignContext);
-    const { send } = useMessages();
-
-    const smileRef = useRef<HTMLDivElement | null>(null);
-    const textAreaRef = useRef<HTMLTextAreaElement>(null);
-
-
-    const [msgText, setMsgText] = useState<string>('');
-    const [openEmoji, setOpenEmoji] = useState<boolean>(false)
-    const [openFileMenu, setOpenFileMenu] = useState<boolean>(false);
-
-    // const {files, images, updateConversation, conversation} = useConversation();
-    const files = useMessagesStore((state) => state.files);
-    const images = useMessagesStore((state) => state.images);
-    const messages = useMessagesStore((state) => state.messages);
-
-    // const setFiles = useMessagesStore((state) => state.setFiles)
-
     const buttonStyle = useMemo( () => ( {color: design?.colors.buttonColor}),[design]);
 
-    const handleMsgText = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setMsgText(e.target.value)
-    }, []);
+    const files = useMessagesStore((state) => state.files);
+    const images = useMessagesStore((state) => state.images);
 
-    const handleEmoji = useCallback( (e: EmojiClickData) => {
-        setMsgText(prevText => prevText + e.emoji);
+    const {smileRef} = useEmojiPicker();
 
-        if( textAreaRef.current ) {
-            textAreaRef.current.focus();
-        } 
-
-        setOpenEmoji(false);
-    }, []);
-
-    
-    const handleForm = (e:FormEvent) => {
-        e.preventDefault();
-        send(msgText, files, images);
-        setMsgText('');
-    }
-
-    
-    const handleKey = (
-        e: React.KeyboardEvent<HTMLTextAreaElement> ) => {
-    
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            if (msgText.trim()) {
-                send(msgText, files, images);
-                setMsgText('');
-                
-            }
-        }
-    }
+    const {
+        msgText,
+        textAreaRef,
+        setOpenEmoji,
+        setOpenFileMenu,
+        handleForm,
+        handleKey,
+        handleOpenFileMenu,
+        handleEmoji,
+        handleMsgText,
+        openFileMenu,
+        openEmoji,
+    } = useMessages();
 
 
-    const handleOpenFileMenu = useCallback(() => {
-        setOpenFileMenu(true);
-      }, []);
-  
-      
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            const target = event.target as HTMLElement;
-
-            if (target.classList.contains('epr-emoji-img')) {
-                console.log("Clicked on an emoji");
-                return;
-            }
-        
-            if (smileRef.current && !smileRef.current.contains(target)) {
-                setOpenEmoji(false);
-            }
-
-        } 
-
-        document.addEventListener('mousedown', handleClickOutside);
-
-        return () => {
-            document.addEventListener('mousedown', handleClickOutside);
-        }
-    },[])
 
 	return (
 		<form className='px-4 mb-3  absolute bottom-2 w-full' 
@@ -151,4 +93,5 @@ const MessageInput = () => {
 		</form>
 	);
 };
+
 export default MessageInput;

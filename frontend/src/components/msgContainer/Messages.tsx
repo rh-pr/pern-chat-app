@@ -2,12 +2,12 @@
 import Message from "./Message";
 import { MessageType } from "../../types/main";
 import useMessagesStore from "../../stores/useMessagesStore";
-import useMessages from '../../hooks/chat/useMessages';
+import useConversationScroll from "../../hooks/chat/useConversationScroll";
 
 //chage type of id letter
 const Messages = () => {
 	const messages = useMessagesStore((state) => state.messages);
-	const { endConversation } =  useMessages();
+	const { endConversation } =  useConversationScroll();
 
 	return (
 		<div className='px-4 y-2 mb-20  flex flex-col gap-2 w-full overflow-y-auto' style={{scrollbarWidth:"none"}}>

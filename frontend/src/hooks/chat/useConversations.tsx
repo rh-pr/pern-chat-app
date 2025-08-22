@@ -4,6 +4,7 @@ import { getUserConversations, createConversation } from "../../servieces/conver
 
 import useConversationsStore from '../../stores/useConversationsStore';
 import useAuthStore from "../../stores/useAuthStore";
+import { getLocalConversation } from "../../utils/localStorage";
 
 const useConversations = () => {
     const conversations = useConversationsStore((state) => state.conversations);
@@ -59,10 +60,19 @@ const useConversations = () => {
        const fetchConversations  = async() => {
             if (!currentUser) return;
             
-            const data = await getUserConversations(currentUser.id);
-            if(data && conversations.length === 0) {
+            const localConversations = localStorage.getItem('conversations');
+            if (localConversations) {
+                const data = JSON.parse(localConversations);
                 setConversations(data);
+            } else {
+                 const data = await getUserConversations(currentUser.id);
+
+                if (data && conversations.length === 0) {
+                    setConversations(data);
+                    localStorage.setItem('conversations', JSON.stringify(data));
+                }
             }
+           
         }
         fetchConversations ();
             
