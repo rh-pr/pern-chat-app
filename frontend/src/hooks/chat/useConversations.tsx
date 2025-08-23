@@ -4,7 +4,7 @@ import { getUserConversations, createConversation } from "../../servieces/conver
 
 import useConversationsStore from '../../stores/useConversationsStore';
 import useAuthStore from "../../stores/useAuthStore";
-import { getLocalConversation } from "../../utils/localStorage";
+import { updateLocalConversations } from "../../utils/localStorage";
 
 const useConversations = () => {
     const conversations = useConversationsStore((state) => state.conversations);
@@ -18,7 +18,8 @@ const useConversations = () => {
     const currentUser = useAuthStore(state => state.currentUser);
 
     const filteredConversations = (query: string) => {
-        return conversations.filter((conv) =>
+        if (!conversations || conversations.length <= 0) return [];
+        return  conversations.filter((conv) =>
             conv.participants.some(user => user.fullName.toLowerCase().includes(query.toLowerCase()))
           );
     }
@@ -36,6 +37,7 @@ const useConversations = () => {
                 updateConversations(newConversation);
                 updateCurrentUserConvList(newConversation.id);
                 setActiveConversation(newConversation.id);
+                updateLocalConversations(newConversation);
                 return true;
             }
         } catch (error) {
@@ -49,6 +51,7 @@ const useConversations = () => {
     }
 
     const conversationIdsList = (): string[] => {
+        if (!conversations || conversations.length === 0) return [];
         return conversations.map(conv => conv.participants[0].id);               
     }
 

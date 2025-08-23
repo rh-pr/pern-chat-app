@@ -1,8 +1,7 @@
-import { MessageType } from "../types/main";
+import { ConversationsType, MessageType, UserType } from "../types/main";
 
 export const updateLocalConversation = (convId: string, item: MessageType) => {
     try {
-        console.log('i am her')
         const stored = localStorage.getItem(convId);
         const data: MessageType[] = stored ? JSON.parse(stored) as MessageType[] : [];
 
@@ -15,3 +14,36 @@ export const updateLocalConversation = (convId: string, item: MessageType) => {
         localStorage.setItem(convId, JSON.stringify([item]));
     }
 };
+
+export const updateLocalConversations = (newConv: ConversationsType) => {
+    try {
+        const stored  = localStorage.getItem('conversations');
+        const data =  stored ? JSON.parse(stored) : [];
+
+        const updatedData = [...data, newConv];
+
+        localStorage.setItem('conversations', JSON.stringify(updatedData));
+
+    } catch {
+        console.log('Failed to update local conversations');
+        localStorage.setItem('conversations', JSON.stringify([newConv]));
+
+    }
+}
+
+export const updateLocalUser = (user: UserType | null) => {
+    try {
+        if (!user) {
+            localStorage.removeItem('user')
+        } else {
+            const stored  = localStorage.getItem('user');
+            if (!stored) {
+                localStorage.setItem('user', JSON.stringify(user));
+            }
+        }
+    } catch {
+        console.log('Failed to update local conversations');
+        localStorage.setItem('user', JSON.stringify(user));
+
+    }
+}
