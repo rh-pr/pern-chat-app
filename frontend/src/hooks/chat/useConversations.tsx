@@ -4,11 +4,8 @@ import { getUserConversations, createConversation } from "../../servieces/conver
 
 import useConversationsStore from '../../stores/useConversationsStore';
 import useAuthStore from "../../stores/useAuthStore";
-<<<<<<< HEAD
 import { updateLocalConversations } from "../../utils/localStorage";
-=======
-import { getLocalConversation, updateLocalConversations } from "../../utils/localStorage";
->>>>>>> e7d3dfbfac45affed8e67a50b0d6ef16de9d4aa2
+
 
 const useConversations = () => {
     const conversations = useConversationsStore((state) => state.conversations);
