@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { ConversationsType, MessageType, UserType } from "../types/main";
+=======
+import { ConversationsType, MessageType } from "../types/main";
+>>>>>>> e7d3dfbfac45affed8e67a50b0d6ef16de9d4aa2
 
 export const updateLocalConversation = (convId: string, item: MessageType) => {
     try {
@@ -29,6 +33,7 @@ export const updateLocalConversations = (newConv: ConversationsType) => {
         localStorage.setItem('conversations', JSON.stringify([newConv]));
 
     }
+<<<<<<< HEAD
 }
 
 export const updateLocalUser = (user: UserType | null) => {
@@ -46,4 +51,6 @@ export const updateLocalUser = (user: UserType | null) => {
         localStorage.setItem('user', JSON.stringify(user));
 
     }
+=======
+>>>>>>> e7d3dfbfac45affed8e67a50b0d6ef16de9d4aa2
 }
