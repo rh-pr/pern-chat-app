@@ -2,8 +2,6 @@ import { Request, Response } from "express"
 import prisma from "../db/prisma.js";
 
 export const getUsers = async (req: Request, res: Response) => {
-    console.log('hid');
-    
     try {
         const userId  = req.query.userId as string;
 
