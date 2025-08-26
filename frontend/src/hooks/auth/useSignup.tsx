@@ -27,10 +27,18 @@ export const useSignupForm = () => {
             const data = new FormData();
 
             Object.entries(formData).forEach(([key, value]) => {
-                if(key !== 'confirm') {
-                    data.append(key, value);
-                }             
-            })
+                if(key !== 'profilePic') {
+                    data.append(key, value as string);
+                }
+            });
+        
+            if(formData.profilePic) {
+                data.append('profilePic', formData.profilePic)
+            }
+
+            console.log('data from form', formData);
+            console.log('data', data);
+            
            
             setMsgError('');
 

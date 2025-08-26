@@ -7,9 +7,8 @@ export const authValidation = (formData: FormData) => {
     const gender = formData.get('gender')?.toString().trim();
 
 
-    if ((!username || username.length < minPasswordLength) ||
-        (!password || password.length < minPasswordLength) || 
-        !fullname || !gender || !email) {
+    if ((!password || password.length < minPasswordLength) ||
+        !username || !fullname || !gender || !email) {
         return false;
     }
     return true;;

@@ -19,6 +19,7 @@ model User {
   id         String   @id @default(cuid())
   username   String   @unique
   fullName   String
+  email      String
   password   String
   gender     Gender
   profilePic String
@@ -53,11 +54,13 @@ model Message {
 
   body String
 
-  files  Files[]
-  images Images[]
+  files  String[]
+  images String[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Files     Files[]
+  Images    Images[]
 }
 
 model Files {

@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom"
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ArrowLeftToLine } from 'lucide-react';
 
 import './App.css';
@@ -32,14 +32,21 @@ function App() {
   const activeConversationId = useConversationsStore((state) => state.activeConversationId)
   const { setActiveConversation } = useConversations();
 
+  const [loading, setLoading] = useState(false)
+
   useEffect(() => {
     (async () => {
+      setLoading(true);
       const user = await getCurrentUser();
       if (user) {
         setCurrentUser(user);
       }
+      setLoading(false);
     })();
   },[]);
+
+   if ( loading ) return <LoadingScreen bg={design?.thema ? bgDark : bg}/>
+
   
   return (
     <div className="h-screen w-screen flex justify-center items-center "

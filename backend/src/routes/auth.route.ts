@@ -1,11 +1,17 @@
 import express from "express";
 import { login, logout, signup, getMe } from "../controllers/auth.controller.js";
 import protectRoute from "../middleware/protectRoute.js";
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
 
 const router = express.Router();
 
-router.get('/me', protectRoute, getMe);
-router.post('/signup', signup);
+
+const upload = multer({ dest: "dist" });
+
+router.get('/profile', protectRoute, getMe);
+router.post('/signup', upload.single("profilePic"), signup);
 router.post('/login', login);
 router.get('/logout', logout);
 

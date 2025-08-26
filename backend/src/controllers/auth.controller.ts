@@ -3,19 +3,22 @@ import prisma from '../db/prisma.js';
 import bcryptjs from 'bcryptjs';
 
 import generateToken  from '../utils/generateToken.js';
+import cloudinary from "../cloudinary/cloudinary.js";
+import { uploadAndDelete } from "../utils/uploadAndDelete.js";
+
 
 // for default avatar use site:  https://avatar-placeholder.iran.liara.run/
 
 export const signup = async (req: Request, res: Response) => {
     try {
-        const { fullName, username, password, confirmPassword, gender } = req.body;
+        const { fullname, username, password, confirm, email, gender } = req.body;
 
-        if ( !fullName || !username || !password || !confirmPassword || !gender ) {
+        if ( !fullname || !username || !password || !confirm || !gender ) {
             res.status(400).json({ error: 'Pliease fill in all fields'});
             return;
         }
 
-        if (password !== confirmPassword) {
+        if (password !== confirm) {
             res.status(400).json({error: 'Passwords do not match'});
             return;
         }
@@ -33,13 +36,28 @@ export const signup = async (req: Request, res: Response) => {
         const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
         const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
 
+        let profilePic = gender === 'male' ? boyProfilePic : girlProfilePic;
+
+
+        if (req.file) {
+            const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'profilePic',
+            });
+            
+            if(uploadResult) {
+                profilePic = await uploadAndDelete(req.file.path);
+            }
+            
+        }
+
         const newUser = await prisma.user.create({
             data: {
-                fullName,
+                fullName: fullname,
                 username,
                 password: hashedPassword,
+                email,
                 gender,
-                profilePic: gender === 'male' ? boyProfilePic : girlProfilePic
+                profilePic: profilePic
             }
         });
 
@@ -49,7 +67,7 @@ export const signup = async (req: Request, res: Response) => {
 
             res.status(201).json({
                 id: newUser.id,
-                fullName: newUser.fullName,
+                fullname: newUser.fullName,
                 username: newUser.username,
                 profilePic: newUser.profilePic
             })
@@ -65,8 +83,7 @@ export const signup = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
     try {
-
-        const { username, password } = req.body;
+        const {  password, username } = req.body;
 
         const user = await prisma.user.findUnique({ where: { username }});
       
