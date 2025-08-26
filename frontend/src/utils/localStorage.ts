@@ -2,6 +2,8 @@ import { ConversationsType, MessageType, UserType } from "../types/main";
 
 export const updateLocalConversation = (convId: string, item: MessageType) => {
     try {
+
+        console.log('item', item)
         const stored = localStorage.getItem(convId);
         const data: MessageType[] = stored ? JSON.parse(stored) as MessageType[] : [];
 

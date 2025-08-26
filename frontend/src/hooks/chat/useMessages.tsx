@@ -44,6 +44,7 @@ const useConversation = () => {
     //    if (!currentUser || !files || !images || files?.length <= 0 || images?.length <= 0) return;
         if (!currentUser ) return;
 
+        console.log('images', images)
         const newMsg = {
             id: '',
             body: msg,
@@ -61,7 +62,7 @@ const useConversation = () => {
             updateMessages(newMsg);
             deletedFiles();
             deletedImages();
-            updateLocalConversation(activeConversationId, newMsg);
+            // updateLocalConversation(activeConversationId, newMsg);
         }
        
     },[]);

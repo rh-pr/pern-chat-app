@@ -12,7 +12,7 @@ function MessaageContainer() {
     // console.log('from msg', activeConversationId)
  
     if (!activeConversationId) {
-      return <div className="flex flex-col justify-center items-center w-[90vw] md:w-[70vw] md:pb-3 h-full">
+      return <div className="flex flex-col justify-center items-center hidden md:flex md:w-[70vw] md:pb-3 h-full">
         <p className="f font-black text-center text-gray-500">Select a conversation to start chatting....</p>
         <div className="w-64 h-64">
           <Lottie animationData={animationData} loop={true} />

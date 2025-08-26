@@ -14,7 +14,7 @@ export const getTextAreaStyle = (design: DesignContextType | null) => {
     };
 }
 
-export   const handleForm = (
+export const handleForm = (
     e: FormEvent, 
     msgText:string,
     setMsgText: (msgText:string) => void,

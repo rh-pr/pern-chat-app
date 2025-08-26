@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom"
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ArrowLeftToLine } from 'lucide-react';
 
 import './App.css';
@@ -15,24 +15,32 @@ import bgDark from './assets/images/bg-dark.jpg';
 
 import { DesignContext } from "./context/DesignContext";
 import Thema from "./components/Thema";
-import useAuth from "./hooks/auth/useAuth";
 import useAuthStore from "./stores/useAuthStore";
 import useConversationsStore from "./stores/useConversationsStore";
 import useConversations from "./hooks/chat/useConversations";
+import { getCurrentUser } from "./servieces/authService";
 
 
 function App() {
 
   const design = useContext(DesignContext);
   
-  const { loading } = useAuth();
+  // const { loading } = useAuth();
   const currentUser = useAuthStore(state => state.currentUser);
+  const setCurrentUser = useAuthStore(state => state.setCurrentUser);
   
   const activeConversationId = useConversationsStore((state) => state.activeConversationId)
   const { setActiveConversation } = useConversations();
 
-  if ( loading ) return <LoadingScreen bg={design?.thema ? bgDark : bg}/>
-
+  useEffect(() => {
+    (async () => {
+      const user = await getCurrentUser();
+      if (user) {
+        setCurrentUser(user);
+      }
+    })();
+  },[]);
+  
   return (
     <div className="h-screen w-screen flex justify-center items-center "
          style={{backgroundImage: `url(${design?.thema ? bgDark : bg})`}}>

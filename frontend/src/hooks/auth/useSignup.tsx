@@ -18,7 +18,8 @@ export const useSignupForm = () => {
         const handleSignupForm = async (e: React.FormEvent) => {
             e.preventDefault();
 
-            if (formData.password !== formData.confirm) {
+           try {
+             if (formData.password !== formData.confirm) {
                 setMsgError('Passwords musst be the same! ')
                 return;
             }
@@ -39,9 +40,15 @@ export const useSignupForm = () => {
                 setFormData(defaultsignUp);
                 setCurrentUser(user);
                 navigate('/');
-            } else {
-                setMsgError(user.message);
-            }
+            } 
+
+           } catch (err) {
+                if (err instanceof Error) {
+                    setMsgError(err.message);
+                } else {
+                    setMsgError('An unknown error occurred.');
+                }
+           }
         }
 
         const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {

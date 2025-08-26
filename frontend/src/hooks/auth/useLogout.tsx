@@ -1,3 +1,4 @@
+import { logout } from "../../servieces/authService";
 import useAuthStore from "../../stores/useAuthStore";
 
 export const useLogout = () => {
@@ -5,7 +6,7 @@ export const useLogout = () => {
     
     const handleLogout = () => {
         setCurrentUser(null);
-        localStorage.removeItem('user');
+        return logout();
     }
     return {
         handleLogout
