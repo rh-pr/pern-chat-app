@@ -4,6 +4,8 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.route.js';
 import messageRoutes from './routes/message.route.js';
+import usersRoutes from './routes/users.route.js';
+
 import prisma from './db/prisma.js';
 
 doten.config();
@@ -23,6 +25,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/users", usersRoutes);
 
 
 

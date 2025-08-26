@@ -2,11 +2,8 @@ import express from "express";
 import { login, logout, signup, getMe } from "../controllers/auth.controller.js";
 import protectRoute from "../middleware/protectRoute.js";
 import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
 
 const router = express.Router();
-
 
 const upload = multer({ dest: "dist" });
 
