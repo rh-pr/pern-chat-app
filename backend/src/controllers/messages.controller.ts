@@ -60,29 +60,35 @@ export const sendMessage = async (req: Request, res: Response) => {
 
 export const getMessages = async (req: Request, res: Response ) => {
     try {
-        const { id: chatId } = req.params;
+        const chatId = req.query.id as string;
         const senderId = req.user.id;
 
-        const conversation = await prisma.conversation.findFirst({
+        if (!chatId || !senderId) {
+            console.log('chat: ', chatId);
+            console.log('senderId: ', senderId);
+            
+            res.status(404).json({error: 'Invalid credentials'});
+            return;
+        }
+
+        const data = await prisma.message.findMany({
             where: {
-                participantIds: {
-                    hasEvery: [senderId, chatId]
-                }
-            },
-            include: {
-                messages: {
-                    orderBy: {
-                        createdAt: 'asc'
-                    }
+                senderId: {
+                    equals: senderId
+                },
+                conversationId: {
+                    equals: chatId
                 }
             }
         });
 
-        if ( !conversation ) {
-            res.status(200).json([]);
+
+        if ( !data ) {
+            res.status(400).json({error: 'Error by retrieving data from db...'});
             return;
         }
-        res.status(200).json(conversation.messages);
+        
+        res.status(200).json(data);
 
 
     }  catch(error: any) {
