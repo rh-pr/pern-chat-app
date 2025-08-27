@@ -9,14 +9,28 @@ export const getUsers = async (req: Request, res: Response) => {
             res.status(400).json({ error: 'Pliease fill in all fields'});
             return;
         }
+
+        const userConversations = await prisma.conversation.findMany({
+            where: {
+                participantIds: { has: userId },
+            },
+            select: { id: true },
+        });
+
+        const conversationIds = userConversations.map(c => c.id) || [];
+
         const data = await prisma.user.findMany({
             where: {
-                id: {not: userId}
+                id: { not: userId }, 
+                conversations: {
+                none: { id: { in: conversationIds } }, 
+                },
             },
             select: {
                 id: true,
                 fullName: true,
-                profilePic: true
+                profilePic: true,
+                converationsIds: true
             }
         });
 
