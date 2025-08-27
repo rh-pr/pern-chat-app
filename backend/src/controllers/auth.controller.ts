@@ -61,7 +61,7 @@ export const signup = async (req: Request, res: Response) => {
             }
         });
 
-        if ( newUser ) {
+        if ( newUser && newUser.id) {
 
             generateToken( newUser.id, res);
 
