@@ -11,6 +11,8 @@ export const useSignupForm = () => {
         const [formData, setFormData] = useState<SignupFormType>(defaultsignUp);
         const [msgError, setMsgError] = useState<string>('');
 
+        const [loading, setLoading] = useState(false)
+
         const navigate = useNavigate();
         const setCurrentUser = useAuthStore(state => state.setCurrentUser);
 
@@ -19,6 +21,7 @@ export const useSignupForm = () => {
             e.preventDefault();
 
            try {
+            setLoading(true);
              if (formData.password !== formData.confirm) {
                 setMsgError('Passwords musst be the same! ')
                 return;
@@ -36,10 +39,6 @@ export const useSignupForm = () => {
                 data.append('profilePic', formData.profilePic)
             }
 
-            console.log('data from form', formData);
-            console.log('data', data);
-            
-           
             setMsgError('');
 
             const user = await signup(data);
@@ -49,6 +48,8 @@ export const useSignupForm = () => {
                 setCurrentUser(user);
                 navigate('/');
             } 
+
+            setLoading(false);
 
            } catch (err) {
                 if (err instanceof Error) {
@@ -84,6 +85,7 @@ export const useSignupForm = () => {
         }
 
         return {
+            loading,
             isFile,
             formData,
             msgError,

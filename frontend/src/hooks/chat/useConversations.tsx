@@ -4,7 +4,6 @@ import { getUserConversations, createConversation } from "../../servieces/conver
 
 import useConversationsStore from '../../stores/useConversationsStore';
 import useAuthStore from "../../stores/useAuthStore";
-import { updateLocalConversations } from "../../utils/localStorage";
 
 
 const useConversations = () => {
@@ -26,14 +25,17 @@ const useConversations = () => {
     }
 
     const getRecipent = () => {
-        return conversations.find(conv => conv.id === activeConversationId)?.participants[0]
+        return conversations.find(conv => 
+                    conv.id === activeConversationId)?.participants.filter(part => 
+                        part.id !== currentUser?.id)[0];    
     }
-
     const addConversation = async (newParticipantId : string) => {
 
         if (!currentUser) return;
          try {
+            
             const newConversation = await createConversation(currentUser.id, newParticipantId);
+            
             if (newConversation) {
                 updateConversations(newConversation);
                 updateCurrentUserConvList(newConversation.id);

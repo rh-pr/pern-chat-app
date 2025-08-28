@@ -9,6 +9,7 @@
         const colors = design?.colors;
 
         const {
+            loading,
             isFile,
             formData,
             msgError,
@@ -198,8 +199,8 @@
                     </Link>
     
                     <div className="w-full flex justify-center">
-                        <button type="submit" className={`font-bold py-2 px-4 text-lg md:text-xl  rounded-[10px] `}
-                                style={{color: colors?.headerColor, backgroundColor: colors?.buttonColor}}>Sign Up</button>
+                        <button type="submit" disabled={loading} className={`font-bold py-2 px-4 text-lg md:text-xl  rounded-[10px] `}
+                                style={{color: colors?.headerColor, backgroundColor: colors?.buttonColor}}>{loading ? 'Signing...' : 'Sign Up' }</button>
                     </div>
                 </form>
             </div>

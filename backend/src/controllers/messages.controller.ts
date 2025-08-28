@@ -3,14 +3,14 @@ import prisma from "../db/prisma.js";
 
 export const sendMessage = async (req: Request, res: Response) => {
     try {
-        const { message } = req.body;
-        const { id: reseiverId } = req.params;
+        const { body } = req.body;
+        const  receiverId  = req.query.receiverId as string;
         const senderId = req.user.id;
 
         let conversation = await prisma.conversation.findFirst({
             where: {
                 participantIds: {
-                    hasEvery: [senderId, reseiverId]
+                    hasEvery: [senderId, receiverId]
                 }
             }
         });
@@ -19,7 +19,7 @@ export const sendMessage = async (req: Request, res: Response) => {
             conversation = await prisma.conversation.create({
                 data: {
                     participantIds: {
-                        set: [senderId, reseiverId]
+                        set: [senderId, receiverId]
                     }
                 }
             })
@@ -29,7 +29,7 @@ export const sendMessage = async (req: Request, res: Response) => {
             data: {
                 senderId,
                 conversationId: conversation.id,
-                body: message
+                body: body
             }
         });
 
@@ -50,8 +50,6 @@ export const sendMessage = async (req: Request, res: Response) => {
 
         res.status(201).json(newMsg);
 
-
-
     }  catch(error:any) {
         console.log('Error in signup controller ', error.message)
         res.status(500).json({error: ' Internal server error...'})
@@ -60,7 +58,7 @@ export const sendMessage = async (req: Request, res: Response) => {
 
 export const getMessages = async (req: Request, res: Response ) => {
     try {
-        const chatId = req.query.id as string;
+        const chatId = req.query.chatId as string;
         const senderId = req.user.id;
 
         if (!chatId || !senderId) {
@@ -97,32 +95,4 @@ export const getMessages = async (req: Request, res: Response ) => {
     }
 }
 
-export const getConversations = async (req: Request, res: Response ) => {
-    try {
-        const userId = req.user.id;
-
-        const users = await prisma.user.findMany({
-            where: {
-                NOT: {
-                    id: userId
-                },
-            },
-            select: {
-                id: true,
-                fullName: true,
-                profilePic: true
-            }
-        })
-
-        if ( !users ) {
-            res.status(200).json([])
-        }
-
-        res.status(200).json(users)
-
-    } catch(error: any) {
-        console.log('Error in signup controller ', error.message)
-        res.status(500).json({error: ' Internal server error...'})
-    }
-}
 

@@ -2,8 +2,8 @@ import useUsersStore from "../../stores/useUsersStore";
 import { useEffect } from "react";
 import useAuthStore from "../../stores/useAuthStore";
 import { getUsers } from "../../servieces/usersService";
-import useConversationsStore from "../../stores/useConversationsStore";
 import useConversations from "./useConversations";
+import useConversationsStore from "../../stores/useConversationsStore";
 
 
 const useUsers = () => {
@@ -12,9 +12,10 @@ const useUsers = () => {
     const setUsers = useUsersStore((state) => state.setUsers);
     // const updateUsers = useUsersStore((state) => state.updateUsers);
     const toggleOpenList = useUsersStore((state) => state.toggleOpenList);
+    const conversations = useConversationsStore((state) => state.conversations);
+
 
     const currentUser = useAuthStore(state => state.currentUser);
-    const currentUserConvList = useConversationsStore((state) => state.currentUserConvList);
 
     const { addConversation } = useConversations();
    
@@ -28,7 +29,6 @@ const useUsers = () => {
     }
 
     const chooseUser  = async (userId: string) => {
-        
         const res = await addConversation(userId);
        
         if (res) {
@@ -39,11 +39,14 @@ const useUsers = () => {
     }
 
    useEffect(() => {
+    
     const fetchUser = async () => {
-        if (!currentUser || !currentUser.id || currentUserConvList.length === 0) return;
+        
+        if (!currentUser || !currentUser.id) return;
         try {
-            const data = await getUsers(currentUser.id, currentUserConvList || []);
-            if (data && users.length === 0) {
+            const data = await getUsers(currentUser.id);
+            
+            if (data && data.length > 0 ) {  
                 setUsers(data);
             }
         } catch (error) {
@@ -52,7 +55,7 @@ const useUsers = () => {
     };
 
     fetchUser();
-}, []);
+}, [conversations]);
 
 
 

@@ -45,7 +45,6 @@ export const login = async (formData: LoginFormType) => {
 //todo: delete console
 export const signup = async (formData: FormData) => {
     try {
-        
         if (!authValidation(formData)) {
             throw new Error('Invalid data...');
         }

@@ -1,28 +1,14 @@
 import api from '../api/axios';
 import { MessageType } from '../types/main';
-// import { getDummyMessages } from '../utils/dummy';
 
-
-export const getMessages = async (convertId: string): Promise<MessageType[]> => {
+export const getMessages = async (chatId: string): Promise<MessageType[]> => {
     try {
         
-        const res = await api.get(`/getMessages?conversationId=${convertId}`);
-        return res.data;
-        // const data = getDummyMessages(convertId);
-        // return data;
-        
-
-        // const stored = localStorage.getItem(`${convertId}`);
-        // if (stored) {
-        //     return JSON.parse(stored) as MessageType[];
-        // } else {
-        //     // const res = await api.get(`/getMessages?conversationId=${convertId}`);
-        //     // localStorage.setItem(`${convertId}`, JSON.stringify( res.data))
-        //     // return res.data;
-        //     const data = getDummyMessages(convertId);
-        //     localStorage.setItem(`${convertId}`, JSON.stringify(data));
-        //     return data;
-        // }
+        const res = await api.get(`/messages/getMessages?chatId=${chatId}`);
+        if (res) {
+            return res.data;
+        }
+        return [];
 
     } catch (err) {
         console.error('Error by retrieving messages: ', err);

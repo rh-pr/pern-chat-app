@@ -5,8 +5,7 @@ import { sendMessage, getMessages } from '../controllers/messages.controller.js'
 const router = express.Router();
 
 router.get('/getMessages', protectRoute, getMessages)
-
-router.post('/send/:id', protectRoute, sendMessage)
+router.post('/sendMessage', protectRoute, sendMessage)
 
 
 export default router;

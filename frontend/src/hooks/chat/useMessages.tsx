@@ -4,7 +4,6 @@ import useConversationsStore from "../../stores/useConversationsStore";
 import {  sendMessage } from '../../servieces/messagesService';
 import useAuthStore from "../../stores/useAuthStore";
 import { EmojiClickData } from 'emoji-picker-react'
-import { updateLocalConversation } from "../../utils/localStorage";
 
 const useConversation = () => {
     const messages = useMessagesStore((state) => state.messages);
@@ -59,6 +58,8 @@ const useConversation = () => {
         const res = await sendMessage(newMsg);
 
         if (res) {
+            console.log('updated');
+            
             updateMessages(newMsg);
             deletedFiles();
             deletedImages();
