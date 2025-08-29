@@ -1,6 +1,5 @@
 import { Request, Response } from "express"
 import prisma from "../db/prisma.js";
-import cloudinary from "../cloudinary/cloudinary.js";
 import { uploadAndDelete } from "../utils/uploadAndDelete.js";
 
 export const sendMessage = async (req: Request, res: Response) => {
@@ -45,8 +44,6 @@ export const sendMessage = async (req: Request, res: Response) => {
             }
         });
 
-
-
         res.status(201).json(newMsg);
 
     }  catch(error:any) {
@@ -70,9 +67,6 @@ export const getMessages = async (req: Request, res: Response ) => {
 
         const data = await prisma.message.findMany({
             where: {
-                senderId: {
-                    equals: senderId
-                },
                 conversationId: {
                     equals: chatId
                 }

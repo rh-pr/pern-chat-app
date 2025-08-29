@@ -20,7 +20,8 @@ export type DesignContextType = {
 export type ConversationsType = {
   id: string,
   participants: UserType[],
-  lastMessage: MessageType | null
+  lastMessage: MessageType | null,
+  messages?: MessageType[] | null
 }
 
 

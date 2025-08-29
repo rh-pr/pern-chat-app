@@ -3,7 +3,6 @@ import prisma from '../db/prisma.js';
 import bcryptjs from 'bcryptjs';
 
 import generateToken  from '../utils/generateToken.js';
-import cloudinary from "../cloudinary/cloudinary.js";
 import { uploadAndDelete } from "../utils/uploadAndDelete.js";
 
 

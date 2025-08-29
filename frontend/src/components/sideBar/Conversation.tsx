@@ -11,6 +11,7 @@ function Conversation({data}: {data: ConversationsType}) {
     const currentUser = useAuthStore((state) => state.currentUser)
     const activeConversationId = useConversationsStore((state) => state.activeConversationId);
     const [user, setUser] = useState<UserType | null>(null);
+    const [lastMessage, setLastMessage] = useState<string>('');
 
     
 
@@ -18,12 +19,18 @@ function Conversation({data}: {data: ConversationsType}) {
       if (data && data.participants) {
         const filteredUser = data.participants.filter(part => part.id !== currentUser?.id);
         setUser(filteredUser[0]);
+        if (data.messages?.length) {
+          setLastMessage(data.messages[0].body)
+        }
       }
     },[data]);
 
      if (!data || !data.participants || data.participants.length === 0 || !user) {
         return null; 
     }
+
+    console.log('message last : in here@ ', data);
+    
     
   return (
     <div className="w-full min-h-18 overflow-x-hidden flex items-center gap-4 px-2 rounded-[15px] cursor-pointer hover:hue-rotate-20 hover:shadow-lg  duration-[0.1s] " 
@@ -43,7 +50,7 @@ function Conversation({data}: {data: ConversationsType}) {
             </h1>
             <p className=" overflow-hidden text-ellipsis whitespace-nowrap w-full " 
                style={{color: design?.colors.textColor}}>
-                    {data.lastMessage?.body}
+                    {lastMessage}
             </p>  
        </div>
     </div>
