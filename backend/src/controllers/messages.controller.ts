@@ -3,50 +3,32 @@ import prisma from "../db/prisma.js";
 
 export const sendMessage = async (req: Request, res: Response) => {
     try {
-        const { body } = req.body;
-        const  receiverId  = req.query.receiverId as string;
+        const { body, conversationId } = req.body;
         const senderId = req.user.id;
 
-        let conversation = await prisma.conversation.findFirst({
-            where: {
-                participantIds: {
-                    hasEvery: [senderId, receiverId]
-                }
-            }
-        });
+        
+        if ( !senderId || !conversationId) {
+            res.status(404).json({error: "Invalid credentionals"});
+            return;
+        }
 
-        if ( !conversation ) {
-            conversation = await prisma.conversation.create({
-                data: {
-                    participantIds: {
-                        set: [senderId, receiverId]
-                    }
-                }
-            })
-        };
+        const uploadFiles = req.files as {
+            [filename: string]:Express.Multer.File[];
+        }
 
+        const files = uploadFiles?.file || [];
+        const fotos = uploadFiles?.foto || [];
+
+        
         const newMsg = await prisma.message.create({
             data: {
                 senderId,
-                conversationId: conversation.id,
-                body: body
+                conversationId: conversationId,
+                body: body,
             }
         });
 
-        if (newMsg) {
-            conversation = await prisma.conversation.update({
-                where: {
-                    id: conversation.id
-                },
-                data: {
-                    messages: {
-                        connect: {
-                            id: newMsg.id
-                        }
-                    }
-                }
-            })
-        }
+
 
         res.status(201).json(newMsg);
 

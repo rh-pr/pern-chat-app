@@ -16,15 +16,21 @@ export const getMessages = async (chatId: string): Promise<MessageType[]> => {
     }
 }
 
-export const sendMessage = async (message: MessageType): Promise<MessageType | null>  => {
+export const sendMessage = async (message: FormData): Promise<MessageType | null>  => {
     try {
-        const res = await api.post('/sendMessage', message);
+        console.log('messages are: ', message);
+        
+        const res = await api.post(`messages/sendMessage`, message, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        } );
         return res.data;
     
      
     } catch (err) {
         console.error('Error sending message: ', err);
-        return null; // Re-throw the error for further handling
+        return null; 
     }
 }
 

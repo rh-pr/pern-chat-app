@@ -43,7 +43,9 @@ const useConversation = () => {
     //    if (!currentUser || !files || !images || files?.length <= 0 || images?.length <= 0) return;
         if (!currentUser ) return;
 
-        console.log('images', images)
+        const formData = new FormData();
+        
+
         const newMsg = {
             id: '',
             body: msg,
@@ -55,11 +57,25 @@ const useConversation = () => {
             createdAt: '',
         }
 
-        const res = await sendMessage(newMsg);
+        formData.append("body", msg);
+        formData.append("senderId", currentUser.id);
+        formData.append("conversationId", activeConversationId);
+
+        if (images?.length) {
+            images.forEach(img => {
+                formData.append('foto', img)
+            });
+        }
+
+        if (files?.length) {
+            files.forEach(file => {
+                formData.append('file', file);
+            })
+        }
+
+        const res = await sendMessage(formData);
 
         if (res) {
-            console.log('updated');
-            
             updateMessages(newMsg);
             deletedFiles();
             deletedImages();
@@ -83,14 +99,12 @@ const useConversation = () => {
         setOpenEmoji(false);
     }, []);
 
-    
     const handleForm = (e:React.FormEvent) => {
         e.preventDefault();
         send(msgText, files, images);
         setMsgText('');
     }
 
-    
     const handleKey = (
         e: React.KeyboardEvent<HTMLTextAreaElement> ) => {
     
@@ -102,8 +116,42 @@ const useConversation = () => {
                 
             }
         }
+    }  
+    
+    const handleImage = (
+        e:  React.ChangeEvent<HTMLInputElement>,
+        setErrorMessage: (msg: string) => void ) => {
+        const selectedImage = e.target.files?.[0];
+        if(!selectedImage) return;
+        if (selectedImage.type === "image/png" ||
+            selectedImage.type === "image/jpg"  || 
+            selectedImage.type === "image/jpeg" ||
+            selectedImage.type === "image/webp") {
+            updateImages(selectedImage);
+            setOpenFileMenu(false);
+            return;
+            }
+        setErrorMessage('png, jpg, jpeg, webp');
+        setOpenFileMenu(true);
+        return;
+
     }
 
+    const handleFile = (
+        e:  React.ChangeEvent<HTMLInputElement>,
+        setErrorMessage: (msg: string) => void ) => {
+        const selectedFile = e.target.files?.[0];
+        if(!selectedFile) return;
+        if (selectedFile.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+            selectedFile.type === "application/pdf" ) {
+            updateFiles(selectedFile);
+            setOpenFileMenu(false);
+            return;
+            }
+        setErrorMessage('doc, pdf');
+        setOpenFileMenu(true);
+    }
+    
 
     const handleOpenFileMenu = useCallback(() => {
         setOpenFileMenu(true);
@@ -134,6 +182,8 @@ const useConversation = () => {
         filteredImages,
         deletedImages,
         removeFile,
+        handleFile,
+        handleImage
     };
 };
 
