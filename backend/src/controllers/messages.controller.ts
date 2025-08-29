@@ -1,5 +1,7 @@
 import { Request, Response } from "express"
 import prisma from "../db/prisma.js";
+import cloudinary from "../cloudinary/cloudinary.js";
+import { uploadAndDelete } from "../utils/uploadAndDelete.js";
 
 export const sendMessage = async (req: Request, res: Response) => {
     try {
@@ -18,13 +20,28 @@ export const sendMessage = async (req: Request, res: Response) => {
 
         const files = uploadFiles?.file || [];
         const fotos = uploadFiles?.foto || [];
-
         
+       
+        const filesUrl = await Promise.all(    
+            files.map( async (file) => {
+                return await uploadAndDelete(file.path, `files/${conversationId}`);
+            })
+        );
+        
+        const imagesUrl = await Promise.all(
+            fotos.map( async(foto) => {
+                return await uploadAndDelete(foto.path, `images/${conversationId}`);
+            })
+        );
+        
+
         const newMsg = await prisma.message.create({
             data: {
                 senderId,
                 conversationId: conversationId,
                 body: body,
+                images: imagesUrl,
+                files: filesUrl,
             }
         });
 

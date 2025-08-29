@@ -40,14 +40,8 @@ export const signup = async (req: Request, res: Response) => {
 
 
         if (req.file) {
-            const uploadResult = await cloudinary.uploader.upload(req.file.path, {
-                folder: 'profilePic',
-            });
-            
-            if(uploadResult) {
-                profilePic = await uploadAndDelete(req.file.path);
-            }
-            
+            profilePic = await uploadAndDelete(req.file.path, 'profilePic');
+  
         }
 
         const newUser = await prisma.user.create({

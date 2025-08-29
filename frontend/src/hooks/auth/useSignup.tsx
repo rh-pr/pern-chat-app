@@ -23,7 +23,8 @@ export const useSignupForm = () => {
            try {
             setLoading(true);
              if (formData.password !== formData.confirm) {
-                setMsgError('Passwords musst be the same! ')
+                setMsgError('Passwords musst be the same! ');
+                setLoading(false);
                 return;
             }
 
@@ -57,6 +58,7 @@ export const useSignupForm = () => {
                 } else {
                     setMsgError('An unknown error occurred.');
                 }
+                setLoading(false);
            }
         }
 

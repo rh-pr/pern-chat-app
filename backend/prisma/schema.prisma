@@ -56,27 +56,10 @@ model Message {
 
   files  String[]
   images String[]
+  audios String[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Files     Files[]
-  Images    Images[]
-}
-
-model Files {
-  id      String  @id @default(cuid())
-  name    String
-  url     String
-  msgId   String
-  message Message @relation(fields: [msgId], references: [id])
-}
-
-model Images {
-  id      String  @id @default(cuid())
-  name    String
-  url     String
-  msgId   String
-  message Message @relation(fields: [msgId], references: [id])
 }
 
 enum Gender {
