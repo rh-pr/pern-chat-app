@@ -19,6 +19,8 @@ import useAuthStore from "./stores/useAuthStore";
 import useConversationsStore from "./stores/useConversationsStore";
 import useConversations from "./hooks/chat/useConversations";
 import { getCurrentUser } from "./servieces/authService";
+import ForgetPassword from "./pages/ForgetPassword";
+import Confirmation from "./pages/Confirmation";
 
 
 function App() {
@@ -72,6 +74,14 @@ function App() {
         <Route
           path="/signup"
           element={currentUser ? <Navigate to="/" replace /> : <SignUp />} />
+
+        <Route
+          path="/forget"
+          element={currentUser ? <Navigate to="/" replace /> : <ForgetPassword />} />
+
+        <Route 
+          path="/confirmation"
+          element={currentUser ? <Navigate to="/" replace /> : <Confirmation /> } /> 
       </Routes>
     </div>
   )

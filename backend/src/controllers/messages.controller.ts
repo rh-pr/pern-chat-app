@@ -23,13 +23,17 @@ export const sendMessage = async (req: Request, res: Response) => {
        
         const filesUrl = await Promise.all(    
             files.map( async (file) => {
-                return await uploadAndDelete(file.path, `files/${conversationId}`);
+                const originalName = file.originalname.split('.').slice(0, -1).join('.');
+                const customName = `${originalName}_${Date.now()}`;
+                return await uploadAndDelete(file.path, `files/${conversationId}`, customName);
             })
         );
         
         const imagesUrl = await Promise.all(
             fotos.map( async(foto) => {
-                return await uploadAndDelete(foto.path, `images/${conversationId}`);
+                 const originalName = foto.originalname.split('.').slice(0, -1).join('.');
+                const customName = `${originalName}_${Date.now()}`;
+                return await uploadAndDelete(foto.path, `images/${conversationId}`, customName);
             })
         );
         
