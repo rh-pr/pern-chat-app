@@ -28,6 +28,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/conversations", conversationsRoutes)
+app.use("/api/password", (req, res) => {
+  res.status(201)
+  res.send('Password reset endpoint');
+})
 
 
 

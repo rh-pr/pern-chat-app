@@ -21,6 +21,7 @@ import useConversations from "./hooks/chat/useConversations";
 import { getCurrentUser } from "./servieces/authService";
 import ForgetPassword from "./pages/ForgetPassword";
 import Confirmation from "./pages/Confirmation";
+import ChangePassword from "./pages/ChangePassword";
 
 
 function App() {
@@ -82,6 +83,10 @@ function App() {
         <Route 
           path="/confirmation"
           element={currentUser ? <Navigate to="/" replace /> : <Confirmation /> } /> 
+
+         <Route 
+          path="/changePassword"
+          element={currentUser ? <Navigate to="/" replace /> : <ChangePassword /> } /> 
       </Routes>
     </div>
   )
