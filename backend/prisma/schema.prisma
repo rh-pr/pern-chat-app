@@ -64,14 +64,11 @@ model Message {
 
 model TemporaryCode {
   id        String   @id @default(cuid())
-  userId    String
+  userId    String   @unique
   code      String
   type      String // e.g., "reset", "verification"
   expiresAt DateTime
   createdAt DateTime @default(now())
-
-  @@index([code])
-  @@index([userId])
 }
 
 enum Gender {
