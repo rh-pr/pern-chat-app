@@ -6,6 +6,7 @@ import authRoutes from './routes/auth.route.js';
 import messageRoutes from './routes/message.route.js';
 import usersRoutes from './routes/users.route.js';
 import conversationsRoutes from './routes/conversations.route.js';
+import passwordRoutes from './routes/password.route.js';
 
 import prisma from './db/prisma.js';
 import { error } from 'console';
@@ -28,33 +29,8 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", usersRoutes);
-app.use("/api/conversations", conversationsRoutes)
-app.use("/api/password/sendEmail", (req, res) => {
-  res.status(201)
-  res.json({data: {
-    expireAt: new Date (Date.now() + 5 * 60 * 1000)
-    // error: 'This email not found'
-  }})
-})
-
-app.use("/api/password/confirm", (req, res) => {
-  res.status(201)
-  res.json({data: {
-    userId: '11'
-    // error: 'This email not found'
-  }})
-})
-
-app.use("/api/password/reset", (req, res) => {
-  res.status(201)
-  res.json({data: {
-    success: 'true'
-    // error: 'This email not found'
-  }})
-})
-
-
-
+app.use("/api/conversations", conversationsRoutes);
+app.use("/api/password", passwordRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on the port ${PORT}`)
