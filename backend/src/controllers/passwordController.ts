@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../db/prisma.js";
 import { sendEmailToUser } from "../utils/sendEmailToUser.js";
+import bcryptjs from 'bcryptjs';
 
 export const emailVerification = async (req: Request, res: Response) => {
     try {        
@@ -66,9 +67,8 @@ export const emailVerification = async (req: Request, res: Response) => {
 }
 
 export const codeConfirmation = async(req: Request, res: Response) => {
-try {        
+    try {        
         const { code, userId } = req.body;
-
         
         if (!code || !userId) {
             res.status(400).json({ error: 'Invalide credentionals'});
@@ -108,27 +108,49 @@ try {
         res.status(200).json({succsess: true});
 
     } catch (err) {
+        console.log('Can not reset password ', err)
+        res.status(500).json({error: ' Internal server error...'})
+    }
+
+}
+
+
+export const passwordReset = async(req: Request, res: Response) => {
+    try {        
+        const { password, confirmPassword, userId } = req.body;
+        
+        if (!password || !confirmPassword || !userId) {
+            res.status(400).json({ error: 'Invalide credentionals'});   
+            return;
+        }
+
+        if (password.trim() !== confirmPassword.trim()) {
+            res.status(400).json({error: 'Passwords do not match'});
+            return;
+        }
+
+        const salt = await bcryptjs.genSalt(10);
+        const hashedPassword = await bcryptjs.hash(password, salt);
+        
+
+        const data = await prisma.user.update({
+            where: {
+                id: userId
+            },
+            data: {
+                password: hashedPassword
+            }
+        });
+
+        if (!data) {
+            res.status(401).json({success: true})
+            return;
+        }
+
+        res.status(200).json({succsess: true});
+
+    } catch (err) {
         console.log('Can not find code ', err)
         res.status(500).json({error: ' Internal server error...'})
     }
 }
-
-export const passwordReset = (req: Request, res: Response) => {
-
-}
-
-// app.use("/api/password/confirm", (req, res) => {
-//   res.status(201)
-//   res.json({data: {
-//     userId: '11'
-//     // error: 'This email not found'
-//   }})
-// })
-
-// app.use("/api/password/reset", (req, res) => {
-//   res.status(201)
-//   res.json({data: {
-//     success: 'true'
-//     // error: 'This email not found'
-//   }})
-// })

@@ -3,10 +3,10 @@ import { emailVerification, codeConfirmation, passwordReset } from '../controlle
 
 const router = express.Router();
 
-console.log('email hehrehrefesh');
+
 
 router.post('/sendEmail', emailVerification);
 router.post('/confirm', codeConfirmation);
-router.post('reset', passwordReset);
+router.post('/reset', passwordReset);
 
 export default router;
