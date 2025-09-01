@@ -4,6 +4,8 @@ import { AuthState } from '../types/main';
 const useAuthStore = create<AuthState>((set) => ({
     currentUser: null,
     expireAt: null,
+    userId: null,
+    setUserId: (id: string | null) => set({ userId: id }),
     // setExpireAt: (time: Date | null) => set({ expireAt: time }),
     setExpireAt: (time: Date | null) => {
         set({ expireAt: time });

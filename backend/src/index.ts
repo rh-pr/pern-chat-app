@@ -40,7 +40,15 @@ app.use("/api/password/sendEmail", (req, res) => {
 app.use("/api/password/confirm", (req, res) => {
   res.status(201)
   res.json({data: {
-    code: true
+    userId: '11'
+    // error: 'This email not found'
+  }})
+})
+
+app.use("/api/password/reset", (req, res) => {
+  res.status(201)
+  res.json({data: {
+    success: 'true'
     // error: 'This email not found'
   }})
 })

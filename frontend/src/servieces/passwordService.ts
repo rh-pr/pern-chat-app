@@ -4,7 +4,7 @@ export const resetPassword = async (body: FormData) => {
     try {
         if (!body) return false
         const res = await api.post(`/password/reset`, body);
-        return Boolean(res);
+        return res.data
 
     } catch (err) {
         console.log('Internal server error', err);

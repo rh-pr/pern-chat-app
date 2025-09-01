@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import { sendCode } from "../../servieces/passwordService";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore";
@@ -12,6 +12,7 @@ const useConfirmation = () => {
 
     const expireAt = useAuthStore(state => state.expireAt);
     const setExpireAt = useAuthStore(state => state.setExpireAt);
+    const setUserId = useAuthStore(state => state.setUserId);
 
     const navigate = useNavigate();
     
@@ -46,8 +47,6 @@ const useConfirmation = () => {
         data.append('code', code);
 
         const res = await sendCode(data);
-
-        console.log('res; ', res);
         
 
         if (!res) {
@@ -62,9 +61,10 @@ const useConfirmation = () => {
             return false;  
         }
 
-        navigate('/changePassword');
+        setUserId(res.data.userId);
         setLoading(false);
         setExpireAt(null);
+        navigate('/changePassword');
         return true;
         
 

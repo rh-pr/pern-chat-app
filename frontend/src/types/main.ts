@@ -127,9 +127,13 @@ export type UsersState = {
 export type AuthState = {
   currentUser: UserType | null,
   expireAt: Date | null,
+  userId: string | null,
+  setUserId: (id: string | null) => void
   setCurrentUser: (currentUser: UserType | null) => void
   setExpireAt: (time: Date | null) => void
 }
+
+
 
 //props
 export interface TextareaProps {
@@ -163,4 +167,10 @@ export type SignupFormType = {
   email: string,
   profilePic: File | string,
   gender: string
+}
+
+//change profile
+export type ChangePasswordRequest = {
+  password: string,
+  confirm: string
 }
