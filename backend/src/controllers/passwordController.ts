@@ -46,7 +46,7 @@ export const emailVerification = async (req: Request, res: Response) => {
         });
 
         if (!data) {
-            res.status(401).json({success: true})
+            res.status(401).json({error: 'Internal error. Try again later'})
             return;
         }
 
@@ -54,7 +54,8 @@ export const emailVerification = async (req: Request, res: Response) => {
         
         res.status(200).json({
             data: {
-                expireAt: data.expiresAt
+                expireAt: data.expiresAt,
+                userId: data.userId
             }
         });
 
@@ -64,8 +65,52 @@ export const emailVerification = async (req: Request, res: Response) => {
     }
 }
 
-export const codeConfirmation = (req: Request, res: Response) => {
+export const codeConfirmation = async(req: Request, res: Response) => {
+try {        
+        const { code, userId } = req.body;
 
+        
+        if (!code || !userId) {
+            res.status(400).json({ error: 'Invalide credentionals'});
+            return;
+        }
+
+        const data = await prisma.temporaryCode.findFirst({
+            where: {
+                userId
+            }
+        });
+
+        if (!data) {
+            res.status(401).json({success: true})
+            return;
+        }
+
+        if (code !== data.code.toString()) {
+            res.status(401).json({error: 'Code is incorrect'})
+            return;
+        }
+
+        if (data.expiresAt < new Date()) {
+            res.status(401).json({error: 'Time is expired... Try again'})
+            return;
+        }
+
+        await prisma.temporaryCode.update({
+            where: {
+                userId: userId
+            },
+            data: {
+                type: 'confirmed'
+            }
+        })
+        
+        res.status(200).json({succsess: true});
+
+    } catch (err) {
+        console.log('Can not find code ', err)
+        res.status(500).json({error: ' Internal server error...'})
+    }
 }
 
 export const passwordReset = (req: Request, res: Response) => {
