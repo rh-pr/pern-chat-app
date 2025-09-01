@@ -2,7 +2,7 @@ import cloudinary from "../cloudinary/cloudinary.js";
 import fs from "fs/promises";
 
 export const uploadAndDelete = async (filePath: string, folderName: string, customName: string) => {
-    const uploadResult = await cloudinary.uploader.upload(filePath, { folder: folderName, public_id: customName });
+    const uploadResult = await cloudinary.uploader.upload(filePath, { folder: folderName, public_id: customName, resource_type: 'auto' });
     try {
          fs.unlink(filePath);
     } catch (err) {

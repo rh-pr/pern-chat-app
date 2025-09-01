@@ -19,7 +19,6 @@ const Message = ({ message }: { message?: MessageType }) => {
 		: "https://avatar.iran.liara.run/public/boy?username=janedoe";
 
 useEffect(() => {
-  console.log(message?.images, message?.files);
   
 },[message?.images, message?.files])
 

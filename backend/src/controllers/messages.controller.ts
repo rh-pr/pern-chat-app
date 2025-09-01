@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import prisma from "../db/prisma.js";
 import { uploadAndDelete } from "../utils/uploadAndDelete.js";
+import path from "path";
 
 export const sendMessage = async (req: Request, res: Response) => {
     try {
@@ -23,8 +24,10 @@ export const sendMessage = async (req: Request, res: Response) => {
        
         const filesUrl = await Promise.all(    
             files.map( async (file) => {
-                const originalName = file.originalname.split('.').slice(0, -1).join('.');
-                const customName = `${originalName}_${Date.now()}`;
+                const ext = path.extname(file.originalname); // ".pdf", ".mp3", etc.
+                const originalName = file.originalname.split('.').slice(0, -1).join('.')+ext;
+                
+                const customName = `${Date.now()}_${originalName}`;
                 return await uploadAndDelete(file.path, `files/${conversationId}`, customName);
             })
         );

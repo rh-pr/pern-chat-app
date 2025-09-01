@@ -39,7 +39,7 @@ export const signup = async (req: Request, res: Response) => {
 
 
         if (req.file) {
-            profilePic = await uploadAndDelete(req.file.path, 'profilePic');
+            profilePic = await uploadAndDelete(req.file.path, 'profilePics', `${username}_${Date.now()}`);
   
         }
 

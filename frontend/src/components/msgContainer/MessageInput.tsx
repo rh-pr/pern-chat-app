@@ -1,4 +1,4 @@
-import { Send, Mic, Paperclip, SmilePlus } from "lucide-react";
+import { Send, Mic, Paperclip, SmilePlus, Loader } from "lucide-react";
 import EmojiPicker from 'emoji-picker-react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { useContext, FormEvent,  useMemo,  } from "react";
@@ -21,6 +21,7 @@ const MessageInput = () => {
     const {smileRef} = useEmojiPicker();
 
     const {
+        loading,
         msgText,
         textAreaRef,
         setOpenEmoji,
@@ -86,7 +87,8 @@ const MessageInput = () => {
 				/>
 				<div className='absolute inset-y-0 end-0 flex items-end pb-2 pr-3'>
 					{msgText.trim().length > 0 || (files && files?.length > 0) || (images && images?.length > 0)? 
-                        <button type="submit"><Send className='w-6 h-6 ' style={buttonStyle}/> </button>:  
+                        <button type="submit" disabled={loading}>
+                            {loading ? <Loader  className='w-6 h-6 ' style={buttonStyle} /> : <Send className='w-6 h-6 ' style={buttonStyle}/>} </button>:  
                         <Mic className='w-6 h-6 ' style={{color: design?.colors.buttonColor}}/>}
 				</div>
 			</div>

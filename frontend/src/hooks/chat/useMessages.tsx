@@ -28,6 +28,7 @@ const useConversation = () => {
     const [msgText, setMsgText] = useState<string>('');
     const [openEmoji, setOpenEmoji] = useState<boolean>(false)
     const [openFileMenu, setOpenFileMenu] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
     
 
 
@@ -42,6 +43,7 @@ const useConversation = () => {
     const send = useCallback( async (msg: string, files: File[] | null, images: File[] | null) => {
     //    if (!currentUser || !files || !images || files?.length <= 0 || images?.length <= 0) return;
         if (!currentUser ) return;
+        setLoading(true)
 
         const formData = new FormData();
         
@@ -76,6 +78,7 @@ const useConversation = () => {
         const res = await sendMessage(formData);
 
         if (res) {
+            setLoading(false)
             updateMessages(newMsg);
             deletedFiles();
             deletedImages();
@@ -159,6 +162,7 @@ const useConversation = () => {
   
 
     return {
+        loading,
         msgText,
         setOpenEmoji,
         textAreaRef,

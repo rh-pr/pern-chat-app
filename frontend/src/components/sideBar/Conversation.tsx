@@ -29,9 +29,6 @@ function Conversation({data}: {data: ConversationsType}) {
         return null; 
     }
 
-    console.log('message last : in here@ ', data);
-    
-    
   return (
     <div className="w-full min-h-18 overflow-x-hidden flex items-center gap-4 px-2 rounded-[15px] cursor-pointer hover:hue-rotate-20 hover:shadow-lg  duration-[0.1s] " 
          style={{
