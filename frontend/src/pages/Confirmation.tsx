@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { DesignContext } from "../context/DesignContext";
 import useConfirmation from "../hooks/password/useConfirmation";
 import { Link, useLocation } from "react-router-dom";
+import CodeTimer from "../components/userData/CodeTimer";
 
 function Confirmation() {
     const design = useContext(DesignContext);
@@ -22,7 +23,7 @@ function Confirmation() {
 
                 <p className={`text-xl font-black text-center pt-5`}
                     style={{color: colors?.textColor}}>
-                    We’ve sent a one-time password  to your registered email address ({location.state.email}***@g***.com). Please enter it below to continue.
+                    We’ve sent a one-time password  to your registered email address ({location.state.email[0]}***@g***.com). Please enter it below to continue.
                 </p>
     
                 <form className="flex flex-col gap-4 pt-10" onSubmit={submitOPT}>
@@ -51,9 +52,13 @@ function Confirmation() {
 
                         </Link>
                     </div>
-                    <div className="w-full flex justify-center mt-10">
+
+                    <div className="text-center mt-4 text-3xl md:text-4xl mb-5 mt-[-10px]" style={{color: colors?.textColor}}    >
+                       <CodeTimer />
+                    </div>
+                    <div className="w-full flex justify-center ">
                         <button type="submit" className={`font-bold py-2 px-4 text-xl  rounded-[10px] `}
-                                style={{color: colors?.headerColor, backgroundColor: colors?.buttonColor}}>Login</button>
+                                style={{color: colors?.headerColor, backgroundColor: colors?.buttonColor}}>Next</button>
                     </div>
                 </form>
             </div>

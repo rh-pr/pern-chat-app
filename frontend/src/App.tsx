@@ -37,6 +37,15 @@ function App() {
 
   const [loading, setLoading] = useState(false)
 
+  const setExpireAt = useAuthStore(state => state.setExpireAt);
+
+  useEffect(() => {
+      const savedExpireAt = localStorage.getItem('expireAt');
+      if (savedExpireAt) {
+          setExpireAt(new Date(savedExpireAt));
+      }
+  }, [setExpireAt]); 
+
   useEffect(() => {
     (async () => {
       setLoading(true);
@@ -47,6 +56,7 @@ function App() {
       setLoading(false);
     })();
   },[]);
+
 
    if ( loading ) return <LoadingScreen bg={design?.thema ? bgDark : bg}/>
 

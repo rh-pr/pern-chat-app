@@ -1,6 +1,7 @@
-import { useState } from "react";
+import {useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { sendEmail } from "../../servieces/passwordService";
+import useAuthStore from "../../stores/useAuthStore";
 
 const useForgetPassword = () => {
     const navigate =  useNavigate();
@@ -8,7 +9,8 @@ const useForgetPassword = () => {
     const [formData, setFormData] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [loading, setLoading] = useState(false);
-
+    
+    const setExpireAt = useAuthStore(state => state.setExpireAt);
 
     const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData(e.target.value);
@@ -29,11 +31,10 @@ const useForgetPassword = () => {
             setLoading(false);
             return false
         } 
-
+        setExpireAt(new Date (Date.now() + 5 * 60 * 1000));
         navigate('/confirmation', {state: {email: formData}});
         setLoading(false); 
         return true;
-        
     }
 
     return {

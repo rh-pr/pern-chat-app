@@ -126,7 +126,9 @@ export type UsersState = {
 
 export type AuthState = {
   currentUser: UserType | null,
+  expireAt: Date | null,
   setCurrentUser: (currentUser: UserType | null) => void
+  setExpireAt: (time: Date | null) => void
 }
 
 //props
