@@ -8,7 +8,7 @@ function Confirmation() {
     const design = useContext(DesignContext);
     const colors = design?.colors;
 
-    const {formData, handleChanges, submitOPT} = useConfirmation();
+    const {formData, errorMessage, loading, handleChanges, submitOPT} = useConfirmation();
 
     const location = useLocation();
 
@@ -57,9 +57,12 @@ function Confirmation() {
                        <CodeTimer />
                     </div>
                     <div className="w-full flex justify-center ">
-                        <button type="submit" className={`font-bold py-2 px-4 text-xl  rounded-[10px] `}
-                                style={{color: colors?.headerColor, backgroundColor: colors?.buttonColor}}>Next</button>
+                        <button type="submit" disabled={loading} className={`font-bold py-2 px-4 text-xl  rounded-[10px] `}
+                                style={{color: colors?.headerColor, backgroundColor: colors?.buttonColor}}>{loading ? '...' : 'Next'}</button>
                     </div>
+
+                    {errorMessage && <p className="text-red-500 text-sm text-center">{errorMessage}</p>}
+
                 </form>
             </div>
         </div>

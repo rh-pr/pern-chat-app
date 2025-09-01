@@ -8,6 +8,7 @@ const useConfirmation = () => {
     const [loading, setLoading] = useState(false);
     const [minutes, setMinutes] = useState<number>(5);
     const [seconds, setSeconds] = useState<number>(0);
+    const [errorMessage, setErrorMessage] = useState<string>('');
 
     const expireAt = useAuthStore(state => state.expireAt);
     const setExpireAt = useAuthStore(state => state.setExpireAt);
@@ -34,7 +35,7 @@ const useConfirmation = () => {
     }, [expireAt]);
 
 
-
+//todo: handle exired code
     const submitOPT = async (e: React.FormEvent) => {
         e.preventDefault();
         
@@ -46,15 +47,28 @@ const useConfirmation = () => {
 
         const res = await sendCode(data);
 
-       if (res) {
-            navigate('/changePassword');
+        console.log('res; ', res);
+        
+
+        if (!res) {
             setLoading(false);
-            setExpireAt(null);
-            return true;
+            setErrorMessage('Internal server error, please try again later');
+            return false;  
         }
 
+        if (res?.error) {
+            setLoading(false);
+            setErrorMessage(res.error);
+            return false;  
+        }
+
+        navigate('/changePassword');
         setLoading(false);
-        return false;  
+        setExpireAt(null);
+        return true;
+        
+
+       
     }
 
     const handleChanges = (val: string, ind: number) => {
@@ -65,6 +79,7 @@ const useConfirmation = () => {
     }
     
     return {
+        errorMessage,
         minutes, 
         seconds,
         loading, 

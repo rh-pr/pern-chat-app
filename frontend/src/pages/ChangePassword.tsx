@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 function ChangePassword() {
   const design = useContext(DesignContext);
-    const colors = design?.colors;
+  const colors = design?.colors;
 
 
   return (
@@ -14,17 +14,51 @@ function ChangePassword() {
                 style={{backgroundColor: colors?.bgColor}}>
                 <h1 className={`text-3xl font-black text-center`}
                     style={{color: colors?.headerColor}}>
-                    Verify your identity
+                   Change your password
                 </h1>
 
-                <p className={`text-xl font-black text-center pt-5`}
-                    style={{color: colors?.textColor}}>
-                    We’ve sent a one-time password  to your registered email address (s***@g***.com). Please enter it below to continue.
-                </p>
     
                 <form className="flex flex-col gap-4 pt-10" onSubmit={() => {}}>
             
-                   
+                   <div>
+                        <label className={`label`}>
+                            <span 
+                                className={`font-bold text-lg md:text-xl`} 
+                                style={{color: colors?.textColor}}>
+                                    Password
+                            </span>
+                        </label>
+                        <input
+                            type='password'
+                            name="password"
+                            required
+                            value={''}
+                            onChange={ () => {} }
+                            minLength={6}
+                            placeholder='Enter Password'
+                            className={`w-full input input-bordered h-8 md:h-10 bg-[${colors?.inputColor}] pl-2 mt-2 `}
+                            style={{backgroundColor: colors?.inputColor}} />
+                    </div>
+    
+                    <div>
+                        <label className={`label`}>
+                            <span 
+                                className={`font-bold text-lg md:text-xl`} 
+                                style={{color: colors?.textColor}}>
+                                    Confirm Password
+                            </span>
+                        </label>
+                        <input
+                            type='password'
+                            name="confirm"
+                            required
+                            value={''}
+                            onChange={ () => {} }
+                            minLength={6}
+                            placeholder='Enter Password'
+                            className={`w-full input input-bordered h-8 md:h-10 pl-2 mt-2 `}
+                            style={{backgroundColor: colors?.inputColor}} />
+                    </div>
                 
                     <Link
                         to='/login'

@@ -16,8 +16,7 @@ export const sendCode = async (body: FormData) => {
     try {
         if (!body) return false
         const res = await api.post(`/password/confirm`, body);
-        return Boolean(res.data);     
-
+        return res.data;     
 
     } catch (err) {
         console.log('Internal server error', err);
@@ -30,7 +29,7 @@ export const sendEmail = async (body: FormData) => {
     try {
         if (!body) return false
         const res = await api.post(`/password/sendEmail`, body);
-        return Boolean(res.data);     
+        return res.data;     
     } catch (err) {
         console.log('Internal server error', err);
         return false;

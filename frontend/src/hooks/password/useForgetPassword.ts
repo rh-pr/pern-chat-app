@@ -16,6 +16,7 @@ const useForgetPassword = () => {
         setFormData(e.target.value);
     }
 
+    //todo: change expireAt
 
     const submitEmail = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -26,12 +27,13 @@ const useForgetPassword = () => {
 
         const res = await sendEmail(data);
     
-        if (!res) {
+        if (!res || !res.data.expireAt) {
             setErrorMessage('User with this email not found');
             setLoading(false);
             return false
         } 
-        setExpireAt(new Date (Date.now() + 5 * 60 * 1000));
+
+        setExpireAt( new Date (res.data.expireAt))
         navigate('/confirmation', {state: {email: formData}});
         setLoading(false); 
         return true;

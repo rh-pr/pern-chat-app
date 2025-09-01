@@ -8,6 +8,7 @@ import usersRoutes from './routes/users.route.js';
 import conversationsRoutes from './routes/conversations.route.js';
 
 import prisma from './db/prisma.js';
+import { error } from 'console';
 
 doten.config();
 const PORT = 5000;
@@ -28,10 +29,22 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/conversations", conversationsRoutes)
-app.use("/api/password", (req, res) => {
+app.use("/api/password/sendEmail", (req, res) => {
   res.status(201)
-  res.send('Password reset endpoint');
+  res.json({data: {
+    expireAt: new Date (Date.now() + 5 * 60 * 1000)
+    // error: 'This email not found'
+  }})
 })
+
+app.use("/api/password/confirm", (req, res) => {
+  res.status(201)
+  res.json({data: {
+    code: true
+    // error: 'This email not found'
+  }})
+})
+
 
 
 
