@@ -41,8 +41,12 @@ export const getUsers = async (req: Request, res: Response) => {
 
         res.status(200).json(data);
 
-    } catch (err:any) {
-        console.log('Can not retrieve all users ', err.message)
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.log('Can not retrieve all users ', err.message)
+        } else {
+            console.log('Can not retrieve all users ', err)
+        }
         res.status(500).json({error: ' Internal server error...'})
     }
 }

@@ -72,8 +72,12 @@ export const sendMessage = async (req: Request, res: Response) => {
             }
         }
 
-    }  catch(error:any) {
-        console.log('Error in signup controller ', error.message)
+    }  catch(error: unknown) {
+        if (error instanceof Error) {
+            console.log('Error in signup controller ', error.message)
+        } else {
+            console.log('Error in signup controller ', error)
+        }
         res.status(500).json({error: ' Internal server error...'})
     }
 }
@@ -108,8 +112,12 @@ export const getMessages = async (req: Request, res: Response ) => {
         res.status(200).json(data);
 
 
-    }  catch(error: any) {
-        console.log('Error in signup controller ', error.message)
+    }  catch(error: unknown) {
+        if (error instanceof Error) {
+            console.log('Error in signup controller ', error.message)
+        } else {
+            console.log('Error in signup controller ', error)
+        }
         res.status(500).json({error: ' Internal server error...'})
     }
 }

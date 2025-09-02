@@ -68,8 +68,12 @@ export const signup = async (req: Request, res: Response) => {
             res.status(400).json({ error: 'Invalid user data'});
         }
 
-    } catch(error: any) {
-        console.log('Error in signup controller ', error.message)
+    } catch(error: unknown) {
+        if (error instanceof Error) {
+            console.log('Error in signup controller ', error.message)
+        } else {
+            console.log('Error in signup controller ', error)
+        }
         res.status(500).json({error: ' Internal server error...'})
     }
 }
@@ -100,8 +104,12 @@ export const login = async (req: Request, res: Response) => {
             username: user.username,
             profilePic: user.profilePic
         })
-    } catch(error: any) {
-        console.log('Error in login controller ', error.message)
+    } catch(error: unknown) {
+        if (error instanceof Error) {
+            console.log('Error in login controller ', error.message)
+        } else {
+            console.log('Error in login controller ', error)
+        }
         res.status(500).json({error: ' Internal server error...'})
     }
 }
@@ -110,8 +118,12 @@ export const logout = async (req: Request, res: Response)=> {
     try {
         res.cookie("jwt", "", { maxAge: 0});
         res.status(200).json({message: 'Logged out successfully...'})
-    } catch(error: any) {
-        console.log('Error in logout controller ', error.message)
+    } catch(error: unknown) {
+        if (error instanceof Error) {
+            console.log('Error in logout controller ', error.message)
+        } else {
+            console.log('Error in logout controller ', error)
+        }
         res.status(500).json({error: ' Internal server error...'})
     }
 }
@@ -132,8 +144,12 @@ export const getMe = async (req: Request, res: Response) => {
             profilePic: user.profilePic
         });
 
-    } catch(error: any) {
-        console.log('Error in logout controller ', error.message)
+    }  catch(error: unknown) {
+        if (error instanceof Error) {
+            console.log('Error by retrieving user controller ', error.message)
+        } else {
+            console.log('Error by by retrieving user controller ', error)
+        }
         res.status(500).json({error: ' Internal server error...'})
     }
 }

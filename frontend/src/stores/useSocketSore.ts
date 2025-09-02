@@ -7,7 +7,7 @@ interface SocketStore {
     connect: (userId: string) => void;
     disconnect: () => void;
 }
-const socketURL = import.meta.env.MODE === "development" ? "http://localhost:5001" : "/";
+const socketURL = import.meta.env.MODE === "development" ? "http://localhost:5000" : "/";
 
 const useSocketStore = create<SocketStore>((set, get) => ({
     socket: null,
