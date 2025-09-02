@@ -1,34 +1,17 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext } from "react"
 import { DesignContext } from "../../context/DesignContext"
-import { ConversationsType, UserType } from "../../types/main";
+import { ConversationsType} from "../../types/main";
 import useConversations from "../../hooks/chat/useConversations";
 import  useConversationsStore  from "../../stores/useConversationsStore";
-import useAuthStore from "../../stores/useAuthStore";
-import useSocketStore from "../../stores/useSocketSore";
+
+import useConversation from "../../hooks/chat/useConversation";
 
 function Conversation({data}: {data: ConversationsType}) {
     const design = useContext(DesignContext);
     const { setCurrentConversation } = useConversations();
-    const currentUser = useAuthStore((state) => state.currentUser)
     const activeConversationId = useConversationsStore((state) => state.activeConversationId);
-    const [user, setUser] = useState<UserType | null>(null);
-    const [lastMessage, setLastMessage] = useState<string>('');
-    const [isOnline, setIsOnline] = useState<boolean>(false)
-
-    const { onlineUsers } = useSocketStore();
-
-
-
-    useEffect(() => {
-      if (data && data.participants) {
-        const filteredUser = data.participants.filter(part => part.id !== currentUser?.id);
-        setUser(filteredUser[0]);
-        setIsOnline(onlineUsers.includes(filteredUser[0].id));
-        if (data.messages?.length) {
-          setLastMessage(data.messages[0].body)
-        }
-      }
-    },[data, onlineUsers]);
+    
+    const { user, lastMessage, isOnline } = useConversation(data);
 
      if (!data || !data.participants || data.participants.length === 0 || !user) {
         return null; 

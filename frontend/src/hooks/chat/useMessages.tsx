@@ -82,7 +82,6 @@ const useConversation = () => {
             updateMessages(newMsg);
             deletedFiles();
             deletedImages();
-            // updateLocalConversation(activeConversationId, newMsg);
         }
        
     },[]);

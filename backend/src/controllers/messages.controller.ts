@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import prisma from "../db/prisma.js";
 import { uploadAndDelete } from "../utils/uploadAndDelete.js";
 import path from "path";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 export const sendMessage = async (req: Request, res: Response) => {
     try {
@@ -52,6 +53,26 @@ export const sendMessage = async (req: Request, res: Response) => {
         });
 
         res.status(201).json(newMsg);
+
+        const conversation = await prisma.conversation.findFirst({
+            where: {
+                id: conversationId
+            }
+        });
+
+        if (conversation) {
+            const receiverId = conversation.participantIds.find(
+                (id) => id !== senderId
+            ) || '';
+            
+            const receiverSocketId = getReceiverSocketId(receiverId);
+
+            if (receiverSocketId) {
+            	io.to(receiverSocketId).emit("newMessage", newMsg);
+            }
+        }
+
+        // res.status(201).json(newMsg);
 
     }  catch(error:any) {
         console.log('Error in signup controller ', error.message)

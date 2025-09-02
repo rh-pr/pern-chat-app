@@ -12,8 +12,6 @@ const useMessagesStore = create<MessagesTypeStore>((set) => ({
     setMessages: (newConversation: MessageType[] | null) => 
         set(() => ({ messages: newConversation })),
 
-
-
     updateFiles: (newFile: File) => 
         set((state) => {
             const fileExists = state.files.some(file => file.name === newFile.name);
@@ -21,6 +19,7 @@ const useMessagesStore = create<MessagesTypeStore>((set) => ({
               files: fileExists ? state.files : [...state.files, newFile],
             };
         }),
+
     filteredFile: (fileName: string) =>
         set((state) => ({files: state.files?.filter(file => file.name !== fileName)})),
 

@@ -40,7 +40,6 @@ const useConversations = () => {
                 updateConversations(newConversation);
                 updateCurrentUserConvList(newConversation.id);
                 setActiveConversation(newConversation.id);
-                // updateLocalConversations(newConversation);
                 return true;
             }
         } catch (error) {
@@ -72,21 +71,6 @@ const useConversations = () => {
                     setConversations(data);
                  
                 }
-            
-            
-            // const localConversations = localStorage.getItem('conversations');
-            // if (localConversations) {
-            //     const data = JSON.parse(localConversations);
-            //     setConversations(data);
-            // } else {
-            //      const data = await getUserConversations(currentUser.id);
-
-            //     if (data && conversations.length === 0) {
-            //         setConversations(data);
-            //         localStorage.setItem('conversations', JSON.stringify(data));
-            //     }
-            // }
-           
         }
         fetchConversations ();
             
