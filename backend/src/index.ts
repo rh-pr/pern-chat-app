@@ -8,20 +8,18 @@ import usersRoutes from './routes/users.route.js';
 import conversationsRoutes from './routes/conversations.route.js';
 import passwordRoutes from './routes/password.route.js';
 
+import { app, server } from "./socket/socket.js";
+
 import prisma from './db/prisma.js';
-import { error } from 'console';
-
 doten.config();
-const PORT = 5000;
 
-const app = express();
+const PORT = 5000;
 
 app.use(cors({
     origin: process.env.FRONTEND_URL  || "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
     credentials: true
 }));
-
 
 app.use(cookieParser());
 app.use(express.json());
@@ -32,7 +30,7 @@ app.use("/api/users", usersRoutes);
 app.use("/api/conversations", conversationsRoutes);
 app.use("/api/password", passwordRoutes);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server is running on the port ${PORT}`)
 })
 

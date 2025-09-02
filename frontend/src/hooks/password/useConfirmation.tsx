@@ -12,7 +12,8 @@ const useConfirmation = () => {
 
     const expireAt = useAuthStore(state => state.expireAt);
     const setExpireAt = useAuthStore(state => state.setExpireAt);
-    const setUserId = useAuthStore(state => state.setUserId);
+    const userId = useAuthStore(state => state.userId);
+
 
     const navigate = useNavigate();
     
@@ -41,14 +42,16 @@ const useConfirmation = () => {
         e.preventDefault();
         
         setLoading(true);
+
         const code = formData.join('');
 
-        const data = new FormData();
-        data.append('code', code);
+        const body = {
+            code: code,
+            userId: userId
+        }
 
-        const res = await sendCode(data);
+        const res = await sendCode(body);
         
-
         if (!res) {
             setLoading(false);
             setErrorMessage('Internal server error, please try again later');
@@ -61,13 +64,10 @@ const useConfirmation = () => {
             return false;  
         }
 
-        setUserId(res.data.userId);
         setLoading(false);
         setExpireAt(null);
         navigate('/changePassword');
         return true;
-        
-
        
     }
 

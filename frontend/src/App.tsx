@@ -22,6 +22,7 @@ import { getCurrentUser } from "./servieces/authService";
 import ForgetPassword from "./pages/ForgetPassword";
 import Confirmation from "./pages/Confirmation";
 import ChangePassword from "./pages/ChangePassword";
+import useSocketStore from "./stores/useSocketSore";
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
   const [loading, setLoading] = useState(false)
 
   const setExpireAt = useAuthStore(state => state.setExpireAt);
+  const { connect, disconnect } = useSocketStore();
 
   useEffect(() => {
       const savedExpireAt = localStorage.getItem('expireAt');
@@ -45,6 +47,15 @@ function App() {
           setExpireAt(new Date(savedExpireAt));
       }
   }, [setExpireAt]); 
+
+  useEffect(() => {
+
+    if (currentUser) {
+      connect(currentUser.id);
+      return () => disconnect();
+      
+    }
+  },[currentUser, connect, disconnect])
 
   useEffect(() => {
     (async () => {
@@ -68,7 +79,6 @@ function App() {
       {activeConversationId && <div className='md:hidden fixed top-2 left-3 font-black '  
           style={{color: `${design?.colors.buttonColor}`}}
           onClick={() => setActiveConversation('')}> <ArrowLeftToLine /></div>}
-
       <Routes>
         <Route 
           path="/" 

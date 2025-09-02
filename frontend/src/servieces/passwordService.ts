@@ -1,6 +1,7 @@
 import api from "../api/axios";
+import { codeType, resetPasswordType } from "../types/main";
 
-export const resetPassword = async (body: FormData) => {
+export const resetPassword = async (body: resetPasswordType) => {
     try {
         if (!body) return false
         const res = await api.post(`/password/reset`, body);
@@ -12,7 +13,7 @@ export const resetPassword = async (body: FormData) => {
     }
 } 
 
-export const sendCode = async (body: FormData) => {
+export const sendCode = async (body: codeType) => {
     try {
         if (!body) return false
         const res = await api.post(`/password/confirm`, body);
@@ -25,10 +26,10 @@ export const sendCode = async (body: FormData) => {
 }
 
 //todo: remove comments
-export const sendEmail = async (body: FormData) => {
+export const sendEmail = async (body: string) => {
     try {
         if (!body) return false
-        const res = await api.post(`/password/sendEmail`, body);
+        const res = await api.post(`/password/sendEmail`, {email: body});
         return res.data;     
     } catch (err) {
         console.log('Internal server error', err);

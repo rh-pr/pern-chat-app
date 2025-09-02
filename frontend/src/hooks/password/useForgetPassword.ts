@@ -11,6 +11,8 @@ const useForgetPassword = () => {
     const [loading, setLoading] = useState(false);
     
     const setExpireAt = useAuthStore(state => state.setExpireAt);
+    const setUserId = useAuthStore(state => state.setUserId);
+
 
     const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData(e.target.value);
@@ -22,18 +24,16 @@ const useForgetPassword = () => {
         e.preventDefault();
         setLoading(true);
 
-        const data = new FormData();
-        data.append('email', formData);
-
-        const res = await sendEmail(data);
+        const res = await sendEmail(formData);
     
-        if (!res || !res.data.expireAt) {
+        if (!res || !res?.data?.expireAt) {
             setErrorMessage('User with this email not found');
             setLoading(false);
             return false
         } 
 
-        setExpireAt( new Date (res.data.expireAt))
+        setExpireAt( new Date (res.data.expireAt));
+        setUserId(res.data.userId);
         navigate('/confirmation', {state: {email: formData}});
         setLoading(false); 
         return true;

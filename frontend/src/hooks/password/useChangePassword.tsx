@@ -29,13 +29,14 @@ const useChangePassword = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        const data = new FormData();
-        data.append('password', formData.password);
-        data.append('confirm', formData.confirm);
-        data.append('userId', userId || '');
         
+        const body = {
+            password: formData.password,
+            confirmPassword: formData.confirm,
+            userId: userId || ''
+        }
 
-        const res = await resetPassword(data);
+        const res = await resetPassword(body);
         if (!res) {
             setErrorMessage('Something went wrong, please try again later');
             setLoading(false);

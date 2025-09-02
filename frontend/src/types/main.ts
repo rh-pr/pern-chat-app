@@ -174,3 +174,15 @@ export type ChangePasswordRequest = {
   password: string,
   confirm: string
 }
+
+
+export type codeType = {
+    code: string| null,
+    userId: string | null,
+}
+
+export type resetPasswordType = {
+  password: string,
+  confirmPassword: string,
+  userId: string
+}
