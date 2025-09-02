@@ -7,6 +7,7 @@ interface SocketStore {
     connect: (userId: string) => void;
     disconnect: () => void;
 }
+const socketURL = import.meta.env.MODE === "development" ? "http://localhost:5001" : "/";
 
 const useSocketStore = create<SocketStore>((set, get) => ({
     socket: null,
@@ -14,7 +15,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
     connect: (userId) => {
         if(get().socket) return;
         
-        const socket = io(import.meta.env.VITE_BASE_URL, {
+        const socket = io(socketURL, {
             query: {userId},
         });
 
