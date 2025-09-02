@@ -6,7 +6,6 @@ const useAuthStore = create<AuthState>((set) => ({
     expireAt: null,
     userId: null,
     setUserId: (id: string | null) => set({ userId: id }),
-    // setExpireAt: (time: Date | null) => set({ expireAt: time }),
     setExpireAt: (time: Date | null) => {
         set({ expireAt: time });
         if (time) {

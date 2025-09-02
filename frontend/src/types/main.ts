@@ -56,14 +56,6 @@ export type UserType = {
       updatedAt?: string,
 }
 
-// export type MessageType = {
-//     id: number,
-// 		fromMe: boolean,
-// 		body: string,
-//     files?: File[] | null,
-//     images?: File[] | null
-// }
-
 //context
 export type ChatContextType = {
     conversation: MessageType[] | null,
@@ -145,8 +137,6 @@ export interface TextareaProps {
 
 export type UploadMenuType = {
   setOpenFileMenu: (uploadFile: boolean) => void,
-  // setFiles: React.Dispatch<React.SetStateAction<File[] | null>>;
-  // setImages: React.Dispatch<React.SetStateAction<File[] | null>>;
 }
 
 export type MessagesComponentType = {

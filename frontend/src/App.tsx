@@ -29,7 +29,6 @@ function App() {
 
   const design = useContext(DesignContext);
   
-  // const { loading } = useAuth();
   const currentUser = useAuthStore(state => state.currentUser);
   const setCurrentUser = useAuthStore(state => state.setCurrentUser);
   

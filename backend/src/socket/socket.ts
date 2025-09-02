@@ -20,7 +20,6 @@ const userSocketMap: {[key: string]: string} = {}
 
 io.on("connection", (socket) => {
     const userId = socket.handshake.query.userId as string;
-console.log('iser connected')
     if (userId) userSocketMap[userId] = socket.id;
 
     io.emit("getOnlineUsers", Object.keys(userSocketMap));

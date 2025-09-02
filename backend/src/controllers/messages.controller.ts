@@ -72,8 +72,6 @@ export const sendMessage = async (req: Request, res: Response) => {
             }
         }
 
-        // res.status(201).json(newMsg);
-
     }  catch(error:any) {
         console.log('Error in signup controller ', error.message)
         res.status(500).json({error: ' Internal server error...'})

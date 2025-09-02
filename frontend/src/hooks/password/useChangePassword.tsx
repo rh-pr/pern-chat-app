@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { ChangePasswordRequest } from "../../types/main";
 import { resetPassword } from "../../servieces/passwordService";
 import { useNavigate } from "react-router-dom";
-import useConfirmation from "./useConfirmation";
 import useAuthStore from "../../stores/useAuthStore";
 
 

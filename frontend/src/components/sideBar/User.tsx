@@ -11,7 +11,7 @@ function User({data}: {data: UserType}) {
 
   return (
     <div  className="relative w-full h-14 flex items-center gap-4 px-2   cursor-pointer  hover:shadow-lg  duration-[0.1s] " 
-        style={{// backgroundColor: `rgba(${hexToRgb(design?.colors.buttonColor || "#000000")}, 0.7)`,
+        style={{
             borderBottom: `2px solid ${design?.colors.bgColor }`
           }}
         onClick={() => chooseUser(data.id)}>

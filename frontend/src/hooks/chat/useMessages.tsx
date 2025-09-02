@@ -41,8 +41,7 @@ const useConversation = () => {
     },[filteredFiles, filteredImages])
 
     const send = useCallback( async (msg: string, files: File[] | null, images: File[] | null) => {
-    //    if (!currentUser || !files || !images || files?.length <= 0 || images?.length <= 0) return;
-        if (!currentUser ) return;
+       if (!currentUser ) return;
         setLoading(true)
 
         const formData = new FormData();

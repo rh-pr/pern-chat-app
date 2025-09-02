@@ -10,7 +10,6 @@ const useUsers = () => {
     const users = useUsersStore((state) => state.users);
     const openUserList = useUsersStore((state) => state.openUserList)
     const setUsers = useUsersStore((state) => state.setUsers);
-    // const updateUsers = useUsersStore((state) => state.updateUsers);
     const toggleOpenList = useUsersStore((state) => state.toggleOpenList);
     const conversations = useConversationsStore((state) => state.conversations);
 

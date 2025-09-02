@@ -2,8 +2,6 @@ import {generateFileName} from '../../utils/generateFileName';
 
 function FilesList({files}: {files: File[] | string[]} ) {
   
-  console.log('filehghgyhfgfgfs' , files[0]);
-  //todo: open files in new tab
   return (
     <div>
         <ul >

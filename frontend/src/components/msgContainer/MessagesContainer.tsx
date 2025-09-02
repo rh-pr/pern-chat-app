@@ -9,8 +9,7 @@ import  useConversationsStore  from "../../stores/useConversationsStore";
 function MessaageContainer() {
 
     const activeConversationId = useConversationsStore((state) => state.activeConversationId);
-    // console.log('from msg', activeConversationId)
- 
+   
     if (!activeConversationId) {
       return <div className="flex flex-col justify-center items-center hidden md:flex md:w-[70vw] md:pb-3 h-full">
         <p className="f font-black text-center text-gray-500">Select a conversation to start chatting....</p>

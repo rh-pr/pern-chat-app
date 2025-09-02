@@ -71,7 +71,6 @@ export const useSignupForm = () => {
                     [name]: files[0], 
                 }));
                 setIsFile(true);
-                // setImgFile(files[0]);
             } else {
                 setFormData(prev => ({
                     ...prev,

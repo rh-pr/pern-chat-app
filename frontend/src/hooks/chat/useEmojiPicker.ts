@@ -7,13 +7,13 @@ const useEmojiPicker = () => {
 
     const {setOpenEmoji} = useMessages();
 
+    //todo: handle emoji
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const target = event.target as HTMLElement;
 
             if (target.classList.contains('epr-emoji-img')) {
-                console.log("Clicked on an emoji");
                 // handleEmoji();
                 return;
             }

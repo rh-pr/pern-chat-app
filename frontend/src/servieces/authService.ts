@@ -1,13 +1,8 @@
 import api from '../api/axios';
 
-import { currentUser as user } from '../dummy/dummy.json';
-
 import { LoginFormType } from '../types/main';
 import { authValidation } from '../utils/authValidation';
-// import { updateLocalUser } from '../utils/localStorage';
 
-
-//todo: add serverRequest
 export const getCurrentUser = async () => {
     try {
         const res = await api.get('/auth/profile');
@@ -32,8 +27,6 @@ export const login = async (formData: LoginFormType) => {
         
         const res = await api.post('/auth/login', formData);
 
-        // updateLocalUser(res.data);
-
         return res.data;
         
     } catch (err) {
@@ -54,8 +47,6 @@ export const signup = async (formData: FormData) => {
                 'Content-Type': 'multipart/form-data'
             }
         });
-
-        // updateLocalUser(res.data);
         
         return res.data;
     } catch (err) {

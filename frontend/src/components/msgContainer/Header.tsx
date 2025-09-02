@@ -16,7 +16,6 @@ function Header() {
 
 
   if (!activeConv) return ;
-  // const [onlineStatus, setOnlineStatus] = useState(true);
 
   return (
     <div className="w-full h-16 flex items-center justify-between p-2 " style={{backgroundColor: design?.colors.buttonColor}}>
