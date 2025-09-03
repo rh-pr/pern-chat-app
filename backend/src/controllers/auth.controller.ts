@@ -5,10 +5,11 @@ import bcryptjs from 'bcryptjs';
 import generateToken  from '../utils/generateToken.js';
 import { uploadAndDelete } from "../utils/uploadAndDelete.js";
 
+import {AuthenticatedRequest, LoginBody, MulterRequest, SignupBody,} from '../types/types.js';
 
 // for default avatar use site:  https://avatar-placeholder.iran.liara.run/
 
-export const signup = async (req: Request, res: Response) => {
+export const signup = async (req:  MulterRequest<SignupBody>, res: Response) => {
     try {
         const { fullname, username, password, confirm, email, gender } = req.body;
 
@@ -40,7 +41,6 @@ export const signup = async (req: Request, res: Response) => {
 
         if (req.file) {
             profilePic = await uploadAndDelete(req.file.path, 'profilePics', `${username}_${Date.now()}`);
-  
         }
 
         const newUser = await prisma.user.create({
@@ -78,7 +78,7 @@ export const signup = async (req: Request, res: Response) => {
     }
 }
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request<{}, {}, LoginBody>, res: Response) => {
     try {
         const {  password, username } = req.body;
 
@@ -128,7 +128,7 @@ export const logout = async (req: Request, res: Response)=> {
     }
 }
 
-export const getMe = async (req: Request, res: Response) => {
+export const getMe = async (req: AuthenticatedRequest, res: Response) => {
     try {
         const user = await prisma.user.findUnique({where: {id: req.user.id}});
 
