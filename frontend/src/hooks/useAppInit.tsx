@@ -1,12 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useSocketStore from "../stores/useSocketSore";
 import useAuthStore from "../stores/useAuthStore";
-
+import { getCurrentUser } from "../servieces/authService";
 
 const useAppInit = () => {
 
-  
+    const [loading, setLoading] = useState<boolean>(false)
     const currentUser = useAuthStore(state => state.currentUser);
+    const setCurrentUser = useAuthStore(state => state.setCurrentUser);
     const setExpireAt = useAuthStore(state => state.setExpireAt);
 
     const { connect, disconnect } = useSocketStore();
@@ -27,19 +28,20 @@ const useAppInit = () => {
         }
     },[currentUser, connect, disconnect])
 
-    // useEffect(() => {
-    //     (async () => {
-    //     setLoading(true);
-    //     const user = await getCurrentUser();
-    //     if (user) {
-    //         setCurrentUser(user);
-    //     }
-    //     setLoading(false);
-    //     })();
-    // },[]);
+    useEffect(() => {
+        (async () => {
+        setLoading(true);
+        const user = await getCurrentUser();
+        if (user) {
+            setCurrentUser(user);
+        }
+        setLoading(false);
+        })();
+    },[]);
 
 
         return {
+            loading
         }
 }
 

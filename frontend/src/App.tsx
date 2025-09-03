@@ -21,6 +21,7 @@ import Confirmation from "./pages/Confirmation";
 import ChangePassword from "./pages/ChangePassword";
 import useAppInit from "./hooks/useAppInit";
 import useAuthStore from "./stores/useAuthStore";
+import LoadingScreen from "./components/route/LoadingScreen";
 
 function App() {
 
@@ -30,9 +31,9 @@ function App() {
   const activeConversationId = useConversationsStore((state) => state.activeConversationId)
   const { setActiveConversation } = useConversations();
 
-   useAppInit();
+   const {loading} = useAppInit();
 
-    // if ( loading ) return <LoadingScreen bg={design?.thema ? bgDark : bg}/>
+    if ( loading ) return <LoadingScreen bg={design?.thema ? bgDark : bg}/>
 
   
   return (

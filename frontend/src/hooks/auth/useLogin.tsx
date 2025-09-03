@@ -9,39 +9,45 @@ export const useLoginForm = () => {
         username: '',
         password: ''
        });
+    const [loading, setLoading] = useState<boolean>(false);
 
-       const [isError, setIsError] = useState<boolean>(false);
+    const [isError, setIsError] = useState<boolean>(false);
 
-       const setCurrentUser = useAuthStore(state => state.setCurrentUser);
+    const setCurrentUser = useAuthStore(state => state.setCurrentUser);
 
-       const handleLoginForm = async (e: React.FormEvent) => {
-            e.preventDefault();
-            const user = await login(formData);
+    const handleLoginForm = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
 
-            if (user) {
-                setFormData({
-                    username: '',
-                    password: ''
-                }); 
-                setIsError(false);
-                setCurrentUser(user);
-            } else {
-                setIsError(true);
-            }
-       }
+        const user = await login(formData);
 
-       const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
-            const { name, value } = e.target;
-            setFormData((prev: LoginFormType) => ({
-                ...prev,
-                [name]: value
-            }));
-       }
+        if (user) {
+            setFormData({
+                username: '',
+                password: ''
+            }); 
+            setIsError(false);
+            setLoading(false);
+            setCurrentUser(user);
+        } else {
+            setIsError(true);
+            setLoading(false);
+        }
+    }
 
-         return {
-            formData,
-            isError,
-            handleChanges,
-            handleLoginForm,
-        };
+    const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData((prev: LoginFormType) => ({
+            ...prev,
+            [name]: value
+        }));
+    }
+
+    return {
+        loading,
+        formData,
+        isError,
+        handleChanges,
+        handleLoginForm,
+    };
 }

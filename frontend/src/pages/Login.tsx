@@ -6,7 +6,7 @@
     function Login() {
        const design = useContext(DesignContext);
        const colors = design?.colors;
-       const {formData, isError, handleChanges, handleLoginForm } = useLoginForm();
+       const {formData, loading, isError, handleChanges, handleLoginForm } = useLoginForm();
 
       return (
             <div className={`flex flex-col items-center justify-center w-full  h-full`}>
@@ -77,8 +77,8 @@
     
     
                     <div className="w-full flex justify-center">
-                        <button type="submit" className={`font-bold py-2 px-4 text-xl  rounded-[10px] `}
-                                style={{color: colors?.headerColor, backgroundColor: colors?.buttonColor}}>Login</button>
+                        <button disabled={loading} type="submit" className={`font-bold py-2 px-4 text-xl  rounded-[10px] `}
+                                style={{color: colors?.headerColor, backgroundColor: colors?.buttonColor}}>{loading ? 'Login...' : 'Login'}</button>
                     </div>
                 </form>
             </div>
