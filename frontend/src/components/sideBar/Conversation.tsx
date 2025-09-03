@@ -36,7 +36,7 @@ function Conversation({data}: {data: ConversationsType}) {
             </h1>
             <p className=" overflow-hidden text-ellipsis whitespace-nowrap w-full " 
                style={{color: design?.colors.textColor}}>
-                    {lastMessage}
+                    {lastMessage.convId === data.id && <span>{lastMessage.msg}</span>}
             </p>  
        </div>
     </div>
