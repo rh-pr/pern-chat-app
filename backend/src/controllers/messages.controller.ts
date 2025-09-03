@@ -72,6 +72,7 @@ export const sendMessage = async (req: Request, res: Response) => {
             }
         }
 
+<<<<<<< HEAD
     }  catch (err: unknown) {
         if (err instanceof Error) {
             console.log('Message can not be sended ', err.message);
@@ -79,6 +80,15 @@ export const sendMessage = async (req: Request, res: Response) => {
             console.log('Message can not be sended ', err);
         }
         res.status(500).json({ error: 'Internal server error...' });
+=======
+    }  catch(error: unknown) {
+        if (error instanceof Error) {
+            console.log('Error in signup controller ', error.message)
+        } else {
+            console.log('Error in signup controller ', error)
+        }
+        res.status(500).json({error: ' Internal server error...'})
+>>>>>>> d27956e7caa51731fe4a20373325a03d31f90b2d
     }
 }
 
@@ -112,6 +122,7 @@ export const getMessages = async (req: Request, res: Response ) => {
         res.status(200).json(data);
 
 
+<<<<<<< HEAD
     }  catch (err: unknown) {
         if (err instanceof Error) {
             console.log('Error by retreiving messages ', err.message);
@@ -119,6 +130,15 @@ export const getMessages = async (req: Request, res: Response ) => {
             console.log('Error by retreiving messages ', err);
         }
         res.status(500).json({ error: 'Internal server error...' });
+=======
+    }  catch(error: unknown) {
+        if (error instanceof Error) {
+            console.log('Error in signup controller ', error.message)
+        } else {
+            console.log('Error in signup controller ', error)
+        }
+        res.status(500).json({error: ' Internal server error...'})
+>>>>>>> d27956e7caa51731fe4a20373325a03d31f90b2d
     }
 }
 

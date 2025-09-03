@@ -5,10 +5,11 @@ import bcryptjs from 'bcryptjs';
 import generateToken  from '../utils/generateToken.js';
 import { uploadAndDelete } from "../utils/uploadAndDelete.js";
 
+import {AuthenticatedRequest, LoginBody, MulterRequest, SignupBody,} from '../types/types.js';
 
 // for default avatar use site:  https://avatar-placeholder.iran.liara.run/
 
-export const signup = async (req: Request, res: Response) => {
+export const signup = async (req:  MulterRequest<SignupBody>, res: Response) => {
     try {
         const { fullname, username, password, confirm, email, gender } = req.body;
 
@@ -40,7 +41,6 @@ export const signup = async (req: Request, res: Response) => {
 
         if (req.file) {
             profilePic = await uploadAndDelete(req.file.path, 'profilePics', `${username}_${Date.now()}`);
-  
         }
 
         const newUser = await prisma.user.create({
@@ -68,6 +68,7 @@ export const signup = async (req: Request, res: Response) => {
             res.status(400).json({ error: 'Invalid user data'});
         }
 
+<<<<<<< HEAD
     } catch (err: unknown) {
         if (err instanceof Error) {
             console.log('Error in signup controller ', err.message);
@@ -75,10 +76,19 @@ export const signup = async (req: Request, res: Response) => {
             console.log('Error in signup controller ', err);
         }
         res.status(500).json({ error: 'Internal server error...' });
+=======
+    } catch(error: unknown) {
+        if (error instanceof Error) {
+            console.log('Error in signup controller ', error.message)
+        } else {
+            console.log('Error in signup controller ', error)
+        }
+        res.status(500).json({error: ' Internal server error...'})
+>>>>>>> d27956e7caa51731fe4a20373325a03d31f90b2d
     }
 }
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request<{}, {}, LoginBody>, res: Response) => {
     try {
         const {  password, username } = req.body;
 
@@ -104,6 +114,7 @@ export const login = async (req: Request, res: Response) => {
             username: user.username,
             profilePic: user.profilePic
         })
+<<<<<<< HEAD
     } catch (err: unknown) {
         if (err instanceof Error) {
             console.log('Error in login controller ', err.message);
@@ -111,6 +122,15 @@ export const login = async (req: Request, res: Response) => {
             console.log('Error in login controller ', err);
         }
         res.status(500).json({ error: 'Internal server error...' });
+=======
+    } catch(error: unknown) {
+        if (error instanceof Error) {
+            console.log('Error in login controller ', error.message)
+        } else {
+            console.log('Error in login controller ', error)
+        }
+        res.status(500).json({error: ' Internal server error...'})
+>>>>>>> d27956e7caa51731fe4a20373325a03d31f90b2d
     }
 }
 
@@ -118,6 +138,7 @@ export const logout = async (req: Request, res: Response)=> {
     try {
         res.cookie("jwt", "", { maxAge: 0});
         res.status(200).json({message: 'Logged out successfully...'})
+<<<<<<< HEAD
     } catch (err: unknown) {
         if (err instanceof Error) {
             console.log('Error in logout controller ', err.message);
@@ -125,10 +146,19 @@ export const logout = async (req: Request, res: Response)=> {
             console.log('Error in logout controller ', err);
         }
         res.status(500).json({ error: 'Internal server error...' });
+=======
+    } catch(error: unknown) {
+        if (error instanceof Error) {
+            console.log('Error in logout controller ', error.message)
+        } else {
+            console.log('Error in logout controller ', error)
+        }
+        res.status(500).json({error: ' Internal server error...'})
+>>>>>>> d27956e7caa51731fe4a20373325a03d31f90b2d
     }
 }
 
-export const getMe = async (req: Request, res: Response) => {
+export const getMe = async (req: AuthenticatedRequest, res: Response) => {
     try {
         const user = await prisma.user.findUnique({where: {id: req.user?.id}});
 
@@ -144,6 +174,7 @@ export const getMe = async (req: Request, res: Response) => {
             profilePic: user.profilePic
         });
 
+<<<<<<< HEAD
     } catch (err: unknown) {
         if (err instanceof Error) {
             console.log('Can not find the user ', err.message);
@@ -151,5 +182,14 @@ export const getMe = async (req: Request, res: Response) => {
             console.log('Can not find the user ', err);
         }
         res.status(500).json({ error: 'Internal server error...' });
+=======
+    }  catch(error: unknown) {
+        if (error instanceof Error) {
+            console.log('Error by retrieving user controller ', error.message)
+        } else {
+            console.log('Error by by retrieving user controller ', error)
+        }
+        res.status(500).json({error: ' Internal server error...'})
+>>>>>>> d27956e7caa51731fe4a20373325a03d31f90b2d
     }
 }

@@ -7,7 +7,7 @@
 		"rootDir": "./backend",
 		"strict": true,
 		"esModuleInterop": true, 
-		"skipLibCheck": true 
+		"skipLibCheck": true ,
 	},
 	"ts-node": {
 		"esm": true
