@@ -50,8 +50,13 @@ export const emailVerification = async (req, res) => {
         });
     }
     catch (err) {
-        console.log('Can not find user with this email ', err);
-        res.status(500).json({ error: ' Internal server error...' });
+        if (err instanceof Error) {
+            console.log('Can not find user with this email', err.message);
+        }
+        else {
+            console.log('Can not find user with this email', err);
+        }
+        res.status(500).json({ error: 'Internal server error...' });
     }
 };
 export const codeConfirmation = async (req, res) => {
@@ -89,8 +94,13 @@ export const codeConfirmation = async (req, res) => {
         res.status(200).json({ succsess: true });
     }
     catch (err) {
-        console.log('Can not reset password ', err);
-        res.status(500).json({ error: ' Internal server error...' });
+        if (err instanceof Error) {
+            console.log('Can not reset password ', err.message);
+        }
+        else {
+            console.log('Can not reset password', err);
+        }
+        res.status(500).json({ error: 'Internal server error...' });
     }
 };
 export const passwordReset = async (req, res) => {
@@ -121,7 +131,12 @@ export const passwordReset = async (req, res) => {
         res.status(200).json({ succsess: true });
     }
     catch (err) {
-        console.log('Can not find code ', err);
-        res.status(500).json({ error: ' Internal server error...' });
+        if (err instanceof Error) {
+            console.log('Can not find code', err.message);
+        }
+        else {
+            console.log('Can not find code ', err);
+        }
+        res.status(500).json({ error: 'Internal server error...' });
     }
 };

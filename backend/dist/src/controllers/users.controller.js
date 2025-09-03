@@ -12,7 +12,7 @@ export const getUsers = async (req, res) => {
             },
             select: { id: true },
         });
-        const conversationIds = userConversations.map(c => c.id) || [];
+        const conversationIds = userConversations.map((c) => c.id) || [];
         const data = await prisma.user.findMany({
             where: {
                 id: { not: userId },
@@ -34,7 +34,12 @@ export const getUsers = async (req, res) => {
         res.status(200).json(data);
     }
     catch (err) {
-        console.log('Can not retrieve all users ', err.message);
-        res.status(500).json({ error: ' Internal server error...' });
+        if (err instanceof Error) {
+            console.log('Can not retrieve all users ', err.message);
+        }
+        else {
+            console.log('Can not retrieve all users ', err);
+        }
+        res.status(500).json({ error: 'Internal server error...' });
     }
 };

@@ -90,7 +90,7 @@ export const getActiveConversation = async (req, res) => {
                 }
             }
         });
-        const conversations = data.filter(c => c.participants.length > 0);
+        const conversations = data.filter((c) => c.participants.length > 0);
         if (conversations.length === 0) {
             res.status(404).json({ error: 'No conversations found' });
             return;
@@ -98,7 +98,12 @@ export const getActiveConversation = async (req, res) => {
         res.status(200).json(data);
     }
     catch (err) {
-        console.log('Error by retrieving conversations ', err.message);
-        res.status(500).json({ error: ' Internal server error whz...' });
+        if (err instanceof Error) {
+            console.log('Error by retrieving conversations  ', err.message);
+        }
+        else {
+            console.log('Error by retrieving conversations  ', err);
+        }
+        res.status(500).json({ error: 'Internal server error...' });
     }
 };

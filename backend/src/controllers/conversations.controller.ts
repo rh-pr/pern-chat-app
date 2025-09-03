@@ -1,6 +1,22 @@
 import { Request, Response,RequestHandler  } from "express";
 import prisma from "../db/prisma.js";
 
+interface ConversationPreview {
+    id: string;
+    participants: { id: string; fullName: string; profilePic: string }[];
+    messages: {
+       conversationId: string;
+        senderId: string;
+        body: string;
+        files: string[];
+        images: string[];
+        audios: string[];
+        createdAt: Date;
+        updatedAt: Date;
+        sender: { id: string; fullName: string; profilePic: string };
+    }[];
+}
+
 export const addConversation  = async (req: Request, res: Response) => {
     try {
         const firstParticipant = req.query.firstParticipant as string;
@@ -105,7 +121,7 @@ export const getActiveConversation = async (req: Request, res: Response) => {
             }
         });
 
-         const conversations = data.filter(c => c.participants.length > 0);
+         const conversations = data.filter((c: ConversationPreview) => c.participants.length > 0);
 
         if (conversations.length === 0) {
              res.status(404).json({ error: 'No conversations found' });
@@ -115,9 +131,13 @@ export const getActiveConversation = async (req: Request, res: Response) => {
         res.status(200).json(data);
     
 
-    } catch (err:any) { 
-        console.log('Error by retrieving conversations ', err.message)
-        res.status(500).json({error: ' Internal server error whz...'})
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.log('Error by retrieving conversations  ', err.message);
+        } else {
+            console.log('Error by retrieving conversations  ', err);
+        }
+        res.status(500).json({ error: 'Internal server error...' });
     }
 }
 

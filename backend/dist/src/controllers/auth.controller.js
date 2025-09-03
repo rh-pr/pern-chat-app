@@ -50,9 +50,14 @@ export const signup = async (req, res) => {
             res.status(400).json({ error: 'Invalid user data' });
         }
     }
-    catch (error) {
-        console.log('Error in signup controller ', error.message);
-        res.status(500).json({ error: ' Internal server error...' });
+    catch (err) {
+        if (err instanceof Error) {
+            console.log('Error in signup controller ', err.message);
+        }
+        else {
+            console.log('Error in signup controller ', err);
+        }
+        res.status(500).json({ error: 'Internal server error...' });
     }
 };
 export const login = async (req, res) => {
@@ -76,9 +81,14 @@ export const login = async (req, res) => {
             profilePic: user.profilePic
         });
     }
-    catch (error) {
-        console.log('Error in login controller ', error.message);
-        res.status(500).json({ error: ' Internal server error...' });
+    catch (err) {
+        if (err instanceof Error) {
+            console.log('Error in login controller ', err.message);
+        }
+        else {
+            console.log('Error in login controller ', err);
+        }
+        res.status(500).json({ error: 'Internal server error...' });
     }
 };
 export const logout = async (req, res) => {
@@ -86,14 +96,19 @@ export const logout = async (req, res) => {
         res.cookie("jwt", "", { maxAge: 0 });
         res.status(200).json({ message: 'Logged out successfully...' });
     }
-    catch (error) {
-        console.log('Error in logout controller ', error.message);
-        res.status(500).json({ error: ' Internal server error...' });
+    catch (err) {
+        if (err instanceof Error) {
+            console.log('Error in logout controller ', err.message);
+        }
+        else {
+            console.log('Error in logout controller ', err);
+        }
+        res.status(500).json({ error: 'Internal server error...' });
     }
 };
 export const getMe = async (req, res) => {
     try {
-        const user = await prisma.user.findUnique({ where: { id: req.user.id } });
+        const user = await prisma.user.findUnique({ where: { id: req.user?.id } });
         if (!user) {
             res.status(401).json({ error: ' User not found..' });
             return;
@@ -105,8 +120,13 @@ export const getMe = async (req, res) => {
             profilePic: user.profilePic
         });
     }
-    catch (error) {
-        console.log('Error in logout controller ', error.message);
-        res.status(500).json({ error: ' Internal server error...' });
+    catch (err) {
+        if (err instanceof Error) {
+            console.log('Can not find the user ', err.message);
+        }
+        else {
+            console.log('Can not find the user ', err);
+        }
+        res.status(500).json({ error: 'Internal server error...' });
     }
 };

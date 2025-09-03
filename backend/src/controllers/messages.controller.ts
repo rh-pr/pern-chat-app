@@ -7,7 +7,7 @@ import { getReceiverSocketId, io } from "../socket/socket.js";
 export const sendMessage = async (req: Request, res: Response) => {
     try {
         const { body, conversationId } = req.body;
-        const senderId = req.user.id;
+        const senderId = req.user?.id;
 
         
         if ( !senderId || !conversationId) {
@@ -62,7 +62,7 @@ export const sendMessage = async (req: Request, res: Response) => {
 
         if (conversation) {
             const receiverId = conversation.participantIds.find(
-                (id) => id !== senderId
+                (id: string) => id !== senderId
             ) || '';
             
             const receiverSocketId = getReceiverSocketId(receiverId);
@@ -72,16 +72,20 @@ export const sendMessage = async (req: Request, res: Response) => {
             }
         }
 
-    }  catch(error:any) {
-        console.log('Error in signup controller ', error.message)
-        res.status(500).json({error: ' Internal server error...'})
+    }  catch (err: unknown) {
+        if (err instanceof Error) {
+            console.log('Message can not be sended ', err.message);
+        } else {
+            console.log('Message can not be sended ', err);
+        }
+        res.status(500).json({ error: 'Internal server error...' });
     }
 }
 
 export const getMessages = async (req: Request, res: Response ) => {
     try {
         const chatId = req.query.chatId as string;
-        const senderId = req.user.id;
+        const senderId = req.user?.id;
 
         if (!chatId || !senderId) {
             console.log('chat: ', chatId);
@@ -108,9 +112,13 @@ export const getMessages = async (req: Request, res: Response ) => {
         res.status(200).json(data);
 
 
-    }  catch(error: any) {
-        console.log('Error in signup controller ', error.message)
-        res.status(500).json({error: ' Internal server error...'})
+    }  catch (err: unknown) {
+        if (err instanceof Error) {
+            console.log('Error by retreiving messages ', err.message);
+        } else {
+            console.log('Error by retreiving messages ', err);
+        }
+        res.status(500).json({ error: 'Internal server error...' });
     }
 }
 

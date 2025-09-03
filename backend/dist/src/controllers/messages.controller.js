@@ -5,7 +5,7 @@ import { getReceiverSocketId, io } from "../socket/socket.js";
 export const sendMessage = async (req, res) => {
     try {
         const { body, conversationId } = req.body;
-        const senderId = req.user.id;
+        const senderId = req.user?.id;
         if (!senderId || !conversationId) {
             res.status(404).json({ error: "Invalid credentionals" });
             return;
@@ -47,15 +47,20 @@ export const sendMessage = async (req, res) => {
             }
         }
     }
-    catch (error) {
-        console.log('Error in signup controller ', error.message);
-        res.status(500).json({ error: ' Internal server error...' });
+    catch (err) {
+        if (err instanceof Error) {
+            console.log('Message can not be sended ', err.message);
+        }
+        else {
+            console.log('Message can not be sended ', err);
+        }
+        res.status(500).json({ error: 'Internal server error...' });
     }
 };
 export const getMessages = async (req, res) => {
     try {
         const chatId = req.query.chatId;
-        const senderId = req.user.id;
+        const senderId = req.user?.id;
         if (!chatId || !senderId) {
             console.log('chat: ', chatId);
             console.log('senderId: ', senderId);
@@ -75,8 +80,13 @@ export const getMessages = async (req, res) => {
         }
         res.status(200).json(data);
     }
-    catch (error) {
-        console.log('Error in signup controller ', error.message);
-        res.status(500).json({ error: ' Internal server error...' });
+    catch (err) {
+        if (err instanceof Error) {
+            console.log('Error by retreiving messages ', err.message);
+        }
+        else {
+            console.log('Error by retreiving messages ', err);
+        }
+        res.status(500).json({ error: 'Internal server error...' });
     }
 };
