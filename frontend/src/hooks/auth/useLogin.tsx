@@ -32,7 +32,7 @@ export const useLoginForm = () => {
 
        const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
             const { name, value } = e.target;
-            setFormData(prev => ({
+            setFormData((prev: LoginFormType) => ({
                 ...prev,
                 [name]: value
             }));

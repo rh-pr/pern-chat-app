@@ -10,6 +10,7 @@ import useListenMessages from '../hooks/chat/useListenMessaages';
 const Home = () => {
   const design = useContext(DesignContext);
   useListenMessages();
+  
 	return (
 		<div className='landscape:mt-8 flex h-[88vh] md:h-[80vh] w-full md:max-w-11/12 md md:h-10/12 rounded-lg overflow-hidden bg-transparent backdrop-filter backdrop-blur-lg'
          style={{boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2)'}}

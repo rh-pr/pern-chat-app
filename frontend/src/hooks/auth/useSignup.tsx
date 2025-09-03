@@ -52,7 +52,7 @@ export const useSignupForm = () => {
 
             setLoading(false);
 
-           } catch (err) {
+           } catch (err: unknown) {
                 if (err instanceof Error) {
                     setMsgError(err.message);
                 } else {
@@ -66,13 +66,13 @@ export const useSignupForm = () => {
             const { name, value, files, type } = e.target;
 
             if (type === 'file' && files && files[0]) {
-                setFormData(prev => ({
+                setFormData((prev: SignupFormType) => ({
                     ...prev,
                     [name]: files[0], 
                 }));
                 setIsFile(true);
             } else {
-                setFormData(prev => ({
+                setFormData((prev: SignupFormType) => ({
                     ...prev,
                     [name]: value,
                 }));
@@ -82,7 +82,7 @@ export const useSignupForm = () => {
 
         const deleteFile = () => {
             setIsFile(false);
-            setFormData(prev => ({...prev, profilePic: ''}));
+            setFormData((prev: SignupFormType) => ({...prev, profilePic: ''}));
         }
 
         return {

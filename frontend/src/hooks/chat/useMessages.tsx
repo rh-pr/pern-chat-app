@@ -63,13 +63,13 @@ const useConversation = () => {
         formData.append("conversationId", activeConversationId);
 
         if (images?.length) {
-            images.forEach(img => {
+            images.forEach((img: File) => {
                 formData.append('foto', img)
             });
         }
 
         if (files?.length) {
-            files.forEach(file => {
+            files.forEach((file: File) => {
                 formData.append('file', file);
             })
         }
@@ -91,7 +91,7 @@ const useConversation = () => {
     }, []);
 
     const handleEmoji = useCallback( (e: EmojiClickData) => {
-        setMsgText(prevText => prevText + e.emoji);
+        setMsgText((prevText: string) => prevText + e.emoji);
 
         if( textAreaRef.current ) {
             textAreaRef.current.focus();

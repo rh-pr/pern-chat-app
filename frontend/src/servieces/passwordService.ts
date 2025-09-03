@@ -7,9 +7,13 @@ export const resetPassword = async (body: resetPasswordType) => {
         const res = await api.post(`/password/reset`, body);
         return res.data
 
-    } catch (err) {
-        console.log('Internal server error', err);
-        return false;  
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error("Error by reset Password:", err.message);
+        } else {
+            console.error("Unknown error:", err);
+        }
+        return false;
     }
 } 
 
@@ -19,8 +23,12 @@ export const sendCode = async (body: codeType) => {
         const res = await api.post(`/password/confirm`, body);
         return res.data;     
 
-    } catch (err) {
-        console.log('Internal server error', err);
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error("Error by sending code:", err.message);
+        } else {
+            console.error("Unknown error:", err);
+        }
         return false;
     }
 }
@@ -31,8 +39,13 @@ export const sendEmail = async (body: string) => {
         if (!body) return false
         const res = await api.post(`/password/sendEmail`, {email: body});
         return res.data;     
-    } catch (err) {
-        console.log('Internal server error', err);
+
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error("Error by sending email:", err.message);
+        } else {
+            console.error("Unknown error:", err);
+        }
         return false;
     }
 }

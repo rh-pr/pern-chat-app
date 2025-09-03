@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { AuthState } from '../types/main';
+import { AuthState, UserType } from '../types/main';
 
 const useAuthStore = create<AuthState>((set) => ({
     currentUser: null,
@@ -14,7 +14,7 @@ const useAuthStore = create<AuthState>((set) => ({
             localStorage.removeItem('expireAt');
         }
     },
-    setCurrentUser: (user) => set({ currentUser: user }),
+    setCurrentUser: (user: UserType | null) => set({ currentUser: user }),
 
 }))
 

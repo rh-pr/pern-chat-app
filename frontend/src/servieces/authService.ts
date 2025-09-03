@@ -12,8 +12,12 @@ export const getCurrentUser = async () => {
         
         return null; 
 
-    } catch (err) {
-        console.error('Error by retrieving user: ', err);
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error("Error by retrieving user:", err.message);
+        } else {
+            console.error("Unknown error:", err);
+        }
         return null;
     }
 }
@@ -29,8 +33,12 @@ export const login = async (formData: LoginFormType) => {
 
         return res.data;
         
-    } catch (err) {
-        console.error('Error by login: ', err);
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error("Error by log in:", err.message);
+        } else {
+            console.error("Unknown error:", err);
+        }
         return null;
     }
 }
@@ -49,8 +57,12 @@ export const signup = async (formData: FormData) => {
         });
         
         return res.data;
-    } catch (err) {
-         console.error('Error by signup: ', err);
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error("Error by sign up:", err.message);
+        } else {
+            console.error("Unknown error:", err);
+        }
         return null;
     }
 }
@@ -60,8 +72,12 @@ export const logout = async () => {
         const res = await api.get('/auth/logout');
         if (res) return true;
 
-    } catch (err) {
-        console.error('Error by logout: ', err);
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error("Error by log out:", err.message);
+        } else {
+            console.error("Unknown error:", err);
+        }
         return null;
     }
 }

@@ -1,4 +1,4 @@
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 import http from "http";
 import express from "express";
 
@@ -18,8 +18,9 @@ export const getReceiverSocketId = (receiverId: string) => {
 
 const userSocketMap: {[key: string]: string} = {}
 
-io.on("connection", (socket) => {
+io.on("connection", (socket: Socket) => {
     const userId = socket.handshake.query.userId as string;
+    
     if (userId) userSocketMap[userId] = socket.id;
 
     io.emit("getOnlineUsers", Object.keys(userSocketMap));

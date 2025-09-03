@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useSocketStore from "../../stores/useSocketSore";
 import useMessagesStore from "../../stores/useMessagesStore";
-import { ConversationsType, UserType } from "../../types/main";
+import { ConversationsType, MessageType, UserType } from "../../types/main";
 import useAuthStore from "../../stores/useAuthStore";
 
 
@@ -25,9 +25,9 @@ const useConversation = (data: ConversationsType) => {
 
 
     useEffect(() => {
-        const filteredMessages = messages?.filter(msg => msg.conversationId === data.id)
+        const filteredMessages = messages?.filter((msg: MessageType) => msg.conversationId === data.id)
                                   .slice()
-                                  .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+                                  .sort((a:MessageType, b:MessageType) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
         const lastMsg = filteredMessages && filteredMessages.length > 0 ? filteredMessages[filteredMessages.length - 1] : undefined;
         setLastMessage({
           convId: lastMsg?.conversationId || '',

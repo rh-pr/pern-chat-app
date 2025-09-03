@@ -4,6 +4,7 @@ import useAuthStore from "../../stores/useAuthStore";
 import { getUsers } from "../../servieces/usersService";
 import useConversations from "./useConversations";
 import useConversationsStore from "../../stores/useConversationsStore";
+import { UserType } from "../../types/main";
 
 
 const useUsers = () => {
@@ -20,7 +21,7 @@ const useUsers = () => {
    
     const filteredUser = (query: string) => {
         if ( openUserList ) {
-            return  users.filter((user) =>
+            return  users.filter((user: UserType) =>
                 user.fullName.toLowerCase().includes(query.toLowerCase())
               );
         }
@@ -31,7 +32,7 @@ const useUsers = () => {
         const res = await addConversation(userId);
        
         if (res) {
-            const filteredUsers = users.filter(user => user.id !== userId);
+            const filteredUsers = users.filter((user: UserType) => user.id !== userId);
             setUsers(filteredUsers);
             toggleOpenList();
         }
@@ -48,8 +49,12 @@ const useUsers = () => {
             if (data && data.length > 0 ) {  
                 setUsers(data);
             }
-        } catch (error) {
-            console.error("Failed to fetch users:", error);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                console.error("Error by retrieving users:", err.message);
+            } else {
+                console.error("Unknown error:", err);
+            }
         }
     };
 

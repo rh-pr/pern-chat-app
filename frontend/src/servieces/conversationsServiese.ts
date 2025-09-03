@@ -12,8 +12,12 @@ export const getUserConversations = async (currentUserId: string) => {
         }
         return null;
         
-    } catch (err) {
-        console.error('Error by retrieving user: ', err);
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error("Error by retrieving a conversation:", err.message);
+        } else {
+            console.error("Unknown error:", err);
+        }
         return null;
     }
 }
@@ -25,8 +29,12 @@ export const createConversation = async (currentUserId: string, otherUserId: str
             return {...res.data, lastMessage: null };
         }
         return null;
-    } catch (err) {
-        console.error('Error by creating conversation: ', err);
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error("Error by creating new conversation:", err.message);
+        } else {
+            console.error("Unknown error:", err);
+        }
         return null;
     }
 }

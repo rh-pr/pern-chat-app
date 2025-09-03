@@ -10,8 +10,12 @@ export const getUsers = async (currentUserId: string): Promise<UserType[]> => {
         const res = await api.get(`/users?userId=${currentUserId}`);
         return res.data;
         
-    } catch (err) {
-        console.error('Error by retrieving users: ', err);
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error("Error by retrieving users:", err.message);
+        } else {
+            console.error("Unknown error:", err);
+        }
         return [];
     }
 }

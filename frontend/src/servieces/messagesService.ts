@@ -10,8 +10,12 @@ export const getMessages = async (chatId: string): Promise<MessageType[]> => {
         }
         return [];
 
-    } catch (err) {
-        console.error('Error by retrieving messages: ', err);
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error("Error by retrieving messages:", err.message);
+        } else {
+            console.error("Unknown error:", err);
+        }
         return [];
     }
 }
@@ -27,11 +31,12 @@ export const sendMessage = async (message: FormData): Promise<MessageType | null
         return res.data;
     
      
-    } catch (err) {
-        console.error('Error sending message: ', err);
-        return null; 
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error("Error by sending messages:", err.message);
+        } else {
+            console.error("Unknown error:", err);
+        }
+        return null;
     }
 }
-
-
-
