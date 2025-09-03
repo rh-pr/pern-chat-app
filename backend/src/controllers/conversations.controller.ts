@@ -72,13 +72,13 @@ export const addConversation  = async (req: Request, res: Response) => {
             }
         });
 
-    }  catch(error: unknown) {
-        if (error instanceof Error) {
-            console.log('Error by adding conversation ', error.message)
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.log('Error by adding conversation ', err.message);
         } else {
-            console.log('Error by adding conversation ', error)
+            console.log('Error by adding conversation ', err);
         }
-        res.status(500).json({error: ' Internal server error...'})
+        res.status(500).json({ error: 'Internal server error...' });
     }
 }
 
@@ -133,9 +133,7 @@ export const getActiveConversation = async (req: Request, res: Response) => {
         }
 
         res.status(200).json(data);
-    
 
-<<<<<<< HEAD
     } catch (err: unknown) {
         if (err instanceof Error) {
             console.log('Error by retrieving conversations  ', err.message);
@@ -143,15 +141,6 @@ export const getActiveConversation = async (req: Request, res: Response) => {
             console.log('Error by retrieving conversations  ', err);
         }
         res.status(500).json({ error: 'Internal server error...' });
-=======
-    }  catch(error: unknown) {
-        if (error instanceof Error) {
-            console.log('Error by retrieving conversations ', error.message)
-        } else {
-            console.log('rror by retrieving conversations ', error)
-        }
-        res.status(500).json({error: ' Internal server error...'})
->>>>>>> d27956e7caa51731fe4a20373325a03d31f90b2d
     }
 }
 
