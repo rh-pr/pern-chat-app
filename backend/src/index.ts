@@ -33,7 +33,7 @@ app.use("/api/users", usersRoutes);
 app.use("/api/conversations", conversationsRoutes);
 app.use("/api/password", passwordRoutes);
 
-if (process.env.NODE_ENV !== "development") {
+if (process.env.NODE_MODE !== "development") {
 	app.use(express.static(path.join(__dirname, "/frontend/dist")));
 	app.get("*", (req, res) => {
 		res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
