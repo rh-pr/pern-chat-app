@@ -8,15 +8,6 @@
 		"strict": true,
 		"esModuleInterop": true, 
 		"skipLibCheck": true ,
-		"types": [
-			"node",
-			"express",
-			"bcryptjs",
-			"cookie-parser",
-			"jsonwebtoken",
-			"multer",
-			"nodemailer"
-		]
 	},
 	"ts-node": {
 		"esm": true

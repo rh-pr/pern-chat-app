@@ -4,6 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "typecheck": "tsc --noEmit  backend/src/index.ts",
     "dev": "nodemon --watch backend/src --exec tsx backend/src/index.ts",
     "build": "tsc && npm install && prisma generate --schema=./backend/prisma/schema.prisma && npm install --prefix frontend && npm run build --prefix frontend",
     "start": "node backend/dist/src/index.js"
@@ -27,6 +28,7 @@
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.34.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.19",
@@ -35,9 +37,13 @@
     "@types/multer": "^2.0.0",
     "@types/node": "^24.3.0",
     "@types/nodemailer": "^7.0.1",
+    "eslint-plugin-vue": "^10.4.0",
+    "globals": "^16.3.0",
+    "jiti": "^2.5.1",
     "prisma": "^6.15.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.42.0"
   }
 }
