@@ -5,6 +5,8 @@ const useMessagesStore = create<MessagesTypeStore>((set) => ({
     messages: null,
     files: [],
     images: [],
+    audio: null,
+    avatarPic: '',
 
     updateMessages: (newMessage: MessageType) => 
         set((state) => ({ messages: [...(state.messages || []), newMessage] })),
@@ -39,6 +41,12 @@ const useMessagesStore = create<MessagesTypeStore>((set) => ({
     
     deleteImages: () =>
         set(() => ({images: []})),
+
+    setAudio: (newAudio: File | null) => 
+        set(() => ({audio: newAudio})),
+
+    setAvatarPic: (newPic: string) =>
+        set(() => ({avatarPic: newPic}))
 }))
 
 export default useMessagesStore;

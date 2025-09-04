@@ -17,6 +17,7 @@ const MessageInput = () => {
 
     const files = useMessagesStore((state) => state.files);
     const images = useMessagesStore((state) => state.images);
+    
 
     const {smileRef} = useEmojiPicker();
 
@@ -43,9 +44,9 @@ const MessageInput = () => {
 
             {files && <FilesContainer type="files" files={files} />}
             {images && <FilesContainer type="images" files={images}/>}
+
  
-            {openFileMenu &&  
-                <UploadMenu setOpenFileMenu={setOpenFileMenu} />} 
+            {openFileMenu && <UploadMenu setOpenFileMenu={setOpenFileMenu} />} 
 
 			<div className='w-full relative box-border '>
 

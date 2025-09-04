@@ -17,11 +17,12 @@ const useConversation = (data: ConversationsType) => {
       convId: '',
       msg: ''
     });
-    const [isOnline, setIsOnline] = useState<boolean>(false)
+    const [isOnline, setIsOnline] = useState<boolean>(false);
 
     const  onlineUsers  = useSocketStore((state) => state.onlineUsers);
+    const messages = useMessagesStore(state => state.messages);
 
-     const messages = useMessagesStore(state => state.messages);
+    
 
 
     useEffect(() => {

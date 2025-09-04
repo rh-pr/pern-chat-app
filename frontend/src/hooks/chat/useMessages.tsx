@@ -31,7 +31,6 @@ const useConversation = () => {
     const [loading, setLoading] = useState<boolean>(false);
     
 
-
     const removeFile = useCallback((fileName: string, type: string) => {
       if (type === 'files') {
         filteredFiles(fileName);
@@ -84,7 +83,6 @@ const useConversation = () => {
         }
        
     },[]);
-
 
     const handleMsgText = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setMsgText(e.target.value)
@@ -153,11 +151,9 @@ const useConversation = () => {
         setOpenFileMenu(true);
     }
     
-
     const handleOpenFileMenu = useCallback(() => {
         setOpenFileMenu(true);
       }, []);
-  
 
     return {
         loading,

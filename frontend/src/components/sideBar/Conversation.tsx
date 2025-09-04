@@ -21,14 +21,15 @@ function Conversation({data}: {data: ConversationsType}) {
     <div className="w-full relative min-h-18 overflow-x-hidden flex items-center gap-4 px-2 rounded-[15px] cursor-pointer hover:hue-rotate-20 hover:shadow-lg  duration-[0.1s] " 
          style={{
             backgroundColor: design?.thema ? design?.colors.buttonColor : design?.colors.buttonColor,
-            boxShadow: `${activeConversationId === data.id ? `inset 1px 1px 16px 1px ${design?.colors?.textColor}` : `0px 2px 4px ${design?.thema ?  'rgb(114, 156, 23)' : 'rgb(136, 178, 44)'}`}`,
-            
-         }}
-         onClick={() => {setCurrentConversation(data.id)}}>
+            boxShadow: `${activeConversationId === data.id ? `inset 1px 1px 16px 1px ${design?.colors?.textColor}` : `0px 2px 4px ${design?.thema ?  'rgb(114, 156, 23)' : 'rgb(136, 178, 44)'}`}`}}
+         onClick={() => {setCurrentConversation(data.id, data.participants)}}>
+
         {isOnline && <div className="w-3 h-3 bg-green-700 rounded-full absolute left-9 top-4"></div>}
+        
         <img src={user.profilePic} 
              alt="avatar" 
              className="w-10 h-10 rounded-full object-cover" />
+             
        <div className="h-full py-2 w-9/12">
             <h1 className="font-black" 
                 style={{color:design?.colors.msgHeader}}>
