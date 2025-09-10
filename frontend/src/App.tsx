@@ -33,7 +33,7 @@ function App() {
 
    const {loading} = useAppInit();
 
-    if ( loading ) return <LoadingScreen bg={design?.thema ? bgDark : bg}/>
+  if ( loading ) return <LoadingScreen bg={design?.thema ? bgDark : bg}/>
 
   
   return (

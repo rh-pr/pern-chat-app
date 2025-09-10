@@ -5,7 +5,7 @@ import { getUserConversations, createConversation } from "../../servieces/conver
 import useConversationsStore from '../../stores/useConversationsStore';
 import useAuthStore from "../../stores/useAuthStore";
 import useMessagesStore from "../../stores/useMessagesStore";
-
+import { ParticipiantsType } from '../../types/main';
 
 const useConversations = () => {
     const conversations = useConversationsStore((state) => state.conversations);
@@ -59,12 +59,6 @@ const useConversations = () => {
         return conversations.map(conv => conv.participants[0].id);               
     }
 
-    type ParticipiantsType = {
-        id: string,
-        fullName: string,
-        profilePic: string
-    }
-
     const setCurrentConversation = (conversationId: string, participants?: ParticipiantsType[]) => {
         setActiveConversation(conversationId);
         const picUrl = participants?.filter((partc: ParticipiantsType) => partc.id !== currentUser?.id)[0].profilePic || '';
@@ -75,15 +69,13 @@ const useConversations = () => {
        const fetchConversations  = async() => {
             if (!currentUser) return;
             
-                const data = await getUserConversations(currentUser.id);
+            const data = await getUserConversations(currentUser.id);
 
-                if (data && conversations.length === 0) {
-                    setConversations(data);
-                 
-                }
+            if (data && conversations.length === 0) {
+                setConversations(data);
+            }
         }
         fetchConversations ();
-            
     }, []);
     
 
@@ -95,8 +87,6 @@ const useConversations = () => {
     useEffect(() => {
         
     },[])
-
-
 
     return {
         conversations,

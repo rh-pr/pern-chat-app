@@ -130,6 +130,15 @@ export type AuthState = {
 }
 
 
+export type VoiceMsgState = {
+  activateVoiceMsg: boolean,
+  isRecording: boolean,
+  isPaused: boolean,
+  setActivateVoiceMsg: (voiceMsgStatus: boolean) => void
+  setIsRecording: (recordingStatus: boolean) => void
+  setIsPaused: (pauseStatus: boolean) => void
+}
+
 
 //props
 export interface TextareaProps {
@@ -180,3 +189,10 @@ export type resetPasswordType = {
   confirmPassword: string,
   userId: string
 }
+
+export type ParticipiantsType = {
+    id: string,
+    fullName: string,
+    profilePic: string
+}
+

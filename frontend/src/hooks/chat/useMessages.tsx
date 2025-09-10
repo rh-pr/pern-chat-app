@@ -29,6 +29,7 @@ const useConversation = () => {
     const [openEmoji, setOpenEmoji] = useState<boolean>(false)
     const [openFileMenu, setOpenFileMenu] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
+    const [activateVoiceMsg, setActivateVoiceMsg] = useState<boolean>(false);
     
 
     const removeFile = useCallback((fileName: string, type: string) => {
@@ -158,6 +159,8 @@ const useConversation = () => {
     return {
         loading,
         msgText,
+        activateVoiceMsg,
+        setActivateVoiceMsg,
         setOpenEmoji,
         textAreaRef,
         setOpenFileMenu,

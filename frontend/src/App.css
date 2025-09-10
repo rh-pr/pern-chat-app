@@ -74,3 +74,18 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+/* Timeline bar */
+audio::-webkit-media-controls-timeline {
+  background-color: #a8c4a6;
+}
+
+/* Volume bar */
+audio::-webkit-media-controls-volume-slider {
+  background-color: #d1d3d1;
+}
+
+/* Control panel background */
+audio::-webkit-media-controls-panel {
+  background-color: rgb(97, 129, 92);
+}
