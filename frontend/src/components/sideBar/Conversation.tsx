@@ -10,28 +10,21 @@ import useMessagesStore from "../../stores/useMessagesStore";
 function Conversation({data}: {data: ConversationsType}) {
     const design = useContext(DesignContext);
     const { setCurrentConversation } = useConversations();
-    const activeConversationId = useConversationsStore((state) => state.activeConversationId);
-
-    const lastMessages = useMessagesStore((state) => state.lastMessages);
-
     const { user,isOnline } = useConversation(data);
+
+    const activeConversationId = useConversationsStore((state) => state.activeConversationId);
+    const lastMessages = useMessagesStore((state) => state.lastMessages);
 
     const [lastLocalMsg, setLastLocalMsg] = useState<LastMessageType | null>(null);
 
     useEffect(() => {
-
-      console.log('last message effect', lastMessages);
-      
       const msg = lastMessages?.find((msg: LastMessageType) => msg.convId === data.id);
-      if (msg) {
-         setLastLocalMsg(msg);
-      }
+      if (msg) {  setLastLocalMsg(msg); }
     },[lastMessages, data])
     
-
-     if (!data || !data.participants || data.participants.length === 0 || !user) {
-        return null; 
-    }
+   if (!data || !data.participants || data.participants.length === 0 || !user) {
+      return null; 
+   }
 
   return (
     <div className="w-full relative min-h-18 overflow-x-hidden flex items-center gap-4 px-2 rounded-[15px] cursor-pointer hover:hue-rotate-20 hover:shadow-lg  duration-[0.1s] " 

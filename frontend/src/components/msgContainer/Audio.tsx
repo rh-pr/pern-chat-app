@@ -8,6 +8,7 @@ import useConversationsStore from "../../stores/useConversationsStore";
 import { Mic } from 'lucide-react';
 import { Pause } from 'lucide-react';
 import { Trash } from 'lucide-react';
+import RecordMsg from "./RecordMsg";
 
 
 
@@ -16,7 +17,10 @@ function Audio() {
   const activeConversationId = useConversationsStore((state) => state.activeConversationId)
 
   const {
+    canvasRef, 
+    time,
     audioUrl,
+    activateVoiceMsg,
     isPaused,
     isRecording,
     pauseRecord, 
@@ -29,17 +33,30 @@ function Audio() {
           style={getTextAreaStyle(design)}>
      <div onClick={deleteAudioMsg}><Trash /></div>
 
-    
+    {/* {isRecording && activateVoiceMsg && <RecordMsg id={activeConversationId} />} */}
+     {isRecording && activateVoiceMsg && <div className='flex gap-[16px]'>
+      <p>{time}</p>
+       <canvas
+        ref={canvasRef}
+        style={{ 
+            border: '1px solid black', 
+            width: "32vw", 
+            height: "30px",
+           display: (isRecording || isPaused) ? 'block' : 'none'
+        }}
+      ></canvas>
+    </div>}
+
 {/* todo: change !audioUrl and src*/}
-    {isPaused && !audioUrl && <div>
-       <audio src={''} 
+    {isPaused && audioUrl && <div>
+       <audio src={audioUrl} 
               controls  
               controlsList="nodownload noplaybackrate"
-              className="h-[30px] w-[48vw]" />
+              className="h-[30px] w-[36vw]" />
     </div>}
      <div className="flex gap-[16px]">
-        {isRecording   && <button onClick={pauseRecord}><Pause /></button>}
-        {isPaused && <button onClick={resumeRecord}><Mic /></button>}
+        {isRecording   && <div onClick={pauseRecord}><Pause /></div>}
+        {isPaused && <div onClick={resumeRecord}><Mic /></div>}
       </div>
      
     </div>

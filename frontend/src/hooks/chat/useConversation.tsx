@@ -25,8 +25,6 @@ const useConversation = (data: ConversationsType) => {
                   return acc;
                   }, {})
 
-      console.log('i am hrer', filteredMessages);
-
         if (filteredMessages) {
             setLastMessages(filteredMessages.lastMsg);   
         }
@@ -40,10 +38,10 @@ const useConversation = (data: ConversationsType) => {
         setUser(filteredUser[0]);
         setIsOnline(onlineUsers.includes(filteredUser[0].id));
         if (data.messages?.length) {
-        setLastMessages({
-          convId: data?.id,
-          msg: data.messages[0].body
-        });
+          setLastMessages({
+            convId: data?.id,
+            msg: data.messages[0].body
+          });
         }
       }
     },[data, onlineUsers]); 
