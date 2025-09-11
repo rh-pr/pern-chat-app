@@ -1,17 +1,33 @@
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { DesignContext } from "../../context/DesignContext"
-import { ConversationsType} from "../../types/main";
+import { ConversationsType, LastMessageType} from "../../types/main";
 import useConversations from "../../hooks/chat/useConversations";
 import  useConversationsStore  from "../../stores/useConversationsStore";
 
 import useConversation from "../../hooks/chat/useConversation";
+import useMessagesStore from "../../stores/useMessagesStore";
 
 function Conversation({data}: {data: ConversationsType}) {
     const design = useContext(DesignContext);
     const { setCurrentConversation } = useConversations();
     const activeConversationId = useConversationsStore((state) => state.activeConversationId);
+
+    const lastMessages = useMessagesStore((state) => state.lastMessages);
+
+    const { user,isOnline } = useConversation(data);
+
+    const [lastLocalMsg, setLastLocalMsg] = useState<LastMessageType | null>(null);
+
+    useEffect(() => {
+
+      console.log('last message effect', lastMessages);
+      
+      const msg = lastMessages?.find((msg: LastMessageType) => msg.convId === data.id);
+      if (msg) {
+         setLastLocalMsg(msg);
+      }
+    },[lastMessages, data])
     
-    const { user, lastMessage, isOnline } = useConversation(data);
 
      if (!data || !data.participants || data.participants.length === 0 || !user) {
         return null; 
@@ -37,7 +53,7 @@ function Conversation({data}: {data: ConversationsType}) {
             </h1>
             <p className=" overflow-hidden text-ellipsis whitespace-nowrap w-full " 
                style={{color: design?.colors.textColor}}>
-                    {lastMessage.convId === data.id && <span>{lastMessage.msg}</span>}
+                  <span>{lastLocalMsg?.msg}</span>
             </p>  
        </div>
     </div>

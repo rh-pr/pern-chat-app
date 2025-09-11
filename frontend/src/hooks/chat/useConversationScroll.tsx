@@ -9,7 +9,7 @@ const useConversationScroll = () => {
     const setMessages = useMessagesStore((state) => state.setMessages);
     const messages = useMessagesStore((state) => state.messages);
     const activeConversationId = useConversationsStore((state) => state.activeConversationId);
-
+ 
     useEffect(() => {
         const fetchMessages  = async () => { 
             if (!activeConversationId) return;

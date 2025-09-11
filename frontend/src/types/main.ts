@@ -17,6 +17,8 @@ export type DesignContextType = {
 
 //data types
 
+
+
 export type ConversationsType = {
   id: string,
   participants: UserType[],
@@ -75,6 +77,8 @@ export type MessagesTypeStore = {
   images: File[],
   audio: File | null,
   avatarPic: string,
+  lastMessages: LastMessageType[] | null,
+  setLastMessages: (newLastMessage: LastMessageType | null) => void,
   setAvatarPic: (newPic: string) => void,
   setAudio: (newAudio: File | null) => void,
   updateMessages: (newMessage: MessageType) => void,
@@ -196,3 +200,7 @@ export type ParticipiantsType = {
     profilePic: string
 }
 
+export type LastMessageType = {
+  convId: string,
+  msg: string
+}

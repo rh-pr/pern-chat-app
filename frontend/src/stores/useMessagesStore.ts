@@ -1,4 +1,4 @@
-import { MessageType, MessagesTypeStore } from "../types/main";
+import { LastMessageType, MessageType, MessagesTypeStore } from "../types/main";
 import { create } from "zustand";
 
 const useMessagesStore = create<MessagesTypeStore>((set) => ({
@@ -7,6 +7,23 @@ const useMessagesStore = create<MessagesTypeStore>((set) => ({
     images: [],
     audio: null,
     avatarPic: '',
+    lastMessages: null,
+
+    setLastMessages: (newLastMessage: LastMessageType | null) =>
+        set((state) => {
+            if (!newLastMessage) {
+            return { lastMessages: null };
+            }
+            const current = state.lastMessages || [];
+            const exists = current.some((msg) => msg.convId === newLastMessage.convId);
+            return {
+            lastMessages: exists
+                ? current.map((msg) =>
+                    msg.convId === newLastMessage.convId ? newLastMessage : msg
+                )
+                : [...current, newLastMessage],
+            };
+    }),
 
     updateMessages: (newMessage: MessageType) => 
         set((state) => ({ messages: [...(state.messages || []), newMessage] })),
