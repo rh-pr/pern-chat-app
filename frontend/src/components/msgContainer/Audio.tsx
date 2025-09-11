@@ -8,8 +8,7 @@ import useConversationsStore from "../../stores/useConversationsStore";
 import { Mic } from 'lucide-react';
 import { Pause } from 'lucide-react';
 import { Trash } from 'lucide-react';
-import MsgRecorder from "./audio/MsgRecorder";
-import AudioMsg from "./audio/AudioMsg";
+
 
 
 function Audio() {
@@ -18,7 +17,6 @@ function Audio() {
 
   const {
     audioUrl,
-    activateVoiceMsg,
     isPaused,
     isRecording,
     pauseRecord, 
@@ -30,8 +28,8 @@ function Audio() {
     <div  className='flex gap-[16px] items-center text-md rounded-lg block w-full p-2.5 md:px-10 md:pl-16  font-medium'
           style={getTextAreaStyle(design)}>
      <div onClick={deleteAudioMsg}><Trash /></div>
-    {(isRecording || activateVoiceMsg) && !isPaused && <MsgRecorder />
-}
+
+    
 {/* todo: change !audioUrl and src*/}
     {isPaused && !audioUrl && <div>
        <audio src={''} 

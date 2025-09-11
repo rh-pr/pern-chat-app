@@ -100,7 +100,7 @@ const MessageInput = () => {
 					{msgText.trim().length > 0 || (files && files?.length > 0) || (images && images?.length > 0) || activateVoiceMsg ? 
                         <button type="submit" disabled={loading}>
                             {loading ? <Loader  className='w-6 h-6 ' style={buttonStyle} /> : <Send className='w-6 h-6 ' style={buttonStyle}/>} </button>:  
-                       <div onClick={() => startRecord()}>  
+                       <div onClick={ startRecord}>  
                             <Mic className='w-6 h-6 ' style={{color: design?.colors.buttonColor}}/> </div>}
 				</div>
 			</div>

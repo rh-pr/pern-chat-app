@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useVoiceMsgStore from "../../../stores/useVoiceMsgStore";
 import useConversationsStore from "../../../stores/useConversationsStore";
+import { DesignContext } from "../../../context/DesignContext";
 
 
 const useVoiceMsg = (converId: string) => {
+
+    const design = useContext(DesignContext);
 
     const activateVoiceMsg = useVoiceMsgStore((state) => state.activateVoiceMsg);
     const isPaused = useVoiceMsgStore((state) => state.isPaused);
@@ -16,6 +19,8 @@ const useVoiceMsg = (converId: string) => {
 
 
     const [audioUrl, setAudioUrl] = useState<string | null>(null);
+    const [time, setTime] = useState<string>('00:00');
+
 
     useEffect(() => {
         if (converId !== activeConversationId) {
@@ -25,19 +30,23 @@ const useVoiceMsg = (converId: string) => {
         }
         
     },[converId, activeConversationId])
+
     
   
     const pauseRecord = () => {
+   
         setIsPaused(true);
         setIsRecording(false);
     }
 
     const resumeRecord = () => {
+  
         setIsPaused(false);
         setIsRecording(true);
     }
 
-    const startRecord = () => {
+    const startRecord = async () => {
+   
         setActivateVoiceMsg(true);
         setIsRecording(true);
     }
@@ -46,8 +55,13 @@ const useVoiceMsg = (converId: string) => {
         setIsRecording(false);
         setIsPaused(false);
         setActivateVoiceMsg(false);
+        setAudioUrl(null);
+        setTime('00:00');
     }
-  
+
+
+
+    
 
     return {
         activateVoiceMsg,
