@@ -43,14 +43,15 @@ const useConversation = () => {
 
     const send = useCallback( async (msg: string, files: File[] | null, images: File[] | null, stopRecord?:() => Promise<File | null>) => {
        if (!currentUser ) return;
-        let audioFile: File | null = null;
+        let audioFile: File[] | [] = [];
 
         setLoading(true)
 
         const formData = new FormData();
 
         if (stopRecord) {
-            audioFile = await stopRecord();
+            const data = await stopRecord();
+            audioFile = data ? [data] : []
         }
         
         const newMsg = {
@@ -60,7 +61,7 @@ const useConversation = () => {
             conversationId: activeConversationId,
             files: files || [],
             images: images || [],
-            audio: audioFile,
+            audios: audioFile,
             createdAt: '',
         }
 
@@ -79,6 +80,13 @@ const useConversation = () => {
                 formData.append('file', file);
             })
         }
+
+         if (audioFile?.length) {
+            audioFile.forEach((audio: File) => {
+                formData.append('audio', audio);
+            });
+        }
+        
 
         const res = await sendMessage(formData);
 

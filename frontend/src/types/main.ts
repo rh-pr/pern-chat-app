@@ -41,7 +41,7 @@ export type MessageType = {
   conversationId: string,
   files?: string[] | File[],
   images?: string[] | File[],
-  audio?: string | File | null,
+  audios?: string[] | File[],
 
   createdAt: string,
 }

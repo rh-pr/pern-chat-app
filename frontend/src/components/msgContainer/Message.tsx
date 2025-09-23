@@ -21,6 +21,8 @@ const Message = ({ message }: { message?: MessageType }) => {
 		: avatarPic
 
   useEffect(() => {
+    console.log(message);
+    
     
   },[message?.images, message?.files])
 
@@ -34,7 +36,7 @@ const Message = ({ message }: { message?: MessageType }) => {
               <p>{message?.body}</p>
                 {message?.files && message.files.length > 0 && <FilesList files={message.files} />}
                 {message?.images &&  <div className="max-w-96"> <ImageList images={message.images} /> </div>}
-                {message?.audio && <AudioMessage audioSource={message.audio}/>}
+                {message?.audios && <AudioMessage audioSource={message.audios[0]}/>}
               
             </div>
       </div>

@@ -21,11 +21,12 @@ export const sendMessage = async (req: Request, res: Response) => {
 
         const files = uploadFiles?.file || [];
         const fotos = uploadFiles?.foto || [];
+        const audio = uploadFiles?.audio || '';
         
        
         const filesUrl = await Promise.all(    
             files.map( async (file) => {
-                const ext = path.extname(file.originalname); // ".pdf", ".mp3", etc.
+                const ext = path.extname(file.originalname); 
                 const originalName = file.originalname.split('.').slice(0, -1).join('.')+ext;
                 
                 const customName = `${Date.now()}_${originalName}`;
@@ -35,12 +36,19 @@ export const sendMessage = async (req: Request, res: Response) => {
         
         const imagesUrl = await Promise.all(
             fotos.map( async(foto) => {
-                 const originalName = foto.originalname.split('.').slice(0, -1).join('.');
+                const originalName = foto.originalname.split('.').slice(0, -1).join('.');
                 const customName = `${originalName}_${Date.now()}`;
                 return await uploadAndDelete(foto.path, `images/${conversationId}`, customName);
             })
         );
-        
+
+        const audioUrl = await Promise.all(
+            audio.map(async (audio) => {
+                const originalName = audio.originalname.split('.').slice(0, -1).join('.');
+                const customName = `${originalName}_${Date.now()}`;
+                return await uploadAndDelete(audio.path, `images/${conversationId}`, customName);
+            })
+        )
 
         const newMsg = await prisma.message.create({
             data: {
@@ -49,6 +57,7 @@ export const sendMessage = async (req: Request, res: Response) => {
                 body: body,
                 images: imagesUrl,
                 files: filesUrl,
+                audios: audioUrl,
             }
         });
 
@@ -87,10 +96,7 @@ export const getMessages = async (req: Request, res: Response ) => {
         const chatId = req.query.chatId as string;
         const senderId = req.user?.id;
 
-        if (!chatId || !senderId) {
-            console.log('chat: ', chatId);
-            console.log('senderId: ', senderId);
-            
+        if (!chatId || !senderId) { 
             res.status(404).json({error: 'Invalid credentials'});
             return;
         }
