@@ -155,19 +155,6 @@ const useVoiceMsg = (converId: string) => {
         }
     }
 
-    // const stopRecord = () => {
-    //     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-    //         mediaRecorderRef?.current?.stop();
-    //         mediaRecorderRef?.current?.stream.getTracks().forEach((track: MediaStreamTrack) => track.stop());
-    //         setIsRecording(false);
-    //         setIsPaused(false);
-    //         setActivateVoiceMsg(false);
-    //         stopVisualisation();
-    //         setTimeCounter(0);
-    //         setTime('00:00');
-    //     }
-    // };
-
     const stopRecord = (): Promise<File | null> => {
         return new Promise((resolve) => {
             if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
@@ -175,14 +162,14 @@ const useVoiceMsg = (converId: string) => {
                     const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
                     const file = new File([audioBlob], "recording_msg.webm", { type: "audio/webm" });
 
-                    setAudioMsg(file); // Zustand
+                    setAudioMsg(file); 
                     const url = URL.createObjectURL(audioBlob);
                     setAudioUrl(url);
 
                     audioChunksRef.current = [];
                     mediaRecorderRef.current = null;
 
-                    resolve(file); // повертаємо File
+                    resolve(file); 
                 };
 
                 mediaRecorderRef.current.stop();
@@ -194,7 +181,7 @@ const useVoiceMsg = (converId: string) => {
                 setTimeCounter(0);
                 setTime('00:00');
             } else {
-                resolve(null); // якщо запису немає
+                resolve(null); 
             }
         });
     };
@@ -247,15 +234,15 @@ const useVoiceMsg = (converId: string) => {
                 startVisualisation(stream);
             }
 
-            mediaRecorderRef.current.onstop = () => {
-                const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-                const file = new File([audioBlob], "recording_msg.webm", { type: "audio/webm" });
-                setAudioMsg(file);
-                const url = URL.createObjectURL(audioBlob);
-                setAudioUrl(url);
-                audioChunksRef.current = [];
-                mediaRecorderRef.current = null;
-            };
+            // mediaRecorderRef.current.onstop = () => {
+            //     const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
+            //     const file = new File([audioBlob], "recording_msg.webm", { type: "audio/webm" });
+            //     setAudioMsg(file);
+            //     const url = URL.createObjectURL(audioBlob);
+            //     setAudioUrl(url);
+            //     audioChunksRef.current = [];
+            //     mediaRecorderRef.current = null;
+            // };
             
             mediaRecorderRef.current.start();
             startVisualisation(stream);

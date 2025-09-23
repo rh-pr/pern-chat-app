@@ -4,10 +4,8 @@ import useConversationsStore from "../../stores/useConversationsStore";
 import {  sendMessage } from '../../servieces/messagesService';
 import useAuthStore from "../../stores/useAuthStore";
 import { EmojiClickData } from 'emoji-picker-react'
-import useVoiceMsgStore from "../../stores/useVoiceMsgStore";
-import useVoiceMsg from "./audio/useVoiceMsg";
 
-const useConversation = (stopRecord?: () => void,) => {
+const useConversation = () => {
     const messages = useMessagesStore((state) => state.messages);
     const updateMessages = useMessagesStore((state) => state.updateMessages);
     
@@ -23,9 +21,6 @@ const useConversation = (stopRecord?: () => void,) => {
 
     const activeConversationId = useConversationsStore((state) => state.activeConversationId);
     const currentUser = useAuthStore((state) => state.currentUser);
-
-    const audioMsg = useVoiceMsgStore((state) => state.audioMsg);
-
 
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
