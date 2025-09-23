@@ -41,6 +41,7 @@ export type MessageType = {
   conversationId: string,
   files?: string[] | File[],
   images?: string[] | File[],
+  audio?: string | File | null,
 
   createdAt: string,
 }
@@ -138,9 +139,14 @@ export type VoiceMsgState = {
   activateVoiceMsg: boolean,
   isRecording: boolean,
   isPaused: boolean,
-  setActivateVoiceMsg: (voiceMsgStatus: boolean) => void
-  setIsRecording: (recordingStatus: boolean) => void
-  setIsPaused: (pauseStatus: boolean) => void
+  audioMsg: File | null,
+
+
+  setAudioMsg: (newAudio: File | null) => void,
+  setActivateVoiceMsg: (voiceMsgStatus: boolean) => void,
+  setIsRecording: (recordingStatus: boolean) => void,
+  setIsPaused: (pauseStatus: boolean) => void,
+
 }
 
 

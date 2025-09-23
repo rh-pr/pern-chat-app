@@ -5,6 +5,7 @@ import  FilesList  from "./FilesList";
 import ImageList from "./ImageList";
 import useAuthStore from "../../stores/useAuthStore";
 import useMessagesStore from "../../stores/useMessagesStore";
+import AudioMessage from "./AudioMessage";
 
 const Message = ({ message }: { message?: MessageType }) => {
 
@@ -18,9 +19,10 @@ const Message = ({ message }: { message?: MessageType }) => {
   const img = msgDirection
 		? currentUser?.profilePic
 		: avatarPic
-useEffect(() => {
-  
-},[message?.images, message?.files])
+
+  useEffect(() => {
+    
+  },[message?.images, message?.files])
 
   return (
     <div className={`flex ${msgDirection ? 'justify-end' : 'justify-start'}`}>
@@ -30,10 +32,9 @@ useEffect(() => {
                   style={{backgroundColor: msgDirection ? design?.colors.buttonColor : design?.colors.inputColor, 
                           color: msgDirection ? design?.colors.msgHeader : design?.colors.bgColor}}>
               <p>{message?.body}</p>
-            
-             
                 {message?.files && message.files.length > 0 && <FilesList files={message.files} />}
                 {message?.images &&  <div className="max-w-96"> <ImageList images={message.images} /> </div>}
+                {message?.audio && <AudioMessage audioSource={message.audio}/>}
               
             </div>
       </div>

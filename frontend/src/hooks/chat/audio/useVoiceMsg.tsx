@@ -15,6 +15,7 @@ const useVoiceMsg = (converId: string) => {
     const setActivateVoiceMsg = useVoiceMsgStore((state) => state.setActivateVoiceMsg);
     const setIsPaused = useVoiceMsgStore((state) => state.setIsPaused);
     const setIsRecording = useVoiceMsgStore((state) => state.setIsRecording);
+    const setAudioMsg = useVoiceMsgStore((state) => state.setAudioMsg);
     const activeConversationId = useConversationsStore((state) => state.activeConversationId)
 
 
@@ -154,17 +155,50 @@ const useVoiceMsg = (converId: string) => {
         }
     }
 
-    const stopRecord = () => {
-        if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-            mediaRecorderRef.current.stop();
-            mediaRecorderRef.current.stream.getTracks().forEach((track: MediaStreamTrack) => track.stop());
-            setIsRecording(false);
-            setIsPaused(false);
-            stopVisualisation();
-            setTimeCounter(0);
-            setTime('00:00');
-        }
+    // const stopRecord = () => {
+    //     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+    //         mediaRecorderRef?.current?.stop();
+    //         mediaRecorderRef?.current?.stream.getTracks().forEach((track: MediaStreamTrack) => track.stop());
+    //         setIsRecording(false);
+    //         setIsPaused(false);
+    //         setActivateVoiceMsg(false);
+    //         stopVisualisation();
+    //         setTimeCounter(0);
+    //         setTime('00:00');
+    //     }
+    // };
+
+    const stopRecord = (): Promise<File | null> => {
+        return new Promise((resolve) => {
+            if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+                mediaRecorderRef.current.onstop = () => {
+                    const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
+                    const file = new File([audioBlob], "recording_msg.webm", { type: "audio/webm" });
+
+                    setAudioMsg(file); // Zustand
+                    const url = URL.createObjectURL(audioBlob);
+                    setAudioUrl(url);
+
+                    audioChunksRef.current = [];
+                    mediaRecorderRef.current = null;
+
+                    resolve(file); // повертаємо File
+                };
+
+                mediaRecorderRef.current.stop();
+                mediaRecorderRef.current.stream.getTracks().forEach((track) => track.stop());
+                setIsRecording(false);
+                setIsPaused(false);
+                setActivateVoiceMsg(false);
+                stopVisualisation();
+                setTimeCounter(0);
+                setTime('00:00');
+            } else {
+                resolve(null); // якщо запису немає
+            }
+        });
     };
+
 
     const resetRecord = () => {
         setActivateVoiceMsg(false);
@@ -215,6 +249,8 @@ const useVoiceMsg = (converId: string) => {
 
             mediaRecorderRef.current.onstop = () => {
                 const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
+                const file = new File([audioBlob], "recording_msg.webm", { type: "audio/webm" });
+                setAudioMsg(file);
                 const url = URL.createObjectURL(audioBlob);
                 setAudioUrl(url);
                 audioChunksRef.current = [];
@@ -240,6 +276,8 @@ const useVoiceMsg = (converId: string) => {
     return {
 
         canvasRef,
+        mediaRecorderRef,
+        
         time,
 
         activateVoiceMsg,

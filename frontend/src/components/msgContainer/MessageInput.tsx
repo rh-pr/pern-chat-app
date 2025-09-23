@@ -28,7 +28,7 @@ const MessageInput = () => {
 
     const {smileRef} = useEmojiPicker();
 
-    const { startRecord } = useVoiceMsg(activeConversationId);
+    const { startRecord, stopRecord } = useVoiceMsg(activeConversationId);
 
     const {
         loading,
@@ -49,7 +49,7 @@ const MessageInput = () => {
 
 	return (
 		<form className='px-4 mb-3  absolute bottom-2 w-full' 
-              onSubmit={(e: FormEvent) =>  handleForm(e)}>
+              onSubmit={(e: FormEvent) =>  handleForm(e, stopRecord)}>
 
             {files && <FilesContainer type="files" files={files} />}
             {images && <FilesContainer type="images" files={images}/>}
@@ -94,13 +94,13 @@ const MessageInput = () => {
                     ref={textAreaRef}
                 />}
 
-                {activateVoiceMsg && <Audio  />}
+                {activateVoiceMsg && <Audio />}
 
 				<div className='absolute inset-y-0 end-0 flex items-end pb-2 pr-3'>
 					{msgText.trim().length > 0 || (files && files?.length > 0) || (images && images?.length > 0) || activateVoiceMsg ? 
                         <button type="submit" disabled={loading}>
                             {loading ? <Loader  className='w-6 h-6 ' style={buttonStyle} /> : <Send className='w-6 h-6 ' style={buttonStyle}/>} </button>:  
-                       <div onClick={ startRecord}>  
+                       <div onClick={startRecord}>  
                             <Mic className='w-6 h-6 ' style={{color: design?.colors.buttonColor}}/> </div>}
 				</div>
 			</div>

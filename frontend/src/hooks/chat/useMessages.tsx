@@ -4,8 +4,10 @@ import useConversationsStore from "../../stores/useConversationsStore";
 import {  sendMessage } from '../../servieces/messagesService';
 import useAuthStore from "../../stores/useAuthStore";
 import { EmojiClickData } from 'emoji-picker-react'
+import useVoiceMsgStore from "../../stores/useVoiceMsgStore";
+import useVoiceMsg from "./audio/useVoiceMsg";
 
-const useConversation = () => {
+const useConversation = (stopRecord?: () => void,) => {
     const messages = useMessagesStore((state) => state.messages);
     const updateMessages = useMessagesStore((state) => state.updateMessages);
     
@@ -22,7 +24,11 @@ const useConversation = () => {
     const activeConversationId = useConversationsStore((state) => state.activeConversationId);
     const currentUser = useAuthStore((state) => state.currentUser);
 
+    const audioMsg = useVoiceMsgStore((state) => state.audioMsg);
+
+
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
 
     
     const [msgText, setMsgText] = useState<string>('');
@@ -40,13 +46,18 @@ const useConversation = () => {
        }
     },[filteredFiles, filteredImages])
 
-    const send = useCallback( async (msg: string, files: File[] | null, images: File[] | null) => {
+    const send = useCallback( async (msg: string, files: File[] | null, images: File[] | null, stopRecord?:() => Promise<File | null>) => {
        if (!currentUser ) return;
+        let audioFile: File | null = null;
+
         setLoading(true)
 
         const formData = new FormData();
-        
 
+        if (stopRecord) {
+            audioFile = await stopRecord();
+        }
+        
         const newMsg = {
             id: '',
             body: msg,
@@ -54,7 +65,7 @@ const useConversation = () => {
             conversationId: activeConversationId,
             files: files || [],
             images: images || [],
-
+            audio: audioFile,
             createdAt: '',
         }
 
@@ -99,9 +110,9 @@ const useConversation = () => {
         setOpenEmoji(false);
     }, []);
 
-    const handleForm = (e:React.FormEvent) => {
+    const handleForm = (e:React.FormEvent, stopRecord?: () => Promise<File | null>) => {
         e.preventDefault();
-        send(msgText, files, images);
+        send(msgText, files, images, stopRecord);
         setMsgText('');
     }
 

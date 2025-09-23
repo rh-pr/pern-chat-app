@@ -5,7 +5,10 @@ const useVoiceMsgStore = create<VoiceMsgState>((set) => ({
     activateVoiceMsg: false,
     isRecording: false,
     isPaused: false,
+    audioMsg: null,
 
+    setAudioMsg: (newAudio: File | null) => 
+        set(() => ({audioMsg: newAudio})),
     setActivateVoiceMsg: (voiceMsgStatus: boolean) => 
         set(() => ({ activateVoiceMsg: voiceMsgStatus })),
     setIsRecording: (recordingStatus: boolean) => 
