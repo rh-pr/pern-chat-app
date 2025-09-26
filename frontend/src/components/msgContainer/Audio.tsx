@@ -2,11 +2,10 @@ import { useContext } from "react";
 import { getTextAreaStyle } from "../../utils/msgHandlers"
 import { DesignContext } from "../../context/DesignContext";
 import useVoiceMsg from "../../hooks/chat/audio/useVoiceMsg";
-// import useVoiceMsgStore from "../../stores/useVoiceMsgStore";
 import useConversationsStore from "../../stores/useConversationsStore";
 
-import { Mic } from 'lucide-react';
-import { Pause } from 'lucide-react';
+
+import { CirclePause  } from 'lucide-react';
 import { Trash } from 'lucide-react';
 
 
@@ -19,10 +18,8 @@ function Audio() {
     time,
     audioUrl,
     activateVoiceMsg,
-    isPaused,
     isRecording,
-    pauseRecord, 
-    resumeRecord,
+    preLoadAudio,
     deleteAudioMsg,
   } = useVoiceMsg(activeConversationId);
 
@@ -41,21 +38,20 @@ function Audio() {
             border: '1px solid black', 
             width: "32vw", 
             height: "30px",
-           display: (isRecording || isPaused) ? 'block' : 'none'
+           display: isRecording  ? 'block' : 'none'
         }}
       ></canvas>
     </div>}
 
 {/* todo: change !audioUrl and src*/}
-    {isPaused && audioUrl && <div>
+    {!isRecording && audioUrl && <div>
        <audio src={audioUrl} 
               controls  
               controlsList="nodownload noplaybackrate"
-              className="h-[30px] w-[36vw]" />
+              className="h-[30px] w-[36vw]"/>
     </div>}
      <div className="flex gap-[16px]">
-        {isRecording   && <div onClick={pauseRecord}><Pause /></div>}
-        {isPaused && <div onClick={resumeRecord}><Mic /></div>}
+        {isRecording && <div onClick={preLoadAudio}><CirclePause  /></div>}
       </div>
      
     </div>

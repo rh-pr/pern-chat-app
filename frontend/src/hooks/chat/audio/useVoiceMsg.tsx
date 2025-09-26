@@ -13,8 +13,9 @@ const useVoiceMsg = (converId: string) => {
     const isRecording = useVoiceMsgStore((state) => state.isRecording);
 
     const setActivateVoiceMsg = useVoiceMsgStore((state) => state.setActivateVoiceMsg);
-    const setIsPaused = useVoiceMsgStore((state) => state.setIsPaused);
     const setIsRecording = useVoiceMsgStore((state) => state.setIsRecording);
+    const audioMsg = useVoiceMsgStore((state) => state.audioMsg);
+
     const setAudioMsg = useVoiceMsgStore((state) => state.setAudioMsg);
     const activeConversationId = useConversationsStore((state) => state.activeConversationId)
 
@@ -25,11 +26,15 @@ const useVoiceMsg = (converId: string) => {
 
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     const audioChunksRef = useRef<Blob[]>([]);
+
     const audioContextRef = useRef<AudioContext | null>(null);
     const analyserRef = useRef<AnalyserNode | null>(null);
     const animationFrameRef = useRef<number | null>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
+    const sourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
+    
+    
     useEffect(() => {
         let interval: ReturnType<typeof setInterval> | undefined;;
         if (activateVoiceMsg) {
@@ -60,6 +65,7 @@ const useVoiceMsg = (converId: string) => {
         
     },[converId, activeConversationId])
 
+
     useEffect(() => {
         if(canvasRef.current && activateVoiceMsg) {
             startRecord();
@@ -89,6 +95,8 @@ const useVoiceMsg = (converId: string) => {
         }
 
         const source = audioContextRef.current.createMediaStreamSource(stream);
+        sourceRef.current = source;
+
         source.connect(analyserRef.current);
 
         const bufferLength = analyserRef.current.frequencyBinCount;
@@ -125,139 +133,134 @@ const useVoiceMsg = (converId: string) => {
         draw();
     }
 
-
     const stopVisualisation = () => {
         if (animationFrameRef.current) {
             cancelAnimationFrame(animationFrameRef.current);
         }
+
+        if(sourceRef.current) {
+            sourceRef.current.disconnect();
+            sourceRef.current = null;
+        }
+
         if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
             audioContextRef.current.close().catch(e => console.error("Error closing AudioContext", e));
         }
         audioContextRef.current = null;
         analyserRef.current = null;   
     }
-  
-    const pauseRecord = () => {
-        if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
-            mediaRecorderRef.current.pause();
-            setIsRecording(false);
-            setIsPaused(true);
-            stopVisualisation();
-        }
-    }
+    
+    
+    // const handleRecorderStop = (createFile: boolean = false): Promise<File | null> => {
+    //     return new Promise((resolve) => {
+    //         if (!mediaRecorderRef.current) return resolve(null);
 
-    const resumeRecord = async () => {
-        if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'paused') {
-            mediaRecorderRef.current.resume();
-            setIsRecording(true);
-            setIsPaused(false);
-            startVisualisation(mediaRecorderRef.current.stream);
-        }
-    }
+    //         mediaRecorderRef.current.onstop = () => {
+    //             audioBlob.current = new Blob(audioChunksRef.current, { type: "audio/webm" });
 
-    const stopRecord = (): Promise<File | null> => {
-        return new Promise((resolve) => {
-            if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-                mediaRecorderRef.current.onstop = () => {
-                    const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-                    const file = new File([audioBlob], "recording_msg.webm", { type: "audio/webm" });
+    //             let result: File | string | null = null;
 
-                    setAudioMsg(file); 
-                    const url = URL.createObjectURL(audioBlob);
-                    setAudioUrl(url);
+    //             if (createFile) {
+    //                 result = new File([audioBlob.current], "recording_msg.webm", { type: "audio/webm" });
+    //                 setAudioMsg(result as File);
+    //             } else {
+    //                 result = URL.createObjectURL(audioBlob.current);
+    //                 setAudioUrl(result as string);
+    //             }
 
-                    audioChunksRef.current = [];
-                    mediaRecorderRef.current = null;
+    //             audioChunksRef.current = [];
+    //             mediaRecorderRef.current?.stream.getTracks().forEach((track) => track.stop());
 
-                    resolve(file); 
-                };
+    //             resolve(createFile ? (result as File) : null);
+    //         };
 
+    //         if (mediaRecorderRef.current.state !== "inactive") {
+    //             mediaRecorderRef.current.stop();
+    //         } else {
+    //             resolve(null);
+    //         }
+    //     });
+    // };
+
+    const handleRecorderStop = () => {
+            if (!mediaRecorderRef.current) return;
+
+            mediaRecorderRef.current.onstop = () => {
+                const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+                const url = URL.createObjectURL(audioBlob);
+                const file = new File([audioBlob], "recording_msg.webm", { type: "audio/webm" });
+                
+                setAudioUrl(url);
+                setAudioMsg(file)
+               
+                audioChunksRef.current = [];
+                mediaRecorderRef.current?.stream.getTracks().forEach((track) => track.stop());
+
+            };
+
+            if (mediaRecorderRef.current.state !== "inactive") {
                 mediaRecorderRef.current.stop();
-                mediaRecorderRef.current.stream.getTracks().forEach((track) => track.stop());
-                setIsRecording(false);
-                setIsPaused(false);
-                setActivateVoiceMsg(false);
-                stopVisualisation();
-                setTimeCounter(0);
-                setTime('00:00');
-            } else {
-                resolve(null); 
-            }
-        });
+            } 
     };
-
-
-    const resetRecord = () => {
-        setActivateVoiceMsg(false);
-        if (audioUrl) {
-            URL.revokeObjectURL(audioUrl);
-            setAudioUrl('');
-        }
-        audioChunksRef.current = [];
-        setIsRecording(false);
-        setIsPaused(false);
-        setTimeCounter(0);
-        setTime('00:00');
-    };
-
+    
     const startRecord = async () => {
-        
         setActivateVoiceMsg(true);
         setIsRecording(true);
-        setIsPaused(false);
-        
+
+        audioChunksRef.current = [];
+        setAudioUrl("");
+
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mediaRecorderRef.current = new MediaRecorder(stream);
-            audioChunksRef.current = [];
+            const recorder = new MediaRecorder(stream);
 
-            mediaRecorderRef.current.onpause = () => {
-                if (mediaRecorderRef.current) {
-                    mediaRecorderRef.current.requestData(); 
-                }
+            recorder.ondataavailable = (e: BlobEvent) => {
+                audioChunksRef.current.push(e.data);
             };
 
-            mediaRecorderRef.current.ondataavailable = (e: BlobEvent) => {
-                if (e.data.size > 0) {
-                    audioChunksRef.current.push(e.data);
-
-                    // Only create a preview URL if recorder is paused
-                    if (mediaRecorderRef.current?.state === 'paused') {
-                        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-                        const url = URL.createObjectURL(audioBlob);
-                        setAudioUrl(url); 
-                    }
-                }
-            };
-
-            mediaRecorderRef.current.onresume = () => {
-                startVisualisation(stream);
-            }
-
-            // mediaRecorderRef.current.onstop = () => {
-            //     const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-            //     const file = new File([audioBlob], "recording_msg.webm", { type: "audio/webm" });
-            //     setAudioMsg(file);
-            //     const url = URL.createObjectURL(audioBlob);
-            //     setAudioUrl(url);
-            //     audioChunksRef.current = [];
-            //     mediaRecorderRef.current = null;
-            // };
-            
-            mediaRecorderRef.current.start();
+            mediaRecorderRef.current = recorder;
+            recorder.start();
             startVisualisation(stream);
-
         } catch (err) {
-            console.log('Error accessing microphone', err);
+            console.error("Error accessing microphone", err);
         }
-    }
+    };
+
+    const preLoadAudio = async () => {
+        handleRecorderStop();
+
+        setIsRecording(false);
+        stopVisualisation();
+        setTimeCounter(0);
+        setTime("00:00");
+
+    };
+
+    const stopRecord = async (): Promise<File | null> => {
+        setIsRecording(false);
+        setActivateVoiceMsg(false);
+        stopVisualisation();
+        setTimeCounter(0);
+        setTime("00:00");
+
+        return  new Promise(resolve => { 
+            if (audioMsg) {
+                resolve(audioMsg);
+            } else {
+                resolve(null);
+            }
+        })
+    };
+
 
     const deleteAudioMsg = () => {
         setIsRecording(false);
-        setIsPaused(false);
         setActivateVoiceMsg(false);
         setAudioUrl(null);
         setTime('00:00');
+        setTimeCounter(0);
+        audioChunksRef.current = [];
+        mediaRecorderRef.current = null;
     }
 
     return {
@@ -272,11 +275,9 @@ const useVoiceMsg = (converId: string) => {
         isPaused,
         audioUrl,
 
-        pauseRecord,
-        resumeRecord,
+        preLoadAudio,
         startRecord,
         deleteAudioMsg,
-        resetRecord,
         stopRecord
     }
 

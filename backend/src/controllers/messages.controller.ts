@@ -46,7 +46,7 @@ export const sendMessage = async (req: Request, res: Response) => {
             audio.map(async (audio) => {
                 const originalName = audio.originalname.split('.').slice(0, -1).join('.');
                 const customName = `${originalName}_${Date.now()}`;
-                return await uploadAndDelete(audio.path, `images/${conversationId}`, customName);
+                return await uploadAndDelete(audio.path, `audios/${conversationId}`, customName);
             })
         )
 
