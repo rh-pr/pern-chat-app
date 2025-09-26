@@ -42,6 +42,7 @@ export type MessageType = {
   files?: string[] | File[],
   images?: string[] | File[],
   audios?: string[] | File[],
+  shouldShake?: boolean,
 
   createdAt: string,
 }

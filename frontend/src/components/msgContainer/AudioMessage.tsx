@@ -27,7 +27,7 @@ function AudioMessage({ audioSource }: { audioSource: string | File }) {
 
   if (!source) return null;
 
-  return <audio src={source} controls />;
+  return <audio className='w-[64vw] md:w-[24vw] h-[40px]' src={source} controls />;
 }
 
 export default AudioMessage;

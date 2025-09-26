@@ -14,23 +14,23 @@ const Message = ({ message }: { message?: MessageType }) => {
   const avatarPic = useMessagesStore((state) => state.avatarPic);
 
   const msgDirection = message?.senderId === currentUser?.id;
+  const shakeClass = message?.shouldShake ? 'shake' : '';
 
-  //todo: delte this and save in server
   const img = msgDirection
 		? currentUser?.profilePic
 		: avatarPic
 
   useEffect(() => {
-    console.log(message);
+    console.log('mess: ', shakeClass);
     
     
   },[message?.images, message?.files])
 
   return (
-    <div className={`flex ${msgDirection ? 'justify-end' : 'justify-start'}`}>
+    <div className={`flex  ${msgDirection ? 'justify-end' : 'justify-start'}`}>
       <div className={`w-fit py-2  font-medium flex gap-2  ${msgDirection && 'flex-row-reverse'}`}>
             <img src={img} alt="pic" className="w-8 h-8" />
-            <div  className={`p-2 flex flex-col ${msgDirection ? 'rounded-t-[12px] rounded-l-[12px]' : ' rounded-b-[12px] rounded-r-[12px]'} `} 
+            <div  className={`p-2 flex flex-col ${shakeClass} ${msgDirection ? 'rounded-t-[12px] rounded-l-[12px]' : ' rounded-b-[12px] rounded-r-[12px]'} `} 
                   style={{backgroundColor: msgDirection ? design?.colors.buttonColor : design?.colors.inputColor, 
                           color: msgDirection ? design?.colors.msgHeader : design?.colors.bgColor}}>
               <p>{message?.body}</p>
