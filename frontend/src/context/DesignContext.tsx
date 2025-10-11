@@ -9,6 +9,7 @@ export const DesignContext = createContext<DesignContextType | null>(null);
 export const DesignContextProvider = ({ children }: {children: ReactNode}) => {
     const [thema, setThema] = useState(false);
     const [colors, setColors] = useState<Colors>(getThemaColors(thema));
+    const [sound, setSound] = useState(false);
     
     useEffect(() => {
       setColors(getThemaColors(thema));
@@ -19,7 +20,9 @@ export const DesignContextProvider = ({ children }: {children: ReactNode}) => {
             thema,
             setThema,
             colors, 
-            setColors
+            setColors,
+            sound,
+            setSound
         }}>
             { children }
         </DesignContext.Provider>

@@ -11,7 +11,9 @@ export type DesignContextType = {
   thema: boolean,
   setThema: (thema: boolean) => void,
   colors: Colors
-  setColors: (colors: Colors) => void
+  setColors: (colors: Colors) => void,
+  sound: boolean,
+  setSound: (sound: boolean) => void
 }
 
 
@@ -73,6 +75,8 @@ export type ConversationState = {
   setConversation: (newConversation: MessageType[] | null) => void,
 };
 
+
+
 export type MessagesTypeStore = {
   messages: MessageType[] | null,
   files: File[],
@@ -80,6 +84,7 @@ export type MessagesTypeStore = {
   audio: File | null,
   avatarPic: string,
   lastMessages: LastMessageType[] | null,
+
   setLastMessages: (newLastMessage: LastMessageType | null) => void,
   setAvatarPic: (newPic: string) => void,
   setAudio: (newAudio: File | null) => void,
@@ -210,4 +215,11 @@ export type ParticipiantsType = {
 export type LastMessageType = {
   convId: string,
   msg: string
+}
+
+
+//another
+export type UnreadMessages = {
+  chatId: string,
+  count: number
 }

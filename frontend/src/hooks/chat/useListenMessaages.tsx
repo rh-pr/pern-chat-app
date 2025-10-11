@@ -1,22 +1,27 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import useMessagesStore from "../../stores/useMessagesStore";
 import useSocketStore from "../../stores/useSocketSore";
 import { MessageType } from "../../types/main";
 
-import notificationSound from '../../assets/sounds/notification.mp3';
+import notificationSound from "../../assets/sounds/notification.mp3";
+import { DesignContext } from "../../context/DesignContext";
 
 const useListenMessages = (onNewMessage?: (msg: MessageType) => void) => {
+    const context = useContext(DesignContext);
+
     const socket  = useSocketStore((state) => state.socket);
     const messages = useMessagesStore((state) => state.messages);
     const updateMessages = useMessagesStore((state) => state.updateMessages);
 
+
     useEffect(() => {
 
         //todo: switch sound base on usersSettings
+
         socket?.on("newMessage", (newMessage) => {
             newMessage.shouldShake = true;
-            const sound = new Audio(notificationSound);
-            sound.play();
+            const sound = context?.sound ? new Audio(notificationSound) : null;
+            sound?.play();
             updateMessages(newMessage);
             onNewMessage?.(newMessage);
         });
