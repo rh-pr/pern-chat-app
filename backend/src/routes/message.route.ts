@@ -1,6 +1,6 @@
 import express from 'express';
 import protectRoute from '../middleware/protectRoute.js';
-import { sendMessage, getMessages } from '../controllers/messages.controller.js';
+import { sendMessage, getMessages, updateMsgStatus, getUnreadedMessages } from '../controllers/messages.controller.js';
 import multer from 'multer';
 
 
@@ -13,8 +13,10 @@ const fields =  upload.fields([
 
 const router = express.Router();
 
-router.get('/getMessages', protectRoute, getMessages)
-router.post('/sendMessage', protectRoute, fields,  sendMessage)
+router.get('/getMessages', protectRoute, getMessages);
+router.post('/sendMessage', protectRoute, fields,  sendMessage);
+router.post('/updateMsgStatus', protectRoute, updateMsgStatus);
+router.get('/unreadedMessages', protectRoute, getUnreadedMessages);
 
 
 export default router;

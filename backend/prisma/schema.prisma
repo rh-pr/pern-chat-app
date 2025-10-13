@@ -58,6 +58,8 @@ model Message {
   images String[]
   audios String[]
 
+  status MessageStatus @default(SENDED)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -74,4 +76,11 @@ model TemporaryCode {
 enum Gender {
   male
   female
+}
+
+enum MessageStatus {
+  SENDED
+  RECEIVED
+  READED
+  FAILED
 }
