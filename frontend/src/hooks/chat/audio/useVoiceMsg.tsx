@@ -59,7 +59,6 @@ const useVoiceMsg = (converId: string) => {
     useEffect(() => {
         if (converId !== activeConversationId) {
             setActivateVoiceMsg(false);
-            setIsPaused(false);
             setIsRecording(false);
         }
         

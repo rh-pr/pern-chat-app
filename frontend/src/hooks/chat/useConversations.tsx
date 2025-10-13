@@ -17,9 +17,6 @@ const useConversations = () => {
     const updateCurrentUserConvList = useConversationsStore((state) => state.updateCurrentUserConvList);
     const setAvatarPic = useMessagesStore(state => state.setAvatarPic);
 
-    
-    const resetUnreadedMsg = useMessagesStore((state) => state.resetUnreadedMsg);
-
     const currentUser = useAuthStore(state => state.currentUser);
 
     const filteredConversations = (query: string) => {

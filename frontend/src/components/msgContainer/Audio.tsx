@@ -43,7 +43,6 @@ function Audio() {
       ></canvas>
     </div>}
 
-{/* todo: change !audioUrl and src*/}
     {!isRecording && audioUrl && <div>
        <audio src={audioUrl} 
               controls  

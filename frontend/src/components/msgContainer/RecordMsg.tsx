@@ -1,4 +1,3 @@
-import React from 'react'
 import useVoiceMsg from '../../hooks/chat/audio/useVoiceMsg'
 
 function RecordMsg({id}:{id:string}) {

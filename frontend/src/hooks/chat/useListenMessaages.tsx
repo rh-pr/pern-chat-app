@@ -16,12 +16,7 @@ const useListenMessages = (onNewMessage?: (msg: MessageType) => void) => {
 
 
     useEffect(() => {
-
-        //todo: switch sound base on usersSettings
-
         socket?.on("newMessage", (newMessage) => {
-            console.log(newMessage);
-            
             updateUnreadedMsgs(newMessage.conversationId);
             newMessage.shouldShake = true;
             const sound = context?.sound ? new Audio(notificationSound) : null;

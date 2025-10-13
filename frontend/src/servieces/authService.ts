@@ -22,7 +22,7 @@ export const getCurrentUser = async () => {
     }
 }
 
-//todo: add server request
+
 export const login = async (formData: LoginFormType) => {
     try {
         if (!formData?.username?.trim() || (formData.password?.trim().length ?? 0) < 3) {
@@ -43,7 +43,7 @@ export const login = async (formData: LoginFormType) => {
     }
 }
 
-//todo: delete console
+
 export const signup = async (formData: FormData) => {
     try {
         if (!authValidation(formData)) {

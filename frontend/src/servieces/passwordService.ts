@@ -33,7 +33,7 @@ export const sendCode = async (body: codeType) => {
     }
 }
 
-//todo: remove comments
+
 export const sendEmail = async (body: string) => {
     try {
         if (!body) return false
