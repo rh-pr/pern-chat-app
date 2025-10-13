@@ -12,6 +12,7 @@ const useListenMessages = (onNewMessage?: (msg: MessageType) => void) => {
     const socket  = useSocketStore((state) => state.socket);
     const messages = useMessagesStore((state) => state.messages);
     const updateMessages = useMessagesStore((state) => state.updateMessages);
+    const updateUnreadedMsgs = useMessagesStore((state) => state.updateUnreadedMsgs);
 
 
     useEffect(() => {
@@ -19,6 +20,9 @@ const useListenMessages = (onNewMessage?: (msg: MessageType) => void) => {
         //todo: switch sound base on usersSettings
 
         socket?.on("newMessage", (newMessage) => {
+            console.log(newMessage);
+            
+            updateUnreadedMsgs(newMessage.conversationId);
             newMessage.shouldShake = true;
             const sound = context?.sound ? new Audio(notificationSound) : null;
             sound?.play();

@@ -1,4 +1,4 @@
-import { LastMessageType, MessageType, MessagesTypeStore } from "../types/main";
+import { LastMessageType, MessageType, MessagesTypeStore, UnreadedMsgType } from "../types/main";
 import { create } from "zustand";
 
 const useMessagesStore = create<MessagesTypeStore>((set) => ({
@@ -8,6 +8,30 @@ const useMessagesStore = create<MessagesTypeStore>((set) => ({
     audio: null,
     avatarPic: '',
     lastMessages: null,
+
+
+    unreadedMsgs: [],
+
+    setUnreadedMsgs: (newUnreadedMsgs: UnreadedMsgType[]) =>
+        set(() => ({unreadedMsgs: newUnreadedMsgs})),
+
+    updateUnreadedMsgs: (conversId: string) =>
+    set((state) => {
+        const existing = state.unreadedMsgs.find((el) => el.convId === conversId);
+
+        const unreadedMsgs = existing
+        ? state.unreadedMsgs.map((el) =>
+            el.convId === conversId ? { ...el, count: el.count + 1 } : el
+            )
+        : [...state.unreadedMsgs, { convId: conversId, count: 1 }];
+        
+        return { unreadedMsgs };
+    }),
+
+    resetUnreadedMsgs: (conversId: string) =>
+          set((state) => ({ unreadedMsgs: state.unreadedMsgs.filter((el) => el.convId !== conversId )})),
+
+
 
     setLastMessages: (newLastMessage: LastMessageType | null) =>
         set((state) => {

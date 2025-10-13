@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { DesignContext } from "../../context/DesignContext";
 import { MessageType } from "../../types/main";
 import  FilesList  from "./FilesList";
@@ -6,12 +6,14 @@ import ImageList from "./ImageList";
 import useAuthStore from "../../stores/useAuthStore";
 import useMessagesStore from "../../stores/useMessagesStore";
 import AudioMessage from "./AudioMessage";
+import useConversationsStore from "../../stores/useConversationsStore";
 
 const Message = ({ message }: { message?: MessageType }) => {
 
   const design = useContext(DesignContext);
   const currentUser = useAuthStore((state) => state.currentUser);
   const avatarPic = useMessagesStore((state) => state.avatarPic);
+  const activeConversationId = useConversationsStore((state) => state.activeConversationId)
 
   const msgDirection = message?.senderId === currentUser?.id;
   const shakeClass = message?.shouldShake ? 'shake' : '';
@@ -20,11 +22,7 @@ const Message = ({ message }: { message?: MessageType }) => {
 		? currentUser?.profilePic
 		: avatarPic
 
-  useEffect(() => {
-    console.log('mess: ', shakeClass);
-    
-    
-  },[message?.images, message?.files])
+  if (message?.conversationId !== activeConversationId ) return;
 
   return (
     <div className={`flex  ${msgDirection ? 'justify-end' : 'justify-start'}`}>

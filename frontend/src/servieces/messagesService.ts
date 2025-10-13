@@ -40,3 +40,37 @@ export const sendMessage = async (message: FormData): Promise<MessageType | null
         return null;
     }
 }
+
+export const updateMessageStatus = async ({id, status}: {id: string, status: string}) => {
+    try {
+        
+        const res = await api.post(`messages/updateMsgStatus`, {id, status} );
+        return res.data;
+    
+     
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error("Error by sending messages:", err.message);
+        } else {
+            console.error("Unknown error:", err);
+        }
+        return null;
+    }
+}
+
+export const getUnreadedMessages = async (userId: string) => {
+    try {
+        
+        const res = await api.get(`messages/unreadedMessages?userId=${userId}`);
+        return res.data;
+    
+     
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error("Error by sending messages:", err.message);
+        } else {
+            console.error("Unknown error:", err);
+        }
+        return null;
+    }
+}

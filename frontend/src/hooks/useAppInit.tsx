@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import useSocketStore from "../stores/useSocketSore";
 import useAuthStore from "../stores/useAuthStore";
 import { getCurrentUser } from "../servieces/authService";
+import { getUnreadedMessages } from "../servieces/messagesService";
+import { filteredUnreadedMsg } from "../utils/msgHandlers";
+import useMessagesStore from "../stores/useMessagesStore";
 
 const useAppInit = () => {
 
@@ -9,6 +12,7 @@ const useAppInit = () => {
     const currentUser = useAuthStore(state => state.currentUser);
     const setCurrentUser = useAuthStore(state => state.setCurrentUser);
     const setExpireAt = useAuthStore(state => state.setExpireAt);
+    const setUnreadedMsgs = useMessagesStore((state) => state.setUnreadedMsgs);
 
     const { connect, disconnect } = useSocketStore();
 
@@ -38,6 +42,22 @@ const useAppInit = () => {
         setLoading(false);
         })();
     },[]);
+
+    useEffect(() => {
+        async function fetchUnreadedMessages (currentUserId: string | undefined) {
+            if (!currentUserId) return;
+
+            const data = await getUnreadedMessages(currentUserId);
+            
+            if (!data) return;
+
+            const filteredMessages = filteredUnreadedMsg(data, currentUser, '-1');
+            setUnreadedMsgs(filteredMessages);
+            
+        }
+
+        fetchUnreadedMessages(currentUser?.id)
+    },[currentUser])
 
 
         return {

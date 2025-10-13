@@ -41,6 +41,7 @@ export type MessageType = {
   body: string,
   senderId: string,
   conversationId: string,
+  status?: string,
   files?: string[] | File[],
   images?: string[] | File[],
   audios?: string[] | File[],
@@ -75,6 +76,10 @@ export type ConversationState = {
   setConversation: (newConversation: MessageType[] | null) => void,
 };
 
+export type UnreadedMsgType = {
+  convId: string,
+  count: number
+}
 
 
 export type MessagesTypeStore = {
@@ -84,6 +89,11 @@ export type MessagesTypeStore = {
   audio: File | null,
   avatarPic: string,
   lastMessages: LastMessageType[] | null,
+
+  unreadedMsgs: UnreadedMsgType[],
+  setUnreadedMsgs: (msgs: UnreadedMsgType[]) => void,
+  updateUnreadedMsgs: (conversId: string) => void;
+  resetUnreadedMsgs: (conversId: string) => void;
 
   setLastMessages: (newLastMessage: LastMessageType | null) => void,
   setAvatarPic: (newPic: string) => void,
