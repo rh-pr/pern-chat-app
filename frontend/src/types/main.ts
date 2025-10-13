@@ -11,11 +11,15 @@ export type DesignContextType = {
   thema: boolean,
   setThema: (thema: boolean) => void,
   colors: Colors
-  setColors: (colors: Colors) => void
+  setColors: (colors: Colors) => void,
+  sound: boolean,
+  setSound: (sound: boolean) => void
 }
 
 
 //data types
+
+
 
 export type ConversationsType = {
   id: string,
@@ -37,8 +41,11 @@ export type MessageType = {
   body: string,
   senderId: string,
   conversationId: string,
+  status?: string,
   files?: string[] | File[],
   images?: string[] | File[],
+  audios?: string[] | File[],
+  shouldShake?: boolean,
 
   createdAt: string,
 }
@@ -69,10 +76,28 @@ export type ConversationState = {
   setConversation: (newConversation: MessageType[] | null) => void,
 };
 
+export type UnreadedMsgType = {
+  convId: string,
+  count: number
+}
+
+
 export type MessagesTypeStore = {
   messages: MessageType[] | null,
   files: File[],
   images: File[],
+  audio: File | null,
+  avatarPic: string,
+  lastMessages: LastMessageType[] | null,
+
+  unreadedMsgs: UnreadedMsgType[],
+  setUnreadedMsgs: (msgs: UnreadedMsgType[]) => void,
+  updateUnreadedMsgs: (conversId: string) => void;
+  resetUnreadedMsgs: (conversId: string) => void;
+
+  setLastMessages: (newLastMessage: LastMessageType | null) => void,
+  setAvatarPic: (newPic: string) => void,
+  setAudio: (newAudio: File | null) => void,
   updateMessages: (newMessage: MessageType) => void,
   setMessages: (newConversation: MessageType[] | null) => void,
   updateFiles: (newFile: File) => void,
@@ -126,6 +151,20 @@ export type AuthState = {
 }
 
 
+export type VoiceMsgState = {
+  activateVoiceMsg: boolean,
+  isRecording: boolean,
+  isPaused: boolean,
+  audioMsg: File | null,
+
+
+  setAudioMsg: (newAudio: File | null) => void,
+  setActivateVoiceMsg: (voiceMsgStatus: boolean) => void,
+  setIsRecording: (recordingStatus: boolean) => void,
+  setIsPaused: (pauseStatus: boolean) => void,
+
+}
+
 
 //props
 export interface TextareaProps {
@@ -175,4 +214,22 @@ export type resetPasswordType = {
   password: string,
   confirmPassword: string,
   userId: string
+}
+
+export type ParticipiantsType = {
+    id: string,
+    fullName: string,
+    profilePic: string
+}
+
+export type LastMessageType = {
+  convId: string,
+  msg: string
+}
+
+
+//another
+export type UnreadMessages = {
+  chatId: string,
+  count: number
 }

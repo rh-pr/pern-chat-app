@@ -74,3 +74,37 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+/* Timeline bar */
+audio::-webkit-media-controls-timeline {
+  background-color: #a8c4a6;
+}
+
+/* Volume bar */
+audio::-webkit-media-controls-volume-slider {
+  background-color: #d1d3d1;
+}
+
+/* Control panel background */
+audio::-webkit-media-controls-panel {
+  background-color: rgb(97, 129, 92);
+}
+
+.shake {
+  animation: shakeMessage 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0.2s both;
+  transform: translate3d(0,0,0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shakeMessage {
+  10%, 90% {
+    transform: translate3d(-1px,0,0);
+    box-shadow: 4px 4px 20px rgb(6, 10, 7, 0.8);
+  }
+  
+  40%, 60% {
+    transform: translate3d(4px,0,0);
+     box-shadow: none;
+  }
+}

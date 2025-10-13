@@ -3,7 +3,6 @@ import { ConversationsType } from '../../types/main';
 import Conversation from './Conversation';
 
 function Conversations({query}: {query: string}) {
-  //todo: delete console; finished impl.
   
   const { filteredConversations } = useConversations();
   

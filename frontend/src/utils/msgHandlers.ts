@@ -1,5 +1,6 @@
 import { KeyboardEvent, FormEvent } from "react";
-import { DesignContextType } from '../types/main';
+import { DesignContextType, MessageType, UnreadedMsgType, UserType } from '../types/main';
+import { updateMessageStatus } from "../servieces/messagesService";
 
 export const getButtonStyle = (design: DesignContextType | null) => {
     return {color: design?.colors.buttonColor}
@@ -38,6 +39,50 @@ export const handleKey = (
             setMsgText('');  
         }
     }
+}
+
+export const filteredUnreadedMsg =  (data: MessageType[], user: UserType | null, chat: string) => {
+    let unreaded: UnreadedMsgType[] = [];
+    if (data.length < 1 || !user || chat.trim().length == 0) return [];
+    
+    data.map(async (el: MessageType) => {
+        switch(el.status) {
+            case 'RECIEVED':
+                if (el.conversationId === chat) {
+                    el.status = 'READED';
+                    await updateMessageStatus({id: el.id, status: 'READED'});
+                } else {
+                     unreaded = addOrIncrease(unreaded, el.id);
+                }
+                break;
+            case 'SENDED':
+            case 'FAILED':
+               if (el.conversationId === chat) {
+                    el.status = 'READED';
+                    await updateMessageStatus({id: el.id, status: 'READED'});
+                }
+                if (el.senderId !== user.id) {
+                    el.status = 'RECEIVED';
+                    await updateMessageStatus({id: el.id, status: 'RECEIVED'});
+                    unreaded = addOrIncrease(unreaded, el.id)
+                }
+                break;            
+        }
+    });
+
+    return unreaded;
+}
+
+const  addOrIncrease = (arr: UnreadedMsgType[], id: string) => {
+  const index = arr.findIndex(obj => obj.convId === id);
+
+   if (index !== -1) {
+    return arr.map((obj, i) =>
+      i === index ? { ...obj, count: obj.count + 1 } : obj
+    );
+  }
+
+  return [...arr, { convId: id, count: 1 }];
 }
 
 

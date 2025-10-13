@@ -1,10 +1,53 @@
-import { MessageType, MessagesTypeStore } from "../types/main";
+import { LastMessageType, MessageType, MessagesTypeStore, UnreadedMsgType } from "../types/main";
 import { create } from "zustand";
 
 const useMessagesStore = create<MessagesTypeStore>((set) => ({
     messages: null,
     files: [],
     images: [],
+    audio: null,
+    avatarPic: '',
+    lastMessages: null,
+
+
+    unreadedMsgs: [],
+
+    setUnreadedMsgs: (newUnreadedMsgs: UnreadedMsgType[]) =>
+        set(() => ({unreadedMsgs: newUnreadedMsgs})),
+
+    updateUnreadedMsgs: (conversId: string) =>
+    set((state) => {
+        const existing = state.unreadedMsgs.find((el) => el.convId === conversId);
+
+        const unreadedMsgs = existing
+        ? state.unreadedMsgs.map((el) =>
+            el.convId === conversId ? { ...el, count: el.count + 1 } : el
+            )
+        : [...state.unreadedMsgs, { convId: conversId, count: 1 }];
+        
+        return { unreadedMsgs };
+    }),
+
+    resetUnreadedMsgs: (conversId: string) =>
+          set((state) => ({ unreadedMsgs: state.unreadedMsgs.filter((el) => el.convId !== conversId )})),
+
+
+
+    setLastMessages: (newLastMessage: LastMessageType | null) =>
+        set((state) => {
+            if (!newLastMessage) {
+            return { lastMessages: null };
+            }
+            const current = state.lastMessages || [];
+            const exists = current.some((msg) => msg.convId === newLastMessage.convId);
+            return {
+            lastMessages: exists
+                ? current.map((msg) =>
+                    msg.convId === newLastMessage.convId ? newLastMessage : msg
+                )
+                : [...current, newLastMessage],
+            };
+    }),
 
     updateMessages: (newMessage: MessageType) => 
         set((state) => ({ messages: [...(state.messages || []), newMessage] })),
@@ -39,6 +82,12 @@ const useMessagesStore = create<MessagesTypeStore>((set) => ({
     
     deleteImages: () =>
         set(() => ({images: []})),
+
+    setAudio: (newAudio: File | null) => 
+        set(() => ({audio: newAudio})),
+
+    setAvatarPic: (newPic: string) =>
+        set(() => ({avatarPic: newPic}))
 }))
 
 export default useMessagesStore;

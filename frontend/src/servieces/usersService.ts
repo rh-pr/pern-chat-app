@@ -1,9 +1,6 @@
 import { UserType } from '../types/main';
 import api from '../api/axios';
 
-//todo: use real api
-
-
 export const getUsers = async (currentUserId: string): Promise<UserType[]> => {
     try {
         

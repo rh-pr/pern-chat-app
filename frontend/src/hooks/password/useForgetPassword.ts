@@ -18,8 +18,6 @@ const useForgetPassword = () => {
         setFormData(e.target.value);
     }
 
-    //todo: change expireAt
-
     const submitEmail = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);

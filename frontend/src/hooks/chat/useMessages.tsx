@@ -24,13 +24,14 @@ const useConversation = () => {
 
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
+
     
     const [msgText, setMsgText] = useState<string>('');
     const [openEmoji, setOpenEmoji] = useState<boolean>(false)
     const [openFileMenu, setOpenFileMenu] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
+    const [activateVoiceMsg, setActivateVoiceMsg] = useState<boolean>(false);
     
-
 
     const removeFile = useCallback((fileName: string, type: string) => {
       if (type === 'files') {
@@ -40,13 +41,19 @@ const useConversation = () => {
        }
     },[filteredFiles, filteredImages])
 
-    const send = useCallback( async (msg: string, files: File[] | null, images: File[] | null) => {
+    const send = useCallback( async (msg: string, files: File[] | null, images: File[] | null, stopRecord?:() => Promise<File | null>) => {
        if (!currentUser ) return;
+        let audioFile: File[] | [] = [];
+
         setLoading(true)
 
         const formData = new FormData();
-        
 
+        if (stopRecord) {
+            const data = await stopRecord();
+            audioFile = data ? [data] : []
+        }
+        
         const newMsg = {
             id: '',
             body: msg,
@@ -54,7 +61,7 @@ const useConversation = () => {
             conversationId: activeConversationId,
             files: files || [],
             images: images || [],
-
+            audios: audioFile,
             createdAt: '',
         }
 
@@ -74,6 +81,13 @@ const useConversation = () => {
             })
         }
 
+         if (audioFile?.length) {
+            audioFile.forEach((audio: File) => {
+                formData.append('audio', audio);
+            });
+        }
+        
+
         const res = await sendMessage(formData);
 
         if (res) {
@@ -84,7 +98,6 @@ const useConversation = () => {
         }
        
     },[]);
-
 
     const handleMsgText = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setMsgText(e.target.value)
@@ -100,9 +113,9 @@ const useConversation = () => {
         setOpenEmoji(false);
     }, []);
 
-    const handleForm = (e:React.FormEvent) => {
+    const handleForm = (e:React.FormEvent, stopRecord?: () => Promise<File | null>) => {
         e.preventDefault();
-        send(msgText, files, images);
+        send(msgText, files, images, stopRecord);
         setMsgText('');
     }
 
@@ -153,15 +166,15 @@ const useConversation = () => {
         setOpenFileMenu(true);
     }
     
-
     const handleOpenFileMenu = useCallback(() => {
         setOpenFileMenu(true);
       }, []);
-  
 
     return {
         loading,
         msgText,
+        activateVoiceMsg,
+        setActivateVoiceMsg,
         setOpenEmoji,
         textAreaRef,
         setOpenFileMenu,

@@ -23,6 +23,7 @@ import useAppInit from "./hooks/useAppInit";
 import useAuthStore from "./stores/useAuthStore";
 import LoadingScreen from "./components/route/LoadingScreen";
 
+
 function App() {
 
   const design = useContext(DesignContext);
@@ -31,9 +32,11 @@ function App() {
   const activeConversationId = useConversationsStore((state) => state.activeConversationId)
   const { setActiveConversation } = useConversations();
 
-   const {loading} = useAppInit();
 
-    if ( loading ) return <LoadingScreen bg={design?.thema ? bgDark : bg}/>
+  const {loading} = useAppInit();
+
+
+  if ( loading ) return <LoadingScreen bg={design?.thema ? bgDark : bg}/>
 
   
   return (

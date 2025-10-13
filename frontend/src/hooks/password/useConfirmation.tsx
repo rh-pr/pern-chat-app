@@ -37,7 +37,7 @@ const useConfirmation = () => {
     }, [expireAt]);
 
 
-//todo: handle exired code
+
     const submitOPT = async (e: React.FormEvent) => {
         e.preventDefault();
         
