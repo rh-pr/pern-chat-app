@@ -43,11 +43,11 @@ export const sendMessage = async (req: Request, res: Response) => {
         );
 
         const audioUrl = await Promise.all(
-            audio.map(async (audio) => {
+            audio ? audio.map(async (audio) => {
                 const originalName = audio.originalname.split('.').slice(0, -1).join('.');
                 const customName = `${originalName}_${Date.now()}`;
                 return await uploadAndDelete(audio.path, `audios/${conversationId}`, customName);
-            })
+            }) : ''
         )
 
         const newMsg = await prisma.message.create({
@@ -128,4 +128,71 @@ export const getMessages = async (req: Request, res: Response ) => {
     } 
 }
 
+export const getUnreadedMessages = async (req: Request, res:Response) => {
+    try {
+        const userId = req.query.userId as string;
 
+        if (!userId) { 
+            res.status(404).json({error: 'Invalid credentials'});
+            return;
+        }
+
+        const data = await prisma.message.findMany({
+            where: {
+                status: {not: 'READED'},
+                senderId: {not: userId}
+            },
+        });
+        
+
+        if ( !data ) {
+            res.status(400).json({error: 'Error by retrieving data from db...'});
+            return;
+        }
+        
+        res.status(200).json(data);
+
+    }  catch (err: unknown) {
+        if (err instanceof Error) {
+            console.log('Error by retreiving messages ', err.message);
+        } else {
+            console.log('Error by retreiving messages ', err);
+        }
+        res.status(500).json({ error: 'Internal server error...' });
+
+    } 
+}
+
+export const updateMsgStatus = async (req: Request, res: Response) => {
+    try {
+        const {id, status} = req.body;
+
+        if (!id || !status) {
+            res.status(404).json({error: 'Invalid credentials'});
+            return;
+        }
+
+        const data = await prisma.message.update({
+            where: {
+                id: id as string,
+            },
+            data: {
+                status: status
+            }
+        });
+
+        if (data) {
+            res.status(200).json(data);
+            return;
+        }
+
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.log('Error by retreiving messages ', err.message);
+        } else {
+            console.log('Error by retreiving messages ', err);
+        }
+        res.status(500).json({ error: 'Internal server error...' });
+
+    } 
+}
