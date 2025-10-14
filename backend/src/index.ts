@@ -19,7 +19,7 @@ const PORT = 5000;
 const __dirname = path.resolve();
 
 app.use(cors({
-    origin: "https://pern-chat-app-qg5l.onrender.com" || "http://localhost:5173",
+    origin: "https://pern-chat-app-qg5l.onrender.com",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
     credentials: true
 }));
