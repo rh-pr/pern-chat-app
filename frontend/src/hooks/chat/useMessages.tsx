@@ -97,7 +97,7 @@ const useConversation = () => {
             deletedImages();
         }
        
-    },[]);
+    },[activeConversationId]);
 
     const handleMsgText = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setMsgText(e.target.value)
