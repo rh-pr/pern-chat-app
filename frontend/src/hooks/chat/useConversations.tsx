@@ -60,6 +60,7 @@ const useConversations = () => {
     }
 
     const setCurrentConversation = (conversationId: string, participants?: ParticipiantsType[]) => {
+      
         setActiveConversation(conversationId);
         const picUrl = participants?.filter((partc: ParticipiantsType) => partc.id !== currentUser?.id)[0].profilePic || '';
         setAvatarPic(picUrl);

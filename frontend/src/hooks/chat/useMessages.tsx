@@ -53,7 +53,8 @@ const useConversation = () => {
             const data = await stopRecord();
             audioFile = data ? [data] : []
         }
-        
+
+    
         const newMsg = {
             id: '',
             body: msg,
@@ -97,7 +98,7 @@ const useConversation = () => {
             deletedImages();
         }
        
-    },[]);
+    },[activeConversationId]);
 
     const handleMsgText = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setMsgText(e.target.value)
