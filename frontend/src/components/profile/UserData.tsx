@@ -17,12 +17,13 @@ function UserData() {
     };
 
   return (
-    <div className="relative flex flex-col justify-around align-center text-center gap-4 w-full md:w-80 px-5 py-5 border-b-4 border-[rgba(255,255,255,0.3)] rounded ">
-       <h2 className="text-start font-bold" style={{color: design?.colors.buttonColor}}>User Profile</h2>
+    <div className="relative flex flex-col justify-around align-center text-center gap-4 w-full md:w-80 px-5 py-5 border-b-4 md:border-b-0 md:border-r-4 border-[rgba(255,255,255,0.3)] rounded ">
+       <h2 className="text-start font-bold" 
+           style={{color: !design?.thema ? design?.colors.buttonColor : design?.colors.msgHeader}}>User Profile</h2>
         <div className="group absolute top-4 right-4 cursor-pointer"
              style={
               {
-                "--icon-color": design?.colors.buttonColor,
+                "--icon-color": !design?.thema ? design?.colors.buttonColor : design?.colors.msgHeader,
                 "--icon-hover-color": design?.colors.headerColor,
               } as React.CSSProperties
             } >

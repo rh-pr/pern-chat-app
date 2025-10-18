@@ -21,8 +21,9 @@ const naviage = useNavigate();
             starCount={1000}
             starColor={design?.thema ? [4, 63, 3] : [2, 129, 0]} 
             speedFactor={0}
-            backgroundColor="rgba(112, 108, 108, 0)"/>
-      <div className="p-10 w-full h-full flex flex-col justify-between">
+            backgroundColor="rgba(112, 108, 108, 0)"
+            />
+      <div className="p-10 w-full h-full flex flex-col justify-between ">
         <div className="shadow-lg w-8 h-8 p-1 rounded-full shasow-white" 
              style={{ 
               color: !design?.thema ?  design?.colors.buttonColor : design?.colors.headerColor,
@@ -30,9 +31,9 @@ const naviage = useNavigate();
               background: design?.thema ? `rgba(0,0,0,0.3)` : 'none'
             }}
              onClick={() => { naviage('/') }}>
-          <ArrowLeftFromLine />
+         <div className="rounded-md shadow-md shadow-white h-8 w-8 p-1"> <ArrowLeftFromLine /> </div>
         </div>
-        <div className=" h-full px-4 border-l-1 flex flex-col md:flex-row gap-4 align-center"
+        <div className=" h-full px-4 border-l-1 flex flex-col md:flex-row gap-4 align-center overflow-y-auto"
              style={{
               borderLeftColor: design?.colors.buttonColor,
               boxShadow: `-2px 0px 10px 0px white`
@@ -41,9 +42,6 @@ const naviage = useNavigate();
              >
           <UserData />
           <Settings />
-        </div>
-        <div className="">
-           <LogOutBtn/>
         </div>
       </div>
 		</div>

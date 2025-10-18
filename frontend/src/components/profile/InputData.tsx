@@ -16,17 +16,20 @@ function InputData({name, title, userValue, fun}: ProfileInputType) {
     <div className="relative w-60">
             <label
                 htmlFor="email"
-                className={`absolute -top-[10px]  left-3 px-1 text-[10px] text-gray-500`}
-                style={{backgroundColor: design?.colors.inputColor}}
+                className={`absolute w-18  text-left top-[-7px]  left-3 px-1 text-[12px] font-bold text-gray-500 rounded-sm`}
+                style={{backgroundColor: design?.colors.inputColor,
+                    color: !design?.thema ? design?.colors.buttonColor : design?.colors.msgHeader}}
             >
                 {title}
             </label>
             <input
                 id={name}
                 type="text"
-                value={userValue} 
+                defaultValue={userValue} 
+                style={{backgroundColor: design?.colors.inputColor,
+                    color: !design?.thema ? design?.colors.buttonColor : design?.colors.msgHeader}}
                 onChange={() => fun}
-                className="border-2 border-gray-300 rounded-lg w-full h-12 focus:outline-none focus:border-gray-100 text-center"
+                className="border-2 border-gray-300 rounded-lg  h-12 focus:outline-none focus:border-gray-100 text-center font-bold"
             />
         </div>
   )
