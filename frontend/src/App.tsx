@@ -22,6 +22,7 @@ import ChangePassword from "./pages/ChangePassword";
 import useAppInit from "./hooks/useAppInit";
 import useAuthStore from "./stores/useAuthStore";
 import LoadingScreen from "./components/route/LoadingScreen";
+import Profile from "./pages/Profile";
 
 
 function App() {
@@ -72,9 +73,13 @@ function App() {
           path="/confirmation"
           element={currentUser ? <Navigate to="/" replace /> : <Confirmation /> } /> 
 
-         <Route 
+        <Route 
           path="/changePassword"
           element={currentUser ? <Navigate to="/" replace /> : <ChangePassword /> } /> 
+          
+        <Route 
+          path="/profile"
+          element={!currentUser ? <Navigate to="/" replace /> : <Profile /> } /> 
       </Routes>
     </div>
   )
