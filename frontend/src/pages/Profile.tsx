@@ -1,9 +1,8 @@
 import { useContext } from "react";
-import LogOutBtn from "../components/profile/LogOutBtn";
 import { DesignContext } from "../context/DesignContext";
 
 import Starfield from 'react-starfield';
-import { ArrowLeftFromLine, Weight } from 'lucide-react';
+import { ArrowLeftFromLine } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import UserData from "../components/profile/UserData";
 import Settings from "../components/profile/Settings";
@@ -24,7 +23,7 @@ const naviage = useNavigate();
             backgroundColor="rgba(112, 108, 108, 0)"
             />
       <div className="p-10 w-full h-full flex flex-col justify-between ">
-        <div className="shadow-lg w-8 h-8 p-1 rounded-full shasow-white" 
+        <div className=" w-8 h-8 p-1 rounded-full " 
              style={{ 
               color: !design?.thema ?  design?.colors.buttonColor : design?.colors.headerColor,
               fontWeight: 'black',

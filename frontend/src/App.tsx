@@ -43,7 +43,7 @@ function App() {
   return (
     <div className="h-screen w-screen flex justify-center items-center "
          style={{backgroundImage: `url(${design?.thema ? bgDark : bg})`}}>
-      <Thema />
+
       {activeConversationId && <div className='md:hidden fixed top-2 left-3 font-black '  
           style={{color: `${design?.colors.buttonColor}`}}
           onClick={() => setActiveConversation('')}> <ArrowLeftToLine /></div>}

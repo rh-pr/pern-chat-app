@@ -1,12 +1,13 @@
 import { useContext } from "react"
 import { DesignContext } from "../../context/DesignContext"
+import { UserType } from "../../types/main";
 
 
 type ProfileInputType = {
-    name: string,
+    name: keyof UserType,
     title: string,
     userValue: string,
-    fun?: (field: string, newData: string) => void
+    fun: (field: keyof UserType, newValue: string | File) => void;
 }
 
 function InputData({name, title, userValue, fun}: ProfileInputType) {
@@ -28,7 +29,7 @@ function InputData({name, title, userValue, fun}: ProfileInputType) {
                 defaultValue={userValue} 
                 style={{backgroundColor: design?.colors.inputColor,
                     color: !design?.thema ? design?.colors.buttonColor : design?.colors.msgHeader}}
-                onChange={() => fun}
+                onChange={(e) => fun(name, e.target.value)}
                 className="border-2 border-gray-300 rounded-lg  h-12 focus:outline-none focus:border-gray-100 text-center font-bold"
             />
         </div>

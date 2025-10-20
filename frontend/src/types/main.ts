@@ -199,6 +199,14 @@ export type SignupFormType = {
 }
 
 //change profile
+
+export type UpdatadUserDataType = {
+  username?: string,
+  fullname?: string,
+  email?: string,
+  profilePic?: File | string,
+}
+
 export type ChangePasswordRequest = {
   password: string,
   confirm: string

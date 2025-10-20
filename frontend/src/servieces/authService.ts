@@ -1,6 +1,6 @@
 import api from '../api/axios';
 
-import { LoginFormType } from '../types/main';
+import { LoginFormType, UpdatadUserDataType } from '../types/main';
 import { authValidation } from '../utils/authValidation';
 
 export const getCurrentUser = async () => {
@@ -79,6 +79,24 @@ export const logout = async () => {
             console.error("Unknown error:", err);
         }
         return null;
+    }
+}
+
+export const updateCurrentUser = async (updatedData: UpdatadUserDataType) => {
+    try {
+       const res = await api.post('/auth/update', updatedData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        if(res) return res.data;
+        
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.log("Error bu updating the user's data: ", err.message);
+        } else {
+            console.log("Unknown error: ", err)
+        }
     }
 }
 

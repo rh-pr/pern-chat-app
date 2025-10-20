@@ -1,13 +1,11 @@
 import { useContext } from "react"
 import { DesignContext } from "../../context/DesignContext"
 import LogOutBtn from "./LogOutBtn";
-import { useNavigate } from "react-router-dom";
 import InputData from "./InputData";
 import { SquareCheckBig } from 'lucide-react';
 
 function Settings() {
   const design = useContext(DesignContext);
-  const navigate = useNavigate();
 
   return (
     <div className="relative flex flex-col align-center text-center gap-4 w-full md:w-80 px-5 py-5 border-b-4  md:border-b-0 md:border-r-4 border-[rgba(255,255,255,0.3)] rounded ">
@@ -67,9 +65,9 @@ function Settings() {
           </label>
        </div>
 
-      <div className="w-60 grid grid-cols-3 gap-4 rows-3 font-medium mb-4"
+      <div className="w-60 grid grid-cols-3 gap-4 rows-3 font-medium my-4"
            style={{color: !design?.thema ? design?.colors.buttonColor : design?.colors.msgHeader}}>
-          <p className="col-span-3 text-left pl-4 underline cursor-pointer">Change Password </p>
+          <p className="col-span-3 text-left pl-4 underline cursor-pointer pb-4">Change Password </p>
           <div className="group absolute top-4 right-4 cursor-pointer"
              style={
               {
