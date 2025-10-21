@@ -1,5 +1,5 @@
 import express from "express";
-import { login, logout, signup, getMe } from "../controllers/auth.controller.js";
+import { login, logout, signup, getMe, updateCurrentUser } from "../controllers/auth.controller.js";
 import protectRoute from "../middleware/protectRoute.js";
 import multer from 'multer';
 
@@ -11,5 +11,6 @@ router.get('/profile', protectRoute, getMe);
 router.post('/signup', upload.single("profilePic"), signup);
 router.post('/login', login);
 router.get('/logout', logout);
+router.post('/update',upload.single("profilePic"), updateCurrentUser)
 
 export default router;

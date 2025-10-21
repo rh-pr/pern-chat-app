@@ -141,6 +141,8 @@ export const getMe = async (req: Request, res: Response) => {
 
         res.status(200).json({
             id: user.id,
+            email: user.email,
+            gender: user.gender,
             username: user.username,
             fullName: user.fullName,
             profilePic: user.profilePic
@@ -154,4 +156,51 @@ export const getMe = async (req: Request, res: Response) => {
         }
         res.status(500).json({ error: 'Internal server error...' });
     }  
+}
+
+export const updateCurrentUser = async (req: Request, res: Response) => {
+    try {
+        const {id, fullName, username, email, gender } = req.body;
+        let profilePic;
+
+        
+        if ( !fullName || !username || !gender ||  !email ) {
+           res.status(400).json({ error: 'Please fill in all fields'});
+            return;
+        }
+
+        if (req.file) {
+           profilePic = await uploadAndDelete(req.file.path, 'profilePics', `${username}_${Date.now()}`);
+        }
+
+         const updatedUser = await prisma.user.update({
+            where: {
+                id: id
+            },
+            data: {
+                fullName: fullName,
+                username,
+                email,
+                gender,
+                ...(profilePic ? { profilePic } : {})
+            }
+         })
+
+         res.status(200).json({
+            id: updatedUser.id,
+            fullName: updatedUser.fullName,
+            username: updatedUser.username,
+            email: updatedUser.email,
+            gender: updatedUser.gender,
+            profilePic: updatedUser.profilePic
+         })
+
+    } catch(err: unknown) {
+        if (err instanceof Error) {
+            console.log('Can not update the user', err.message);
+        } else {
+            console.log('Can not update the user', err);
+        }
+        res.status(500).json({ error: 'Internal server error...'})
+    }
 }
