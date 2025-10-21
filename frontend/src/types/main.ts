@@ -61,6 +61,7 @@ export type UserType = {
       converationsIds?: string[],
       createdAt?:  string,
       updatedAt?: string,
+      confirm?: string,
 }
 
 //context
@@ -202,9 +203,10 @@ export type SignupFormType = {
 
 export type UpdatadUserDataType = {
   username?: string,
-  fullname?: string,
+  fullName?: string,
   email?: string,
   profilePic?: File | string,
+  gender: string,
 }
 
 export type ChangePasswordRequest = {
