@@ -58,7 +58,7 @@ A real-time chat application built with the PERN stack (PostgreSQL, Express, Rea
 ### Live Demo
 
 You can visit the frontend part at:  
-**[pern-chat-app-phi.vercel.app](https://pern-chat-app-phi.vercel.app)**
+**[https://pern-chat-app-qg5l.onrender.com](https://pern-chat-app-qg5l.onrender.com/)**
 
 ## Folder Structure
 
