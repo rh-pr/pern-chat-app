@@ -10,18 +10,21 @@ import useSettings from "../../hooks/profile/useSettings";
 function Settings() {
   const design = useContext(DesignContext);
   const {
-     isChanged,
+        isChanged,
+        isSettingsUpdated,
         errorMessage,
         infoMessage,
         succesMessage,
+        setIsSettingsUpdated,
         handleCode,
         handleData,
         handleSubmit,
-        handleReset
+        handleReset,
+        handleSettings
   } = useSettings();
 
   return (
-    <div className="relative flex flex-col align-center text-center gap-4 w-full md:w-80 px-5 py-5 border-b-4  md:border-b-0 md:border-r-4 border-[rgba(255,255,255,0.3)] rounded overflow-auto no-scrollbar"
+    <div className="relative flex flex-col align-center text-center gap-4 w-full md:w-80 px-5 py-5 border-b-4  md:border-b-0 md:border-r-4 border-[rgba(255,255,255,0.3)] rounded md:overflow-auto md:no-scrollbar"
          style={{scrollbarWidth:"none"}}>
        <h2 className="text-start font-bold"  style={{color: !design?.thema ? design?.colors.buttonColor : design?.colors.msgHeader}}>Settings</h2>
        
@@ -32,7 +35,8 @@ function Settings() {
             On
             <input type="checkbox" name="soundOn" id="soundOn" 
                    checked={design?.sound} 
-                   onChange={() => design?.setSound(!design.sound)} 
+                   onChange={() =>  {setIsSettingsUpdated(true);
+                                      design?.setSound(!design.sound)} }
                    className="h-5 mt-2"
                    style={{
                     accentColor: design?.colors.buttonColor,
@@ -43,7 +47,8 @@ function Settings() {
             Off
             <input type="checkbox" name="soundOff" id="soundOff" 
                    checked={!design?.sound} 
-                   onChange={() => design?.setSound(!design.sound)} 
+                   onChange={() =>  {setIsSettingsUpdated(true);
+                                      design?.setSound(!design.sound)} }
                    className="h-5 mt-2"
                    style={{
                     accentColor: design?.colors.buttonColor,
@@ -59,7 +64,8 @@ function Settings() {
             Light
             <input type="checkbox" name="ligth" id="ligth" 
                    checked={!design?.thema} 
-                   onChange={() => design?.setThema(!design.thema)} 
+                   onChange={() =>{ setIsSettingsUpdated(true); 
+                                    design?.setThema(!design.thema)}} 
                    className="h-5 mt-2"
                    style={{
                     accentColor: design?.colors.buttonColor,
@@ -70,7 +76,8 @@ function Settings() {
             Dark
             <input type="checkbox" name="dark" id="dark" 
                    checked={design?.thema} 
-                   onChange={() => design?.setThema(!design.thema)} 
+                   onChange={() => {setIsSettingsUpdated(true);
+                                    design?.setThema(!design.thema)}} 
                    className="h-5 mt-2"
                    style={{
                     accentColor: design?.colors.buttonColor,
@@ -79,10 +86,24 @@ function Settings() {
           </label>
        </div>
 
-      <div className="w-60 grid grid-cols-3 gap-4 font-medium my-4"
+       <div className={`group absolute top-4 right-8 cursor-pointer ${!isSettingsUpdated ? 'hidden' : 'block'}`}
+             onClick={() => handleSettings()}
+             style={
+              {
+                "--icon-color": !design?.thema ? design?.colors.buttonColor : design?.colors.msgHeader,
+                "--icon-hover-color": design?.colors.headerColor,
+              } as React.CSSProperties
+            } >
+            <SquareCheckBig
+              className="transition-colors duration-300 text-[color:var(--icon-color)] group-hover:text-[color:var(--icon-hover-color)]"
+            />
+
+          </div>
+
+      <div className="w-60 grid grid-cols-3 gap-4 font-medium my-4 relative"
            style={{color: !design?.thema ? design?.colors.buttonColor : design?.colors.msgHeader}}>
           <p className="col-span-3 text-left pl-4 underline cursor-pointer pb-4">Change Password </p>
-          <div className={`group absolute top-4 right-4 cursor-pointer ${!isChanged ? 'hidden' : 'block'}`}
+          <div className={`group absolute top-4 right-[-20px] cursor-pointer ${!isChanged ? 'hidden' : 'block'}`}
              onClick={() => handleSubmit()}
              style={
               {

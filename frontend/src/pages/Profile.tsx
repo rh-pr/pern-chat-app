@@ -22,7 +22,7 @@ const naviage = useNavigate();
             speedFactor={0}
             backgroundColor="rgba(112, 108, 108, 0)"
             />
-      <div className="p-10 w-full h-full flex flex-col justify-between ">
+      <div className="p-10 w-full h-full mt-10 flex flex-col justify-between overflow-y-auto">
         <div className=" w-8 h-8 p-1 rounded-full " 
              style={{ 
               color: !design?.thema ?  design?.colors.buttonColor : design?.colors.headerColor,
@@ -32,7 +32,7 @@ const naviage = useNavigate();
              onClick={() => { naviage('/') }}>
          <div className="rounded-md shadow-md shadow-white h-8 w-8 p-1"> <ArrowLeftFromLine /> </div>
         </div>
-        <div className=" h-full px-4 border-l-1 flex flex-col md:flex-row gap-4 align-center overflow-y-auto"
+        <div className=" h-full px-4 border-l-1 flex flex-col md:flex-row gap-4 align-center overflow-auto no-scrollbar"
              style={{
               borderLeftColor: design?.colors.buttonColor,
               boxShadow: `-2px 0px 10px 0px white`

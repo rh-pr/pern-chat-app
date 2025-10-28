@@ -34,6 +34,7 @@ function Conversation({data}: {data: ConversationsType}) {
       if (msg) {  setLastLocalMsg(msg); }
     },[lastMessages, data])
 
+
     
    if (!data || !data.participants || data.participants.length === 0 || !user) {
       return null; 

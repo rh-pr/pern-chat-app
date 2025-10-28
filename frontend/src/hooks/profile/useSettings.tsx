@@ -1,8 +1,10 @@
-import {ChangeEvent, useEffect, useState } from "react";
+import {ChangeEvent, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore";
 import { resetPassword, sendCode, sendEmail } from "../../servieces/passwordService";
 import { UserType } from "../../types/main";
+import { DesignContext } from "../../context/DesignContext";
+import { updateUserSettings } from "../../servieces/settingsService";
 type PassDataType = {
     password: string,
     confirm: string,
@@ -10,11 +12,13 @@ type PassDataType = {
 
 const useSettings = () => {
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
+  const design = useContext(DesignContext);
 
   const currentUser = useAuthStore(state => state.currentUser);
 
   const [isChanged, setIsChanged] = useState<boolean>(false);
+  const [isSettingsUpdated, setIsSettingsUpdated] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [succesMessage, setSuccessMessage] = useState<string>('');
   const [infoMessage, setInfoMessage] = useState<string>('');
@@ -61,9 +65,6 @@ const navigate = useNavigate();
             setErrorMessage('');
             setInfoMessage('A verification code has been sent to your email. Please confirm your password change.')
         }
-
-        
-
     }
 
     const handleReset = async () => {
@@ -106,6 +107,19 @@ const navigate = useNavigate();
       return true;
     }
 
+    const handleSettings = async() => {
+       if (design?.thema === undefined || design?.sound === undefined || !currentUser) return;
+       
+       const res = updateUserSettings({
+        userId: currentUser.id,
+        thema: design.thema,
+        sound: design.sound
+       });
+
+       if (!res) return;
+
+       setIsSettingsUpdated(false);
+    }
   
     useEffect(() => {
         if(!passData.password.trim() && !passData.confirm.trim()) {
@@ -115,13 +129,16 @@ const navigate = useNavigate();
 
     return {
         isChanged,
+        isSettingsUpdated,
         errorMessage,
         infoMessage,
         succesMessage,
+        setIsSettingsUpdated,
         handleCode,
         handleData,
         handleSubmit,
-        handleReset
+        handleReset,
+        handleSettings
     }
 }
 

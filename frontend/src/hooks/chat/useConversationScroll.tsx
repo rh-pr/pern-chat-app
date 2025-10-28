@@ -21,7 +21,9 @@ const useConversationScroll = () => {
             const data = await getMessages(activeConversationId);
 
             if(data) {
-                setMessages(data);
+  //todo: add sort function
+  // todo.add last
+                setMessages(data.sort());
                 const filtered = filteredUnreadedMsg(data, currentUser, activeConversationId);
                 setUnreadedMsgs(filtered);
             }
