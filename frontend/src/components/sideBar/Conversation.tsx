@@ -27,13 +27,13 @@ function Conversation({data}: {data: ConversationsType}) {
       const unreaded = unreadedMsgs.find((el: UnreadedMsgType) => el.convId === data.id);
       setIsUnreadedMsg(unreaded?.count || 0);
 
-    }, [lastMessages, unreadedMsgs, data])
+    }, [lastMessages, unreadedMsgs, data]);
 
     useEffect(() => {
-      setLastLocalMsg(null);
       const msg = lastMessages?.find((msg: LastMessageType) => msg.convId === data.id);
       if (msg) {  setLastLocalMsg(msg); }
     },[lastMessages, data])
+
 
     
    if (!data || !data.participants || data.participants.length === 0 || !user) {

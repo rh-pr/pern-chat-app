@@ -25,6 +25,10 @@ const useConversation = (data: ConversationsType) => {
                   return acc;
                   }, {})
 
+        console.log('all messages: ', messages);
+        console.log('filtered: ', filteredMessages);
+        
+        
         if (filteredMessages) {
             setLastMessages(filteredMessages.lastMsg);   
         }
@@ -38,6 +42,7 @@ const useConversation = (data: ConversationsType) => {
         setUser(filteredUser[0]);
         setIsOnline(onlineUsers.includes(filteredUser[0].id));
         if (data.messages?.length) {
+         
           setLastMessages({
             convId: data?.id,
             msg: data.messages[0].body

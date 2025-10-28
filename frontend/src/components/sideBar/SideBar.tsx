@@ -2,11 +2,11 @@ import { useContext, useState } from "react";
 import { DesignContext } from "../../context/DesignContext";
 import SearchInput from "./SearchInput";
 import Conversations from "./Conversations";
-import LogOutBtn from "./LogOutBtn";
 import NewChatBtn from "./NewChatBtn";
 import SearchList from "./SearchList";
 import useUsers from "../../hooks/chat/useUsers";
 import  useConversationsStore  from "../../stores/useConversationsStore";
+import ProfileButton from "./ProfileButton";
 
 
 function SideBar() {
@@ -25,7 +25,7 @@ function SideBar() {
         <SearchList  query={searchQuery} /> : 
         <Conversations  query={searchQuery}/>
       }
-      <LogOutBtn />
+      <ProfileButton />
     </div>
   )
 }

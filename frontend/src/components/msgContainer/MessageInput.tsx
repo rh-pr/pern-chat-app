@@ -101,7 +101,7 @@ const MessageInput = () => {
                         <button type="submit" disabled={loading}>
                             {loading ? <Loader  className='w-6 h-6 ' style={buttonStyle} /> : <Send className='w-6 h-6 ' style={buttonStyle}/>} </button>:  
                        <div onClick={startRecord}>  
-                            <Mic className='w-6 h-6 ' style={{color: design?.colors.buttonColor}}/> </div>}
+                           {loading ? <Loader  className='w-6 h-6 ' style={buttonStyle} /> : <Mic className='w-6 h-6 ' style={{color: design?.colors.buttonColor}}/>} </div>}
 				</div>
 			</div>
 		</form>

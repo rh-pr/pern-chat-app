@@ -13,7 +13,6 @@ import bg from './assets/images/bg.jpg';
 import bgDark from './assets/images/bg-dark.jpg';
 
 import { DesignContext } from "./context/DesignContext";
-import Thema from "./components/Thema";
 import useConversationsStore from "./stores/useConversationsStore";
 import useConversations from "./hooks/chat/useConversations";
 import ForgetPassword from "./pages/ForgetPassword";
@@ -22,6 +21,7 @@ import ChangePassword from "./pages/ChangePassword";
 import useAppInit from "./hooks/useAppInit";
 import useAuthStore from "./stores/useAuthStore";
 import LoadingScreen from "./components/route/LoadingScreen";
+import Profile from "./pages/Profile";
 
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
   return (
     <div className="h-screen w-screen flex justify-center items-center "
          style={{backgroundImage: `url(${design?.thema ? bgDark : bg})`}}>
-      <Thema />
+
       {activeConversationId && <div className='md:hidden fixed top-2 left-3 font-black '  
           style={{color: `${design?.colors.buttonColor}`}}
           onClick={() => setActiveConversation('')}> <ArrowLeftToLine /></div>}
@@ -72,9 +72,13 @@ function App() {
           path="/confirmation"
           element={currentUser ? <Navigate to="/" replace /> : <Confirmation /> } /> 
 
-         <Route 
+        <Route 
           path="/changePassword"
           element={currentUser ? <Navigate to="/" replace /> : <ChangePassword /> } /> 
+          
+        <Route 
+          path="/profile"
+          element={!currentUser ? <Navigate to="/" replace /> : <Profile /> } /> 
       </Routes>
     </div>
   )

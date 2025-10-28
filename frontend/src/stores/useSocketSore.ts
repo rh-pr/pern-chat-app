@@ -8,11 +8,10 @@ interface SocketStore {
     disconnect: () => void;
 }
 
-//todo: change for production version
+//todo: change for production version: node_mode 
 const socketURL = import.meta.env.NODE_MODE === "development" ? "http://localhost:5000" : "/";
 // const socketURL = import.meta.env.VITE_NODE_MODE === "development" ? "http://localhost:5000" : "/";
 
-console.log('soscket', import.meta.env.VITE_NODE_MODE);
 
 const useSocketStore = create<SocketStore>((set, get) => ({
     socket: null,
@@ -20,16 +19,19 @@ const useSocketStore = create<SocketStore>((set, get) => ({
     connect: (userId) => {
         if(get().socket) return;
         
+        
         const socket = io(socketURL, {
             query: {userId},
         });
-
+        
         socket.on("getOnlineUsers", (users: string[]) => {
             set({onlineUsers: users});
         });
+        
 
         set({ socket });
     },
+
     disconnect: () => {
         set((state) => {
             state.socket?.disconnect();

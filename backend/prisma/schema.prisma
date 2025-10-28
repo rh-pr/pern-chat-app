@@ -29,6 +29,8 @@ model User {
   converationsIds String[]
   conversations   Conversation[]
   messages        Message[]
+
+  settings UserSettings?
 }
 
 model Conversation {
@@ -71,6 +73,15 @@ model TemporaryCode {
   type      String // e.g., "reset", "verification"
   expiresAt DateTime
   createdAt DateTime @default(now())
+}
+
+model UserSettings {
+  id    String  @id @default(cuid())
+  thema Boolean @default(false)
+  sound Boolean @default(false)
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 enum Gender {
