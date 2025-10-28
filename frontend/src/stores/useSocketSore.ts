@@ -9,8 +9,8 @@ interface SocketStore {
 }
 
 //todo: change for production version: node_mode 
-// const socketURL = import.meta.env.NODE_MODE === "development" ? "http://localhost:5000" : "/";
-const socketURL = import.meta.env.VITE_NODE_MODE === "development" ? "http://localhost:5000" : "/";
+const socketURL = import.meta.env.NODE_MODE === "development" ? "http://localhost:5000" : "/";
+// const socketURL = import.meta.env.VITE_NODE_MODE === "development" ? "http://localhost:5000" : "/";
 
 
 const useSocketStore = create<SocketStore>((set, get) => ({
