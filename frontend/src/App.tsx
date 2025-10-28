@@ -13,7 +13,6 @@ import bg from './assets/images/bg.jpg';
 import bgDark from './assets/images/bg-dark.jpg';
 
 import { DesignContext } from "./context/DesignContext";
-import Thema from "./components/Thema";
 import useConversationsStore from "./stores/useConversationsStore";
 import useConversations from "./hooks/chat/useConversations";
 import ForgetPassword from "./pages/ForgetPassword";

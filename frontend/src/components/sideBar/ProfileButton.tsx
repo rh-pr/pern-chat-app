@@ -1,4 +1,3 @@
-import { Circle, LogOut } from "lucide-react";
 import { useContext } from "react";
 import { DesignContext } from "../../context/DesignContext";
 import { CircleUser } from 'lucide-react';
