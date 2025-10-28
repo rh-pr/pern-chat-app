@@ -8,6 +8,7 @@ import messageRoutes from './routes/message.route.js';
 import usersRoutes from './routes/users.route.js';
 import conversationsRoutes from './routes/conversations.route.js';
 import passwordRoutes from './routes/password.route.js';
+import settingsRoutes from './routes/settings.route.js';
 
 import { app, server } from "./socket/socket.js";
 
@@ -32,6 +33,8 @@ app.use("/api/messages", messageRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/conversations", conversationsRoutes);
 app.use("/api/password", passwordRoutes);
+app.use("/api/settings", settingsRoutes);
+
 
 if (process.env.NODE_MODE !== "development") {
 	app.use(express.static(path.join(__dirname, "/frontend/dist")));

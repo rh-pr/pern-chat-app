@@ -49,7 +49,13 @@ export const signup = async (req:  Request, res: Response) => {
                 password: hashedPassword,
                 email,
                 gender,
-                profilePic: profilePic
+                profilePic: profilePic,
+                settings: {
+                    create: {
+                        sound: false,
+                        thema: false
+                    }
+                }
             }
         });
 
@@ -57,12 +63,15 @@ export const signup = async (req:  Request, res: Response) => {
 
             generateToken( newUser.id, res);
 
+
             res.status(201).json({
                 id: newUser.id,
                 fullname: newUser.fullName,
                 username: newUser.username,
                 profilePic: newUser.profilePic
-            })
+            });
+
+            
         } else {
             res.status(400).json({ error: 'Invalid user data'});
         }
@@ -80,6 +89,11 @@ export const signup = async (req:  Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
     try {
         const {  password, username } = req.body;
+        
+         if (  !username || !password  ) {
+            res.status(400).json({ error: 'Pliease fill in all fields'});
+            return;
+        }
 
         const user = await prisma.user.findUnique({ where: { username }});
       
